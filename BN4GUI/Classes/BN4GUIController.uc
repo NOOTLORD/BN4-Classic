@@ -2,7 +2,7 @@
 //  Written by Joe Wilcox
 //  (c) 2002, Epic Games, Inc.  All Rights Reserved
 // ====================================================================
-class UT2K4GUIController extends GUIController;
+class BN4GUIController extends UT2K4GUIController;
 
 #exec OBJ LOAD FILE=InterfaceContent.utx
 #exec OBJ LOAD FILE=2K4MenuSounds.uax
