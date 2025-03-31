@@ -1,6 +1,6 @@
 //==============================================================================
 //  Written by (NL)NOOTLORD 
-//  New SP gametype tab to change some parts of the menu around
+//  New SP gametype tab to change some parts around
 //==============================================================================
 class BN4Tab_GameTypeSP extends UT2K4Tab_GameTypeSP;
 

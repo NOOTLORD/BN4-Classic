@@ -15,6 +15,100 @@ class Cachemode extends DeathMatch;
 
 var globalconfig bool		bCustomPreload;		// if true, precache non-Epic characters as well
 
+static function FillPlayInfo(PlayInfo PlayInfo)
+{
+	Super(Info).FillPlayInfo(PlayInfo);  // Always begin with calling parent
+
+	PlayInfo.AddSetting(default.BotsGroup,   "GameDifficulty",			GetDisplayText("GameDifficulty"), 		0, 2, "Select", default.GIPropsExtras[0], "Xb");
+
+	PlayInfo.AddSetting(default.GameGroup,   "GoalScore",				GetDisplayText("GoalScore"), 			0, 0, "Text",     "3;0:999");
+	PlayInfo.AddSetting(default.GameGroup,   "TimeLimit",				GetDisplayText("TimeLimit"), 			0, 0, "Text",     "3;0:999");
+	PlayInfo.AddSetting(default.GameGroup,   "MaxLives",				GetDisplayText("MaxLives"), 			0, 0, "Text",     "3;0:999");
+	PlayInfo.AddSetting(default.GameGroup,   "bWeaponStay",			GetDisplayText("bWeaponStay"), 			1, 0, "Check",             ,            ,    ,True);
+
+	PlayInfo.AddSetting(default.RulesGroup,  "bAllowWeaponThrowing",	GetDisplayText("bAllowWeaponThrowing"), 1, 0, "Check",             ,            ,    ,True);
+	PlayInfo.AddSetting(default.RulesGroup,  "bAllowBehindView",		GetDisplayText("bAllowBehindview"), 	1, 0, "Check",             ,            ,True,True);
+	PlayInfo.AddSetting(default.RulesGroup,  "bWeaponShouldViewShake",	GetDisplayText("bWeaponShouldViewShake"),1, 0, "Check",            ,            ,    ,True);
+
+	PlayInfo.AddSetting(default.ServerGroup, "bEnableStatLogging",		GetDisplayText("bEnableStatLogging"), 	0, 1, "Check",             ,            ,True);
+	PlayInfo.AddSetting(default.ServerGroup, "bAdminCanPause",			GetDisplayText("bAdminCanPause"), 		1, 1, "Check",             ,            ,True,True);
+	PlayInfo.AddSetting(default.ServerGroup, "MaxSpectators",			GetDisplayText("MaxSpectators"), 		1, 1, "Text",      "3;0:32",            ,True,True);
+	PlayInfo.AddSetting(default.ServerGroup, "MaxPlayers",				GetDisplayText("MaxPlayers"), 			0, 1, "Text",      "3;0:32",            ,True);
+	PlayInfo.AddSetting(default.ServerGroup, "MaxIdleTime",			GetDisplayText("MaxIdleTime"), 			0, 1, "Text",      "3;0:300",            ,True,True);
+
+	// Add GRI's PIData
+	if (default.GameReplicationInfoClass != None)
+	{
+		default.GameReplicationInfoClass.static.FillPlayInfo(PlayInfo);
+		PlayInfo.PopClass();
+	}
+
+	if (default.VoiceReplicationInfoClass != None)
+	{
+		default.VoiceReplicationInfoClass.static.FillPlayInfo(PlayInfo);
+		PlayInfo.PopClass();
+	}
+
+	if (default.BroadcastClass != None)
+		default.BroadcastClass.static.FillPlayInfo(PlayInfo);
+
+	else class'BroadcastHandler'.static.FillPlayInfo(PlayInfo);
+
+	PlayInfo.PopClass();
+
+	if (class'Engine.GameInfo'.default.VotingHandlerClass != None)
+ 	{
+	 	class'Engine.GameInfo'.default.VotingHandlerClass.static.FillPlayInfo(PlayInfo);
+	 	PlayInfo.PopClass();
+	}
+	else
+		log("GameInfo::FillPlayInfo class'Engine.GameInfo'.default.VotingHandlerClass = None");
+}
+
+static function string GetDisplayText(string PropName)
+{
+	switch (PropName)
+	{
+		case "GameDifficulty":			return default.GIPropsDisplayText[0];
+		case "bWeaponStay":				return default.GIPropsDisplayText[1];
+		case "MaxSpectators":			return default.GIPropsDisplayText[4];
+		case "MaxPlayers":				return default.GIPropsDisplayText[5];
+		case "GoalScore":				return default.GIPropsDisplayText[6];
+		case "MaxLives":				return default.GIPropsDisplayText[7];
+		case "TimeLimit":				return default.GIPropsDisplayText[8];
+		case "bEnableStatLogging":		return default.GIPropsDisplayText[9];
+		case "bAllowWeaponThrowing":	return default.GIPropsDisplayText[10];
+		case "bAllowBehindview":		return default.GIPropsDisplayText[11];
+		case "bAdminCanPause":			return default.GIPropsDisplayText[12];
+		case "MaxIdleTime":				return default.GIPropsDisplayText[13];
+		case "bWeaponShouldViewShake":	return default.GIPropsDisplayText[14];
+	}
+
+	return Super.GetDisplayText(PropName);
+}
+
+static function string GetDescriptionText(string PropName)
+{
+	switch (PropName)
+	{
+		case "GameDifficulty":			return default.GIPropDescText[0];
+		case "bWeaponStay":				return default.GIPropDescText[1];
+		case "MaxSpectators":			return default.GIPropDescText[4];
+		case "MaxPlayers":				return default.GIPropDescText[5];
+		case "GoalScore":				return default.GIPropDescText[6];
+		case "MaxLives":				return default.GIPropDescText[7];
+		case "TimeLimit":				return default.GIPropDescText[8];
+		case "bEnableStatLogging":		return default.GIPropDescText[9];
+		case "bAllowWeaponThrowing":	return default.GIPropDescText[10];
+		case "bAllowBehindview":		return default.GIPropDescText[11];
+		case "bAdminCanPause":			return default.GIPropDescText[12];
+		case "MaxIdleTime":				return default.GIPropDescText[13];
+		case "bWeaponShouldViewShake":	return default.GIPropDescText[14];
+	}
+
+	return Super.GetDescriptionText(PropName);
+}
+
 static function PrecacheGameTextures(LevelInfo myLevel)
 {
 	local int i;

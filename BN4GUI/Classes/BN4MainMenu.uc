@@ -1,7 +1,7 @@
-//===================================================================================
+//==================================================================================
 //  Written by (NL)NOOTLORD 
-//  New main menu to remove some buttons i don't need and change some stuff around:)
-//===================================================================================
+//  New main menu to remove some buttons i don't need and change some stuff around
+//==================================================================================
 class BN4MainMenu extends UT2K4GUIPage;
 
 #exec OBJ LOAD FILE=InterfaceContent.utx
@@ -205,7 +205,7 @@ function MoveOn()
 
 		case b_Quit:
 			Profile("Quit");
-			Controller.OpenMenu(Controller.GetQuitPage());
+        	Controller.OpenMenu(Controller.GetQuitPage());
 			Profile("Quit");
 			return;
 

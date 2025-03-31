@@ -1,7 +1,7 @@
-// ====================================================================
-//  Written by Joe Wilcox
-//  (c) 2002, Epic Games, Inc.  All Rights Reserved
-// ====================================================================
+// ===================================================================================
+//  Written by (NL)NOOTLORD 
+//  New GUI controller to remove some buttons i don't need and change some stuff around
+// ===================================================================================
 class BN4GUIController extends UT2K4GUIController;
 
 #exec OBJ LOAD FILE=InterfaceContent.utx
@@ -68,46 +68,34 @@ static simulated event Validate()
 		ResetConfig();
 }
 
-static simulated function string GetSinglePlayerPage()
+static simulated function string GetServerBrowserPage()
 {
 	Validate();
 	return default.MainMenuOptions[0];
 }
 
-static simulated function string GetServerBrowserPage()
+static simulated function string GetMultiplayerPage()
 {
 	Validate();
 	return default.MainMenuOptions[1];
 }
 
-static simulated function string GetMultiplayerPage()
+static simulated function string GetInstantActionPage()
 {
 	Validate();
 	return default.MainMenuOptions[2];
 }
 
-static simulated function string GetInstantActionPage()
+static simulated function string GetSettingsPage()
 {
 	Validate();
 	return default.MainMenuOptions[3];
 }
 
-static simulated function string GetModPage()
-{
-	Validate();
-	return default.MainMenuOptions[4];
-}
-
-static simulated function string GetSettingsPage()
-{
-	Validate();
-	return default.MainMenuOptions[5];
-}
-
 static simulated function string GetQuitPage()
 {
 	Validate();
-	return default.MainMenuOptions[6];
+	return default.MainMenuOptions[4];
 }
 
 // 20%!! increase in menu load speed for menus that contain large numbers of the same component
@@ -258,13 +246,11 @@ defaultproperties
 	ImageList(7)=Material'2K4Menus.NewControls.DownMark'
 
 	// Preload these menus to avoid hitches
-	MainMenuOptions(0)="GUI2K4.UT2K4SP_Main"	// This must match the value for GameEngine.SinglePlayerMenuClass
-	MainMenuOptions(1)="GUI2K4.UT2K4ServerBrowser"
-	MainMenuOptions(2)="GUI2K4.UT2K4GamePageMP"
-	MainMenuOptions(3)="BN4GUI.UT2K4GamePageSP"
-	MainMenuOptions(4)="GUI2K4.UT2K4ModsAndDemos"
-	MainMenuOptions(5)="GUI2k4.UT2K4SettingsPage"
-	MainMenuOptions(6)="GUI2K4.UT2K4QuitPage"
+	MainMenuOptions(0)="GUI2K4.UT2K4ServerBrowser"
+	MainMenuOptions(1)="BN4GUI.BN4GamePageMP"
+	MainMenuOptions(2)="BN4GUI.BN4GamePageSP"
+	MainMenuOptions(3)="BN4GUI.BN4SettingsPage"
+	MainMenuOptions(4)="GUI2K4.UT2K4QuitPage"
 
     MouseCursors(0)=material'2K4Menus.Cursors.Pointer'          // Arrow
     MouseCursors(1)=material'2K4Menus.Cursors.ResizeAll'       // SizeAll
