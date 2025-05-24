@@ -9,8 +9,8 @@ var automated GUISectionBackground i_BG1, i_BG2;
 var automated GUIImage	i_Scale, i_PreviewBG, i_Preview;
 var automated moSlider	sl_Scale, sl_Opacity, sl_Red, sl_Green, sl_Blue;
 var automated moNumericEdit	nu_MsgCount, nu_MsgScale, nu_MsgOffset;
-var automated moCheckBox	ch_Visible, ch_Weapons, ch_Personal, ch_Score, ch_WeaponBar,
-							ch_Portraits,  ch_VCPortraits, ch_DeathMsgs, ch_EnemyNames, ch_CustomColor;
+var automated moCheckBox	ch_Visible, ch_Weapons, ch_Personal, ch_Score,
+							ch_CustomColor; //ch_EnemyNames, ch_WeaponBar, ch_Portraits, ch_VCPortraits, ch_DeathMsgs
 
 
 var automated GUIComboBox co_CustomHUD;
@@ -45,14 +45,14 @@ function InitComponent(GUIController MyController, GUIComponent MyOwner)
 	}
 
 	i_BG1.ManageComponent(ch_Visible);
-    i_BG1.ManageComponent(ch_EnemyNames);
-    i_BG1.ManageComponent(ch_WeaponBar);
+    //i_BG1.ManageComponent(ch_EnemyNames);
+    //i_BG1.ManageComponent(ch_WeaponBar);
     i_BG1.ManageComponent(ch_Weapons);
     i_BG1.ManageComponent(ch_Personal);
     i_BG1.ManageComponent(ch_Score);
-    i_BG1.ManageComponent(ch_Portraits);
-    i_BG1.ManageComponent(ch_VCPortraits);
-    i_BG1.ManageComponent(ch_DeathMsgs);
+    //i_BG1.ManageComponent(ch_Portraits);
+    //i_BG1.ManageComponent(ch_VCPortraits);
+    //i_BG1.ManageComponent(ch_DeathMsgs);
     i_BG1.ManageComponent(nu_MsgCount);
     i_BG1.ManageComponent(nu_MsgScale);
     i_BG1.ManageComponent(nu_MsgOffset);
@@ -82,10 +82,10 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 	H = PlayerOwner().myHUD;
 	switch (Sender)
 	{
-    case ch_DeathMsgs:
+    /*case ch_DeathMsgs:
         bNoMsgs = class'XGame.xDeathMessage'.default.bNoConsoleDeathMessages;
         ch_DeathMsgs.SetComponentValue(bNoMsgs,true);
-        break;
+        break;*/
 
 	case ch_Visible:
 		bVis = H.bHideHUD;
@@ -107,20 +107,20 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 		ch_Score.SetComponentValue(bScore,true);
 		break;
 
-	case ch_WeaponBar:
+	/*case ch_WeaponBar:
 		bWeaponBar = H.bShowWeaponBar;
 		ch_WeaponBar.SetComponentValue(bWeaponBar,true);
-		break;
+		break;*/
 
-	case ch_Portraits:
+	/*case ch_Portraits:
 		bPortraits = H.bShowPortrait;
 		ch_Portraits.SetComponentValue(bPortraits,true);
-		break;
+		break;*/
 
-	case ch_EnemyNames:
+	/*case ch_EnemyNames:
 		bNames = !H.bNoEnemyNames;
 		ch_EnemyNames.SetComponentValue(bNames,true);
-		break;
+		break;*/
 
 	case nu_MsgCount:
 		iCount = H.ConsoleMessageCount;
@@ -143,10 +143,10 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 		InitializeHUDColor();
 		break;
 
-	case ch_VCPortraits:
+	/*case ch_VCPortraits:
 		bVCPortraits = H.bShowPortraitVC;
 		ch_VCPortraits.SetComponentValue(bVCPortraits,true);
-		break;
+		break;*/
 
 	default:
 		log(Name@"Unknown component calling LoadINI:"$ GUIMenuOption(Sender).Caption);
@@ -411,25 +411,25 @@ function InternalOnChange(GUIComponent Sender)
 		bScore = ch_Score.IsChecked();
 		break;
 
-	case ch_WeaponBar:
+	/*case ch_WeaponBar:
 		bWeaponBar = ch_WeaponBar.IsChecked();
-		break;
+		break;*/
 
-    case ch_DeathMsgs:
+    /*case ch_DeathMsgs:
         bNoMsgs = ch_DeathMsgs.IsChecked();
-        break;
+        break;*/
 
-	case ch_Portraits:
+	/*case ch_Portraits:
 		bPortraits = ch_Portraits.IsChecked();
-		break;
+		break;*/
 
-	case ch_VCPortraits:
+	/*case ch_VCPortraits:
 		bVCPortraits = ch_VCPortraits.IsChecked();
-		break;
+		break;*/
 
-	case ch_EnemyNames:
+	/*case ch_EnemyNames:
 		bNames = ch_EnemyNames.IsChecked();
-		break;
+		break;*/
 
 	case nu_MsgCount:
 		iCount = nu_MsgCount.GetValue();
@@ -559,7 +559,7 @@ defaultproperties
 	End Object
 	ch_Visible=GameHudVisible
 
-	Begin Object class=moCheckBox Name=GameHudShowEnemyNames
+	/*Begin Object class=moCheckBox Name=GameHudShowEnemyNames
 		WinWidth=0.378125
 		WinLeft=0.050000
 		WinTop=0.848594
@@ -574,9 +574,9 @@ defaultproperties
 		INIOption="@Internal"
 		TabOrder=1
 	End Object
-	ch_EnemyNames=GameHudShowEnemyNames
+	ch_EnemyNames=GameHudShowEnemyNames*/
 
-	Begin Object class=moCheckBox Name=GameHudShowWeaponBar
+	/*Begin Object class=moCheckBox Name=GameHudShowWeaponBar
 		WinWidth=0.378125
 		WinLeft=0.050000
 		WinTop=0.598593
@@ -590,7 +590,7 @@ defaultproperties
 		bAutoSizeCaption=True
 		TabOrder=2
 	End Object
-	ch_WeaponBar=GameHudShowWeaponBar
+	ch_WeaponBar=GameHudShowWeaponBar*/
 
 	Begin Object class=moCheckBox Name=GameHudShowWeaponInfo
 		WinWidth=0.378125
@@ -605,7 +605,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		bAutoSizeCaption=True
 		INIOption="@Internal"
-		TabOrder=3
+		TabOrder=1
 	End Object
 	ch_Weapons=GameHudShowWeaponInfo
 
@@ -622,7 +622,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		bAutoSizeCaption=True
 		INIOption="@Internal"
-		TabOrder=4
+		TabOrder=2
 	End Object
 	ch_Personal=GameHudShowPersonalInfo
 
@@ -639,11 +639,11 @@ defaultproperties
 		bAutoSizeCaption=True
 		INIOption="@Internal"
 		ComponentJustification=TXTA_Left
-		TabOrder=5
+		TabOrder=3
 	End Object
 	ch_Score=GameHudShowScore
 
-	Begin Object class=moCheckBox Name=GameHudShowPortraits
+	/*Begin Object class=moCheckBox Name=GameHudShowPortraits
 		WinWidth=0.378125
 		WinLeft=0.050000
 		WinTop=0.723594
@@ -658,9 +658,9 @@ defaultproperties
 		bAutoSizeCaption=True
 		TabOrder=6
 	End Object
-	ch_Portraits=GameHudShowPortraits
+	ch_Portraits=GameHudShowPortraits*/
 
-	Begin Object Class=moCheckBox name=GameHUDShowVCPortraits
+	/*Begin Object Class=moCheckBox name=GameHUDShowVCPortraits
 		WinWidth=0.378125
 		WinLeft=0.050000
 		WinTop=0.723594
@@ -675,9 +675,9 @@ defaultproperties
 		bAutoSizeCaption=True
 		TabOrder=7
 	End Object
-	ch_VCPortraits=GameHUDShowVCPortraits
+	ch_VCPortraits=GameHUDShowVCPortraits*/
 
-    Begin Object class=moCheckBox Name=GameDeathMsgs
+    /*Begin Object class=moCheckBox Name=GameDeathMsgs
         WinWidth=0.403711
         WinLeft=0.047460
         WinTop=0.847553
@@ -693,7 +693,7 @@ defaultproperties
         bAutoSizeCaption=True
         TabOrder=8
     End Object
-    ch_DeathMsgs=GameDeathMsgs
+    ch_DeathMsgs=GameDeathMsgs*/
 
 	Begin Object class=moNumericEdit Name=GameHudMessageCount
 		WinWidth=0.381250
@@ -709,7 +709,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		INIOption="@Internal"
 		bAutoSizeCaption=True
-		TabOrder=9
+		TabOrder=4
 	End Object
 	nu_MsgCount=GameHudMessageCount
 
@@ -727,7 +727,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		INIOption="@Internal"
 		bAutoSizeCaption=True
-		TabOrder=10
+		TabOrder=5
 	End Object
 	nu_MsgScale=GameHudMessageScale
 
@@ -745,7 +745,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		INIOption="@Internal"
 		bAutoSizeCaption=True
-		TabOrder=11
+		TabOrder=6
 	End Object
 	nu_MsgOffset=GameHudMessageOffset
 
@@ -764,7 +764,7 @@ defaultproperties
 		bAutoSizeCaption=True
 		CaptionWidth=0.45
 		ComponentWidth=-1
-		TabOrder=12
+		TabOrder=7
 	End Object
 	sl_Scale=GameHudScale
 
@@ -782,7 +782,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		Hint="Adjust the transparency of the HUD"
 		bAutoSizeCaption=True
-		TabOrder=13
+		TabOrder=8
 		CaptionWidth=0.45
 		ComponentWidth=-1
 	End Object
@@ -801,7 +801,7 @@ defaultproperties
 		bSquare=true
 		ComponentJustification=TXTA_Left
 		bAutoSizeCaption=True
-		TabOrder=14
+		TabOrder=9
 	End Object
 	ch_CustomColor=CustomHUDColor
 
@@ -821,7 +821,7 @@ defaultproperties
 		OnChange=InternalOnChange
        	bIntSlider=true
 		bAutoSizeCaption=True
-       	TabOrder=15
+       	TabOrder=10
 	End Object
 	sl_Red=HudColorR
 
@@ -841,7 +841,7 @@ defaultproperties
 		Hint="Adjust the amount of blue in the HUD."
         bIntSlider=true
 		bAutoSizeCaption=True
-        TabOrder=16
+        TabOrder=11
 	End Object
 	sl_Blue=HudColorB
 
@@ -861,7 +861,7 @@ defaultproperties
 		OnChange=InternalOnChange
         bIntSlider=true
  		bAutoSizeCaption=True
-       TabOrder=17
+       TabOrder=12
 	End Object
 	sl_Green=HudColorG
 
@@ -871,7 +871,7 @@ defaultproperties
 		WinHeight=0.030000
 		WinLeft=0.553579
 		WinTop=0.878722
-		TabOrder=18
+		TabOrder=13
 		bReadOnly=True
 	End Object
 	co_CustomHUD=CustomHUDSelect

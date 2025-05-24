@@ -18,11 +18,11 @@ struct WeapItem
 var array<WeapItem>		WeaponsList;
 
 var automated GUISectionBackground i_BG, i_BG2, i_BG3;
-var automated GUIImage i_Crosshair, i_CrosshairBG, i_Shadow, i_Bk;
-var automated GUIGFXButton	b_Up, b_Down;
+var automated GUIImage i_Crosshair, i_CrosshairBG, i_Shadow; //i_Bk
+//var automated GUIGFXButton	b_Up, b_Down;
 var automated GUIListBox	lb_Weapons;
-var automated GUIScrollTextBox	lb_Desc;
-var automated moCheckbox	ch_Swap, ch_WeaponCrosshair, ch_ClassicModel;
+//var automated GUIScrollTextBox	lb_Desc;
+//var automated moCheckbox	ch_WeaponCrosshair;
 var automated moComboBox	co_Crosshair;
 var automated moSlider		sl_Red, sl_Blue, sl_Green, sl_Alpha, sl_CrosshairScale;
 
@@ -82,7 +82,7 @@ function InitComponent(GUIController MyController, GUIComponent MyOwner)
 
 	i_BG2.ManageComponent(lb_Weapons);
 
-	i_BG3.ManageComponent(ch_WeaponCrosshair);
+	//i_BG3.ManageComponent(ch_WeaponCrosshair);
 	i_BG3.ManageComponent(sl_Red);
 	i_BG3.ManageComponent(sl_Green);
    	i_BG3.ManageComponent(sl_Blue);
@@ -468,10 +468,10 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 		{
 			switch (GUIMenuOption(Sender))
 			{
-			case ch_WeaponCrosshair:
+			/*case ch_WeaponCrosshair:
 				bWeaponCrosshair = Base.bUseCustomWeaponCrosshairs;
 				ch_WeaponCrosshair.Checked(bWeaponCrosshair);
-				break;
+				break;*/
 
 			case co_Crosshair:
 				iCrosshair = Base.CrosshairStyle;
@@ -518,10 +518,10 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 		{
 			switch ( GUIMenuOption(Sender) )
 			{
-			case ch_WeaponCrosshair:
+			/*case ch_WeaponCrosshair:
 				bWeaponCrosshair = class'HudBase'.default.bUseCustomWeaponCrosshairs;
 				ch_WeaponCrosshair.Checked(bWeaponCrosshair);
-				break;
+				break;*/
 
 			case co_Crosshair:
 				iCrosshair = class'HUD'.default.CrosshairStyle;
@@ -597,23 +597,14 @@ function InternalOnChange(GUIComponent Sender)
 		SetCrosshairGraphic(i);
 		break;
 
-	case ch_WeaponCrosshair:
+	/*case ch_WeaponCrosshair:
 		bWeaponCrosshair = ch_WeaponCrosshair.IsChecked();
 		if (bWeaponCrosshair)
 			co_Crosshair.SetIndex(WeaponsList[WeaponIndex].CrosshairIndex);
 
 		else co_Crosshair.SetIndex(iCrosshair);
 
-		break;
-
-	case ch_Swap:
-		WeaponsList[WeaponIndex].bAltFireMode = ch_Swap.IsChecked();
-		break;
-
-	case ch_ClassicModel:
-		WeaponsList[WeaponIndex].bClassicModel = ch_ClassicModel.IsChecked();
-		UpdateCurrentWeapon();
-		break;
+		break;*/
 
 	case sl_Red:
 		i = sl_Red.GetValue();
@@ -758,7 +749,7 @@ function SwapWeapons(int OriginalLoc, int NewLoc)
 	lb_Weapons.List.SetIndex(NewLoc);
 }
 
-function bool ChangePriority(GUIComponent Sender)
+/*function bool ChangePriority(GUIComponent Sender)
 {
 	if (lb_Weapons.List.ItemCount > 1)
 	{
@@ -770,7 +761,7 @@ function bool ChangePriority(GUIComponent Sender)
 	}
 
 	return true;
-}
+}*/
 
 function InternalDraw(Canvas canvas)
 {
@@ -858,9 +849,6 @@ function UpdateCurrentWeapon()
 
 	if ( OldMesh != None && !class'LevelInfo'.static.IsDemoBuild() )
 	{
-		EnableComponent(ch_ClassicModel);
-		ch_ClassicModel.SetComponentValue( WeaponsList[WeaponIndex].bClassicModel, True );
-
 		if ( WeaponsList[WeaponIndex].bClassicModel )
 		{
 			if ( WeaponsList[WeaponIndex].WeapClass.default.OldPickup != "" )
@@ -879,12 +867,6 @@ function UpdateCurrentWeapon()
 				SpinnyWeap.SetDrawType(DT_StaticMesh);
 			}
 		}
-	}
-
-	else
-	{
-		ch_ClassicModel.SetComponentValue("False", True);
-		DisableComponent(ch_ClassicModel);
 	}
 
 	if ( OldPickup == None )
@@ -932,8 +914,7 @@ function UpdateCurrentWeapon()
 
 
 	i_BG.Caption = lb_Weapons.List.Get();
-	lb_Desc.SetContent( lb_Weapons.List.GetExtra() );
-	ch_Swap.SetComponentValue( WeaponsList[WeaponIndex].bAltFireMode, True );
+	//lb_Desc.SetContent( lb_Weapons.List.GetExtra() );
 
 	if (bWeaponCrosshair)
 	{
@@ -1192,7 +1173,7 @@ defaultproperties
 		WinHeight=0.311250
 		WinLeft=0.046588
 		WinTop=0.666667
-        Caption="Weapon Priorities"
+        Caption=""
         TopPadding=0
         BottomPadding=0
         RightPadding=0
@@ -1212,7 +1193,7 @@ defaultproperties
 	i_BG3=WeaponOptionBK
 
 
-	Begin Object Class=GUIScrollTextBox Name=WeaponDescription
+	/*Begin Object Class=GUIScrollTextBox Name=WeaponDescription
 		WinWidth=0.362170
 		WinHeight=0.188969
 		WinLeft=0.063125
@@ -1227,7 +1208,7 @@ defaultproperties
 		FontScale=FNS_Small
         StyleName="NoBackground"
 	End Object
-	lb_Desc=WeaponDescription
+	lb_Desc=WeaponDescription*/
 
 	Begin Object Class=GUIListBox Name=WeaponPrefWeapList
 		WinWidth=0.338338
@@ -1245,7 +1226,7 @@ defaultproperties
 	End Object
 	lb_Weapons=WeaponPrefWeapList
 
-	Begin Object Class=GUIGFXButton Name=WeaponPrefWeapUp
+	/*Begin Object Class=GUIGFXButton Name=WeaponPrefWeapUp
 		Hint="Increase the priority this weapon will have when picking your best weapon."
 		WinWidth=0.028946
 		WinHeight=0.038594
@@ -1263,9 +1244,9 @@ defaultproperties
 		bRepeatClick=True
 		ImageIndex=6
 	End Object
-	b_Up=WeaponPrefWeapUp
+	b_Up=WeaponPrefWeapUp*/
 
-	Begin Object Class=GUIGFXButton Name=WeaponPrefWeapDown
+	/*Begin Object Class=GUIGFXButton Name=WeaponPrefWeapDown
 		Hint="Decrease the priority this weapon will have when picking your best weapon."
 		WinWidth=0.028946
 		WinHeight=0.038594
@@ -1283,10 +1264,9 @@ defaultproperties
 		bRepeatClick=True
 		ImageIndex=7
 	End Object
-	b_Down=WeaponPrefWeapDown
+	b_Down=WeaponPrefWeapDown*/
 
-
-	Begin Object class=moCheckBox Name=CustomWeaponCrosshair
+	/*Begin Object class=moCheckBox Name=CustomWeaponCrosshair
 		WinWidth=0.463975
 		WinHeight=0.040000
 		WinLeft=0.027203
@@ -1304,7 +1284,7 @@ defaultproperties
 		RenderWeight=1.01
 		TabOrder=4
 	End Object
-	ch_WeaponCrosshair=CustomWeaponCrosshair
+	ch_WeaponCrosshair=CustomWeaponCrosshair*/
 
 	Begin Object class=moComboBox Name=GameCrossHair
 		WinWidth=0.463975
@@ -1320,7 +1300,7 @@ defaultproperties
 		ComponentJustification=TXTA_Left
 		ComponentWidth=-1
 		RenderWeight=1.06
-		TabOrder=5
+		TabOrder=4
 		bHeightFromComponent=False
 	End Object
 	co_Crosshair=GameCrossHair
@@ -1342,7 +1322,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		OnLoadINI=InternalOnLoadINI
        	bIntSlider=true
-       	TabOrder=6
+       	TabOrder=5
         RenderWeight=0.55
 	End Object
 	sl_Red=GameHudCrossHairR
@@ -1364,7 +1344,7 @@ defaultproperties
 		OnChange=InternalOnChange
 		OnLoadINI=InternalOnLoadINI
         bIntSlider=true
-        TabOrder=7
+        TabOrder=6
         RenderWeight=0.55
 	End Object
 	sl_Green=GameHudCrossHairG
@@ -1386,7 +1366,7 @@ defaultproperties
 		OnLoadINI=InternalOnLoadINI
 		Hint="Changes the color of your crosshair."
         bIntSlider=true
-        TabOrder=8
+        TabOrder=7
         RenderWeight=0.55
 	End Object
 	sl_Blue=GameHudCrossHairB
@@ -1408,7 +1388,7 @@ defaultproperties
 		OnLoadINI=InternalOnLoadINI
 		Hint="Changes the opacity of your crosshair."
         bIntSlider=true
-        TabOrder=9
+        TabOrder=8
         RenderWeight=0.55
  	End Object
 	sl_Alpha=GameHudCrossHairA
@@ -1418,7 +1398,7 @@ defaultproperties
 		WinLeft=0.027203
 		WinTop=0.733124
 		MinValue=0.0
-		MaxValue=2.0
+		MaxValue=2.5
 		Caption="Scale:"
 		LabelColor=(R=255,G=255,B=255,A=255)
 		LabelJustification=TXTA_Left
@@ -1429,13 +1409,13 @@ defaultproperties
 		OnChange=InternalOnChange
 		OnLoadINI=InternalOnLoadINI
 		Hint="Changes the crosshair scale."
-        TabOrder=10
+        TabOrder=9
         RenderWeight=0.55
 	End Object
 	sl_CrosshairScale=GameHudCrosshairScale
 
 
-	Begin Object class=moCheckBox Name=WeaponSwap
+	/*Begin Object class=moCheckBox Name=WeaponSwap
 		WinWidth=0.225000
 		WinHeight=0.040000
 		WinLeft=0.540953
@@ -1452,9 +1432,9 @@ defaultproperties
 		TabOrder=11
 		bAutoSizeCaption=True
 	End Object
-	ch_Swap=WeaponSwap
+	ch_Swap=WeaponSwap*/
 
-	Begin Object Class=moCheckBox Name=WeaponMesh
+	/*Begin Object Class=moCheckBox Name=WeaponMesh
 		Caption="Classic Model"
 		Hint="Enable to use the classic model for this weapon"
 		OnChange=InternalOnChange
@@ -1471,7 +1451,7 @@ defaultproperties
         TabOrder=12
 		bAutoSizeCaption=True
 	End Object
-	ch_ClassicModel=WeaponMesh
+	ch_ClassicModel=WeaponMesh*/
 
 	Begin Object class=GUIImage Name=GameCrossHairImage
 		WinWidth=0.139453
@@ -1506,7 +1486,7 @@ defaultproperties
 	End Object
 	i_CrosshairBG=CrosshairBK
 
-	Begin Object class=GUIImage name=Bk1
+	/*Begin Object class=GUIImage name=Bk1
 		WinWidth=0.394118
 		WinHeight=0.324981
 		WinLeft=0.046344
@@ -1514,7 +1494,7 @@ defaultproperties
 		ImageStyle=ISTY_Stretched
 		Image=material'2K4Menus.Newcontrols.Display99'
 	End Object
-	i_BK=BK1
+	i_BK=BK1*/
 
 	WinTop=0.15
 	WinLeft=0
