@@ -646,6 +646,6 @@ defaultproperties
 
 	PanelCaption="Input"
     PropagateVisibility=false
-    ControlBindMenu="GUI2K4.ControlBinder"
+    ControlBindMenu="BN4GUI.BN4ControlBinder"
     SpeechBindMenu="GUI2K4.SpeechBinder"
 }
