@@ -1,0 +1,705 @@
+//=============================================================================
+// GRS9Pistol.
+//
+// Glock style low power, high capacity, low recoil, high accuracy light pistol
+// with low power burning laser attachment.
+//
+// by Nolan "Dark Carnivour" Richert.
+// Copyright(c) 2007 RuneStorm. All Rights Reserved.
+//=============================================================================
+class GRS9Pistol extends BallisticHandgun;
+
+var() bool			bHasKnife;
+var() bool			bHasFlash;
+var() bool			bHasCombatLaser;
+
+var() bool			bStriking;
+var   bool			bLaserOn;
+var   LaserActor	Laser;
+var   Emitter		LaserBlast;
+var   Emitter		LaserDot;
+var	  byte			CurrentWeaponMode2;
+var	  Actor			GlowFX;// SightFX;
+var() float			LaserAmmo;
+var   bool			bBigLaser;
+var() Sound			LaserOnSound;
+var() Sound			LaserOffSound;
+var Emitter		TazerEffect;
+
+/*replication
+{
+	reliable if (Role == ROLE_Authority)
+		bLaserOn, LaserAmmo;
+}
+
+
+simulated function OnWeaponParamsChanged()
+{
+    super.OnWeaponParamsChanged();
+		
+	assert(WeaponParams != None);
+	bHasCombatLaser=true;
+	bHasKnife=false;
+	bHasFlash=false;
+	
+	if (InStr(WeaponParams.LayoutTags, "no_combat_laser") != -1)
+	{
+		bHasCombatLaser=false;
+	}
+	if (InStr(WeaponParams.LayoutTags, "tacknife") != -1)
+	{
+		bHasKnife=true;
+		MeleeFireMode.Damage = 70;
+	}
+	if (InStr(WeaponParams.LayoutTags, "flash") != -1)
+	{
+		bHasFlash=true;
+	}
+	if (bHasCombatLaser || bHasFlash)
+		bShowChargingBar=true;
+}
+
+/*
+//simulated function bool MasterCanSendMode(int Mode) {return Mode == 0;}
+simulated function bool SlaveCanUseMode(int Mode)
+{
+	return Mode == 0 || GRS9Pistol(OtherGun) != None;
+}
+
+simulated function bool CanAlternate(int Mode)
+{
+	if (Mode != 0 && OtherGun != None && GRS9Pistol(Othergun) != None)
+		return false;
+	return super.CanAlternate(Mode);
+}
+*/
+
+
+//=========================================
+// Laser
+//=========================================
+simulated event WeaponTick(float DT)
+{
+	super.WeaponTick(DT);
+	if (GlowFX != None && bHasCombatLaser)
+	{
+		GRS9AmbientFX(GlowFX).SetReadyIndicator (FireMode[1]!=None && !FireMode[1].IsFiring() && level.TimeSeconds - GRS9SecondaryFire(FireMode[1]).StopFireTime >= 0.8 && LaserAmmo > 0);
+		if (FireMode[1]!=None && FireMode[1].IsFiring())
+		{
+			GRS9AmbientFX(GlowFX).SetRedIndicator (2);
+			GRS9AmbientFX(GlowFX).SetFireGlow(true);
+		}
+		else if (FireMode[1]!=None && LaserAmmo < default.LaserAmmo)
+		{
+			GRS9AmbientFX(GlowFX).SetRedIndicator (1);
+			GRS9AmbientFX(GlowFX).SetFireGlow(false);
+		}
+		else
+		{
+			GRS9AmbientFX(GlowFX).SetRedIndicator (0);
+			GRS9AmbientFX(GlowFX).SetFireGlow(false);
+		}
+	}
+
+}
+
+simulated event Tick (float DT)
+{
+	super.Tick(DT);
+	if (bHasCombatLaser)
+	{
+		if (LaserAmmo < default.LaserAmmo && ( FireMode[1]==None || !FireMode[1].IsFiring() ))
+			LaserAmmo = FMin(default.LaserAmmo, LaserAmmo + (DT / 6) * (1 + LaserAmmo/default.LaserAmmo) );
+	}
+}*/
+
+simulated function PlayIdle()
+{
+	super.PlayIdle();
+
+	if (bPendingSightUp || SightingState != SS_None || bScopeView || !CanPlayAnim(IdleAnim, ,"IDLE"))
+		return;
+	FreezeAnimAt(0.0);
+}
+
+/*simulated event PostNetReceive()
+{
+	if (level.NetMode != NM_Client)
+		return;
+	if (CurrentWeaponMode != CurrentWeaponMode2)
+		CurrentWeaponMode2 = CurrentWeaponMode;
+	if (bLaserOn != default.bLaserOn)
+	{
+		OnLaserSwitched();
+
+		default.bLaserOn = bLaserOn;
+		ClientSwitchLaser();
+	}
+	Super.PostNetReceive();
+}
+
+function ServerSwitchLaser(bool bNewLaserOn)
+{
+	if (bLaserOn == bNewLaserOn)
+		return;
+	bLaserOn = bNewLaserOn;
+
+	if (ThirdPersonActor != None)
+		GRS9Attachment(ThirdPersonActor).bLaserOn = bLaserOn;
+	
+	OnLaserSwitched();
+	
+	if (!bLaserOn)
+	{
+		bServerReloading = false;
+		bPreventReload=False;
+		ReloadState = RS_None;
+	}
+    if (Instigator.IsLocallyControlled())
+		ClientSwitchLaser();
+}
+
+simulated function ClientSwitchLaser()
+{
+	OnLaserSwitched();
+
+	if (bLaserOn)
+	{
+		SpawnLaserDot();
+		if (!bHasCombatLaser)
+			PlaySound(LaserOnSound,,0.7,,32);
+	}
+	else
+	{
+		KillLaserDot();
+		if (!bHasCombatLaser)
+			PlaySound(LaserOffSound,,0.7,,32);
+	}
+	
+	PlayIdle();
+}
+
+simulated function KillLaserDot()
+{
+	if (LaserDot != None)
+	{
+		LaserDot.bHidden=false;
+		LaserDot.Kill();
+		LaserDot = None;
+	}
+}
+simulated function SpawnLaserDot(optional vector Loc)
+{
+	if (LaserDot == None)
+	{
+		if (bHasCombatLaser)
+			LaserDot = Spawn(class'BallisticProV55.IE_GRS9LaserHit',,,Loc);
+		else
+			LaserDot = Spawn(class'M806LaserDot',,,Loc);
+	}
+}
+
+simulated function bool PutDown()
+{
+	if (Super.PutDown())
+	{
+		KillLaserDot();
+		if (ThirdPersonActor != None)
+			GRS9Attachment(ThirdPersonActor).bLaserOn = false;
+		return true;
+	}
+	return false;
+}
+
+simulated function Destroyed ()
+{
+	default.bLaserOn = false;
+
+	if (GlowFX != None)
+		GlowFX.Destroy();
+	if (SightFX != None)
+		SightFX.Destroy();
+	if (Laser != None)
+		Laser.Destroy();
+	if (LaserDot != None)
+		LaserDot.Destroy();
+	if (TazerEffect != None)
+		TazerEffect.Kill();
+	Super.Destroyed();
+}
+
+simulated function vector ConvertFOVs (vector InVec, float InFOV, float OutFOV, float Distance)
+{
+	local vector ViewLoc, Outvec, Dir, X, Y, Z;
+	local rotator ViewRot;
+
+	ViewLoc = Instigator.Location + Instigator.EyePosition();
+	ViewRot = Instigator.GetViewRotation();
+	Dir = InVec - ViewLoc;
+	GetAxes(ViewRot, X, Y, Z);
+
+    OutVec.X = Distance / tan(OutFOV * PI / 360);
+    OutVec.Y = (Dir dot Y) * (Distance / tan(InFOV * PI / 360)) / (Dir dot X);
+    OutVec.Z = (Dir dot Z) * (Distance / tan(InFOV * PI / 360)) / (Dir dot X);
+    OutVec = OutVec >> ViewRot;
+
+	return OutVec + ViewLoc;
+}
+
+// Draw a laser beam and dot to show exact path of bullets before they're fired
+simulated function DrawLaserSight ( Canvas Canvas )
+{
+	local Vector HitLocation, Start, End, HitNormal, Scale3D, Loc;
+	local Rotator AimDir;
+	local Actor Other;
+    local bool bAimAligned;
+
+	if ((ClientState == WS_Hidden) || (!bLaserOn))
+		return;
+
+	AimDir = BallisticFire(FireMode[0]).GetFireAim(Start);
+	Loc = GetBoneCoords('tip2').Origin;
+
+	End = Start + Normal(Vector(AimDir))*3000;
+	Other = FireMode[0].Trace (HitLocation, HitNormal, End, Start, true);
+	if (Other == None)
+		HitLocation = End;
+
+	// Draw dot at end of beam
+	if (!bStriking && ReloadState == RS_None && ClientState == WS_ReadyToFire && !IsInState('DualAction') && Level.TimeSeconds - FireMode[0].NextFireTime > 0.1)
+		bAimAligned = true;
+
+	if (bAimAligned && Other != None)
+		SpawnLaserDot(HitLocation);
+	else
+		KillLaserDot();
+	if (LaserDot != None)
+	{
+		LaserDot.SetLocation(HitLocation);
+		LaserDot.SetRotation(rotator(HitNormal));
+		Canvas.DrawActor(LaserDot, false, false, Instigator.Controller.FovAngle);
+	}
+
+	// Draw beam from bone on gun to point on wall(This is tricky cause they are drawn with different FOVs)
+	Laser.SetLocation(Loc);
+	HitLocation = ConvertFOVs(End, Instigator.Controller.FovAngle, DisplayFOV, 400);
+	if (bAimAligned)
+		Laser.SetRotation(Rotator(HitLocation - Loc));
+	else
+	{
+		AimDir = GetBoneRotation('tip2');
+		Laser.SetRotation(AimDir);
+	}
+
+	if (LaserBlast != None && bHasCombatLaser)
+	{
+		LaserBlast.SetLocation(Laser.Location);
+		LaserBlast.SetRotation(Laser.Rotation);
+		Canvas.DrawActor(LaserBlast, false, false, DisplayFOV);
+	}
+
+	Scale3D.X = VSize(HitLocation-Loc)/128;
+	if (bBigLaser)
+	{
+		Scale3D.Y = 4;
+		Scale3D.Z = 4;
+	}
+	else
+	{
+		Scale3D.Y = 1.5;
+		Scale3D.Z = 1.5;
+	}
+	Laser.SetDrawScale3D(Scale3D);
+	Canvas.DrawActor(Laser, false, false, DisplayFOV);
+}
+
+simulated event RenderOverlays( Canvas Canvas )
+{
+	local Vector V;
+	local Rotator R;
+	local Coords C;
+	local Vector TazLoc;
+	local Rotator TazRot;
+
+	super.RenderOverlays(Canvas);
+	if (IsInState('Lowered'))
+		return;
+	DrawLaserSight(Canvas);
+
+///	if (IsInState('Lowered'))
+//		return;
+	if (GlowFX != None)
+	{
+		C = GetBoneCoords('tip2');
+		V = C.Origin;
+
+        
+		//if ((IsSlave() && Othergun.Hand >= 0) || (!IsSlave() && Hand < 0))
+        if (Hand < 0)
+			R = OrthoRotation(C.XAxis, -C.YAxis, C.ZAxis);
+		else
+			R = OrthoRotation(C.XAxis, C.YAxis, C.ZAxis);
+		GlowFX.SetLocation(V);
+		GlowFX.SetRotation(R);
+		Canvas.DrawActor(GlowFX, false, false, DisplayFOV);
+	}
+
+	if (TazerEffect != None)
+	{
+		TazLoc = GetBoneCoords('tip3').Origin;
+		TazRot = GetBoneRotation('tip3');
+		if (TazerEffect != None)
+		{
+			TazerEffect.SetLocation(TazLoc);
+			TazerEffect.SetRotation(TazRot);
+			Canvas.DrawActor(TazerEffect, false, false, DisplayFOV);
+		}
+	}
+}
+
+// Change some properties when using sights...
+simulated function OnScopeViewChanged()
+{
+	super.OnScopeViewChanged();
+
+	if (Hand < 0)
+		SightOffset.Y = default.SightOffset.Y * -1;
+}*/
+
+simulated function PlayCocking(optional byte Type)
+{
+	if (Type == 2)
+		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
+	else
+		PlayAnim(CockAnim, CockAnimRate, 0.2);
+}
+
+simulated function BringUp(optional Weapon PrevWeapon)
+{
+	Super.BringUp(PrevWeapon);
+
+	/*if (Instigator != None && Laser == None && PlayerController(Instigator.Controller) != None)
+	{
+		if (bHasCombatLaser)
+			Laser = Spawn(class'LaserActor_GRSNine');
+		else
+			Laser = Spawn(class'LaserActor');
+	}
+	if (Instigator != None && LaserDot == None && PlayerController(Instigator.Controller) != None)
+		SpawnLaserDot();
+	if (Instigator != None && LaserBlast == None && PlayerController(Instigator.Controller) != None)
+	{
+		LaserBlast = Spawn(class'GRS9LaserOnFX');
+		class'DGVEmitter'.static.ScaleEmitter(LaserBlast, DrawScale);
+	}*/
+	if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
+	{
+		IdleAnim = 'OpenIdle';
+		ReloadAnim = 'OpenReload';
+	}
+	else
+	{
+		IdleAnim = 'Idle';
+		ReloadAnim = 'Reload';
+	}
+
+	/*if (GlowFX != None)
+		GlowFX.Destroy();
+	if (SightFX != None)
+		SightFX.Destroy();
+    if (Instigator.IsLocallyControlled() && level.DetailMode == DM_SuperHigh && class'BallisticMod'.default.EffectsDetailMode >= 2 && bHasCombatLaser)
+    {
+    	GlowFX = None;
+    	SightFX = None;
+
+		GlowFX = Spawn(class'GRS9AmbientFX');
+		class'BallisticEmitter'.static.ScaleEmitter(Emitter(GlowFX), DrawScale);
+
+		SightFX = Spawn(class'GRS9SightLEDs');
+		class'BallisticEmitter'.static.ScaleEmitter(Emitter(SightFX), DrawScale);
+
+//		class'BUtil'.static.InitMuzzleFlash (GlowFX, class'GRS9AmbientFX', DrawScale, self, 'tip2');
+//		class'BUtil'.static.InitMuzzleFlash (SightFX, class'GRS9SightLEDs', DrawScale, self, 'SightBone');
+		
+        
+        //if ((IsSlave() && Othergun.Hand >= 0) || (!IsSlave() && Hand < 0))
+        if (Hand < 0)
+		{
+			GRS9AmbientFX(GlowFX).InvertY();
+			GRS9SightLEDs(SightFX).InvertY();
+//			GRS9AmbientFX(GlowFX).InvertZ();
+//			GRS9SightLEDs(SightFX).InvertZ();
+		}
+	}
+	
+	
+	if (Instigator.IsLocallyControlled() && TazerEffect == None && bHasKnife)
+	{
+		TazerEffect = Spawn(class'MRS138TazerEffect',self,,location);
+		class'BallisticEmitter'.static.ScaleEmitter(TazerEffect, DrawScale);
+		AttachToBone(TazerEffect, 'tip3');
+	}*/
+	
+}
+
+/*simulated event Timer()
+{
+	if (bBigLaser)
+	{
+		FireMode[1].StopFiring();
+		bBigLaser=false;
+		if (ThirdPersonActor != None)
+			GRS9Attachment(ThirdPersonActor).bBigLaser=false;
+	}
+	if (Clientstate == WS_PutDown)
+	{
+		class'BUtil'.static.KillEmitterEffect (GlowFX);
+		class'BUtil'.static.KillEmitterEffect (SightFX);
+	}
+	super.Timer();
+}
+
+//============================
+//Laser Sight
+//============================
+simulated function OnLaserSwitched()
+{
+	if (bLaserOn)
+		ApplyLaserAim();
+	else
+		AimComponent.Recalculate();
+}
+
+simulated function OnAimParamsChanged()
+{
+	Super.OnAimParamsChanged();
+
+	if (bLaserOn)
+		ApplyLaserAim();
+}
+
+simulated function ApplyLaserAim()
+{
+	AimComponent.AimAdjustTime *= 0.65;
+	AimComponent.AimSpread.Max *= 0.65;
+	AimComponent.AimSpread.Min *= 0.65;
+}*/
+
+//=========================================
+// Anims/Bones
+//=========================================
+
+simulated event AnimEnd (int Channel)
+{
+    local name Anim;
+    local float Frame, Rate;
+
+    GetAnimParams(0, Anim, Frame, Rate);
+
+	/*if(Anim != 'PrepMelee')
+		bStriking = false;*/
+	
+	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == CockAnim || Anim == ReloadAnim)
+	{
+		if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
+		{
+			IdleAnim = 'OpenIdle';
+			ReloadAnim = 'OpenReload';
+		}
+		else
+		{
+			IdleAnim = 'Idle';
+			ReloadAnim = 'Reload';
+		}
+	}
+	Super.AnimEnd(Channel);
+}
+
+simulated function Notify_ClipOutOfSight()
+{
+	SetBoneScale (1, 1.0, 'Bullet');
+}
+
+simulated function PlayReload()
+{
+	super.PlayReload();
+
+	if (MagAmmo < 1)
+		SetBoneScale (1, 0.0, 'Bullet');
+}
+
+//=========================================
+// Weapon Special
+//=========================================
+
+/*function ServerWeaponSpecial(optional byte i)
+{
+	if (!FireMode[1].IsFiring() && level.TimeSeconds - GRS9SecondaryFire(FireMode[1]).StopFireTime >= 0.8 && LaserAmmo == default.LaserAmmo && bHasCombatLaser /* && !IsInState('DualAction') && !IsInState('PendingDualAction')*/)
+	{
+		ClientWeaponSpecial(i);
+		CommonWeaponSpecial(i);
+	}
+    /*
+    else if (IsMaster() && GRS9Pistol(OtherGun)!=None)
+	 	OtherGun.ServerWeaponSpecial(i);
+    */
+}
+
+simulated function ClientWeaponSpecial(optional byte i)
+{
+	if (level.NetMode == NM_Client)
+		CommonWeaponSpecial(i);
+}
+
+simulated function CommonWeaponSpecial(optional byte i)
+{
+	bBigLaser=true;
+	if (ThirdPersonActor != None)
+		GRS9Attachment(ThirdPersonActor).bBigLaser=true;
+
+    // Set instant fire props
+	BallisticInstantFire(FireMode[1]).Damage = 75;
+	BallisticInstantFire(FireMode[1]).HeadMult = 1f;
+	BallisticInstantFire(FireMode[1]).LimbMult = 1f;
+	BallisticInstantFire(FireMode[1]).XInaccuracy = 16;
+	BallisticInstantFire(FireMode[1]).YInaccuracy = 16;
+
+
+	FireMode[1].ModeDoFire();
+	LaserAmmo = FMax(0, LaserAmmo - default.LaserAmmo);
+
+    // Reset props
+	BallisticInstantFire(FireMode[1]).Damage = BallisticInstantFire(FireMode[1]).default.Damage;
+	BallisticInstantFire(FireMode[1]).HeadMult = BallisticInstantFire(FireMode[1]).default.HeadMult;
+	BallisticInstantFire(FireMode[1]).LimbMult = BallisticInstantFire(FireMode[1]).default.LimbMult;
+	BallisticInstantFire(FireMode[1]).XInaccuracy = 2;
+	BallisticInstantFire(FireMode[1]).YInaccuracy = 2;
+
+	if (ClientState != WS_PutDown && ClientState != WS_BringUp)
+		SetTimer(0.15, false);
+}
+
+
+simulated function float ChargeBar()
+{
+	if (bHasFlash)
+	{
+		if (level.TimeSeconds >= FireMode[1].NextFireTime)
+		{
+			if (FireMode[1].bIsFiring)
+				return FMin(1, FireMode[1].HoldTime / FireMode[1].MaxHoldTime);
+			return FMin(1, GRS9SecondaryFire(FireMode[1]).DecayCharge / FireMode[1].MaxHoldTime);
+		}
+		return (FireMode[1].NextFireTime - level.TimeSeconds) / FireMode[1].FireRate;
+	}
+	else if (bHasCombatLaser)
+	{
+		return FClamp(LaserAmmo/default.LaserAmmo, 0, 1);
+	}
+}
+
+// Rechargable laser unit means it always has ammo!
+simulated function bool HasAmmo()
+{
+	return true;
+}*/
+
+// AI Interface =====
+function byte BestMode()	{	return 0;	}
+
+function float GetAIRating()
+{
+	local Bot B;
+	
+	local float Dist;
+	local float Rating;
+
+	B = Bot(Instigator.Controller);
+	
+	if ( B == None )
+		return AIRating;
+
+	Rating = Super.GetAIRating();
+
+	if (B.Enemy == None)
+		return Rating;
+
+	Dist = VSize(B.Enemy.Location - Instigator.Location);
+	
+	return class'BUtil'.static.DistanceAtten(Rating, 0.35, Dist, 768, 2048); 
+}
+
+// tells bot whether to charge or back off while using this weapon
+function float SuggestAttackStyle()	{	return 0.8;	}
+// tells bot whether to charge or back off while defending against this weapon
+function float SuggestDefenseStyle()	{	return -0.8;	}
+// End AI Stuff =====
+
+defaultproperties
+{
+	bNoaltfire=False
+	AIRating=0.6
+	CurrentRating=0.6
+	LaserOnSound=Sound'BW_Core_WeaponSound.M806.M806LSight'
+	LaserOffSound=Sound'BW_Core_WeaponSound.M806.M806LSight'
+	LaserAmmo=3.500000
+	bShouldDualInLoadout=False
+	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
+	AIReloadTime=1.000000
+	BigIconMaterial=Texture'BW_Core_WeaponTex.Glock.BigIcon_Glock'
+	BigIconCoords=(Y1=30,Y2=230)
+	SightFXBone="SightBone"
+	bWT_Bullet=True
+	bWT_Sidearm=True	
+	ManualLines(0)="Automatic fire. Short ranged, but has higher DPS than most pistols. Recoil is moderate."
+	ManualLines(1)="Projects a laser beam. Has extremely low DPS, but consistent damage over range and recharges over time."
+	ManualLines(2)="The Weapon Function key causes a hitscan single-shot beam to be projected from the unit, dealing good damage. The GRS-9 is effective at close range."
+	SpecialInfo(0)=(Info="120.0;8.0;-999.0;25.0;0.0;0.0;-999.0")
+	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.150000)
+	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.148000)
+	CockSound=(Sound=Sound'BW_Core_WeaponSound.Glock.Glk-Cock',Volume=0.600000)
+	ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.Glock.Glk-ClipHit',Volume=0.700000)
+	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.Glock.Glk-ClipOut')
+	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.Glock.Glk-ClipIn')
+	ClipInFrame=0.650000
+	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
+	CurrentWeaponMode=0
+	bNoCrosshairInScope=True
+	ParamsClasses(0)=Class'GRS9WeaponParamsComp'
+	FireModeClass(0)=Class'BallisticProV55.GRS9PrimaryFire'
+	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	MeleeFireClass=Class'BallisticProV55.GRS9MeleeFire'
+	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M50Out',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M806InA',USize2=256,VSize2=256,Color1=(R=96,A=175),Color2=(B=255),StartSize1=100,StartSize2=110)
+    NDCrosshairInfo=(SpreadRatios=(Y1=0.800000,Y2=1.000000),MaxScale=6.000000)
+	SelectAnimRate=1.250000
+	PutDownAnimRate=1.250000
+	SelectForce="SwitchToAssaultRifle"
+	bShowChargingBar=false
+	Description="The GRS9 from Drake & Co. is used primarily by inner core planets for law enforcement purposes. The additional laser unit adds an alternative attack to the GRS9. The laser unit can be held down, for up to 3.5 seconds, releasing a searing beam upon enemies. This drains the rechargeable battery however, which must be left to replenish when empty."
+	Priority=9
+	HudColor=(B=25,G=25,R=200)
+	InventoryGroup=2
+	GroupOffset=2
+	PickupClass=Class'BallisticProV55.GRS9Pickup'
+	PlayerViewOffset=(X=10.00,Y=6.00,Z=-17.00)
+	SightOffset=(X=-20,Y=-1.85,Z=26.7)
+	bAdjustHands=true
+	RootAdjust=(Yaw=-300,Pitch=3000)
+	WristAdjust=(Yaw=-3000)
+	SightAnimScale=0.25
+	SightBobScale=1f
+	AttachmentClass=Class'BallisticProV55.GRS9Attachment'
+	IconMaterial=Texture'BW_Core_WeaponTex.Glock.SmallIcon_Glock'
+	IconCoords=(X2=127,Y2=31)
+	ItemName="GRS-9"
+	LightType=LT_Pulse
+	LightEffect=LE_NonIncidence
+	LightHue=30
+	LightSaturation=150
+	LightBrightness=130.000000
+	LightRadius=3.000000
+	Mesh=SkeletalMesh'BW_Core_WeaponAnim.GRS9_FPm'
+	DrawScale=0.30000
+	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'
+	Skins(1)=Shader'BW_Core_WeaponTex.Glock.Glock_Shiny'
+}

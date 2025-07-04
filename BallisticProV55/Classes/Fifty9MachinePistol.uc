@@ -1,0 +1,595 @@
+//=============================================================================
+// Fifty9MachinePistol.
+//
+// Dual wieldable weapon with select-fire, bullet style primary, melee blades
+// for secondary and a special togglable stock that affect aim properties.
+//
+// by Nolan "Dark Carnivour" Richert.
+// Copyright(c) 2007 RuneStorm. All Rights Reserved.
+//=============================================================================
+class Fifty9MachinePistol extends BallisticHandgun;
+
+var	  bool		bStockLocked;
+var   name		StockOpenAnim;
+var   name		StockCloseAnim;
+var   bool		bStockOpen, bStockOpenRotated;
+var   int 		StockChaosAimSpread;
+
+var   bool			bStriking;
+var	  bool			bHasLaser;
+var   bool			bLaserOn;
+var   LaserActor	Laser;
+var() Sound			LaserOnSound;
+var() Sound			LaserOffSound;
+var   Emitter		LaserDot;
+
+// This uhhh... thing is added to allow manual drawing of brass OVER the muzzle flash
+struct UziBrass
+{
+	var() actor Actor;
+	var() float KillTime;
+};
+var   array<UziBrass>	UziBrassList;
+
+replication
+{
+	reliable if (Role == ROLE_Authority)
+		bLaserOn;
+}
+simulated function PostBeginPlay()
+{
+	SetBoneRotation('tip', rot(0,0,8192));
+	super.PostbeginPlay();
+}
+
+simulated function OnWeaponParamsChanged()
+{
+    super.OnWeaponParamsChanged();
+		
+	assert(WeaponParams != None);
+	
+	bHasLaser=false;
+	bStockLocked=false;
+
+	if (InStr(WeaponParams.LayoutTags, "laser") != -1)
+	{
+		bHasLaser=true;
+	}
+	if (InStr(WeaponParams.LayoutTags, "lock") != -1)
+	{
+		bStockLocked=true;
+	}
+	if (InStr(WeaponParams.LayoutTags, "open") != -1)
+	{
+		bStockOpen=true;
+		SetBoneRotation('Stock', rot(32768,0,0));
+		bStockOpenRotated = true;
+		AdjustStockProperties();
+	}
+}
+
+simulated event WeaponTick (Float DT)
+{
+	Super.WeaponTick (DT);
+	
+	if (LastFireTime < Level.TimeSeconds - RcComponent.DeclineDelay && MeleeFatigue > 0)
+		MeleeFatigue = FMax(0, MeleeFatigue - DT/RcComponent.DeclineTime);
+}
+
+simulated function float ChargeBar()
+{
+	return MeleeFatigue;
+}
+
+simulated function RenderSightFX(Canvas Canvas)
+{
+	local coords C;
+
+	if (SightFX != None)
+	{
+		C = GetBoneCoords(SightFXBone);
+		SightFX.SetLocation(C.Origin);
+		if (RenderedHand < 0)
+			SightFX.SetRotation( OrthoRotation(C.XAxis, -C.YAxis, C.ZAxis) - rot(0,0,8192) );
+		else
+			SightFX.SetRotation( OrthoRotation(C.XAxis, C.YAxis, C.ZAxis)  + rot(0,0,8192) );
+		Canvas.DrawActor(SightFX, false, false, DisplayFOV);
+	}
+}
+
+simulated function bool HasAmmoLoaded(byte Mode)
+{
+	if (Mode == 1)
+		return true;
+	if (bNoMag)
+		return HasNonMagAmmo(Mode);
+	else
+		return HasMagAmmo(Mode);
+}
+
+static function class<Pickup> RecommendAmmoPickup(int Mode)
+{
+	return class'AP_Fifty9Clip';
+}
+
+simulated event RenderOverlays( Canvas Canvas )
+{
+	local int i;
+
+	super.RenderOverlays (Canvas);
+
+	if (!IsInState('Lowered'))
+		DrawLaserSight(Canvas);
+	
+	if (UziBrassList.length < 1)
+		return;
+
+    bDrawingFirstPerson = true;
+    for (i=UziBrassList.length-1;i>=0;i--)
+    {
+    	if (UziBrassList[i].Actor == None)
+    		continue;
+	    Canvas.DrawActor(UziBrassList[i].Actor, false, false, Instigator.Controller.FovAngle);
+    	if (UziBrassList[i].KillTime <= level.TimeSeconds)
+    	{
+    		UziBrassList[i].Actor.bHidden=false;
+    		UziBrassList.Remove(i,1);
+    	}
+    }
+    bDrawingFirstPerson = false;
+}
+
+//======================================================================
+// Weapon mode behaviour (removed post layouts)
+//
+// Switches mode by animating the stock
+//======================================================================
+/*exec simulated function SwitchWeaponMode (optional byte ModeNum)	
+{
+	// 59 animates to change weapon mode
+	if (ReloadState != RS_None)
+		return;
+
+	if (ModeNum == 0)
+		ServerSwitchWeaponMode(255);
+	else ServerSwitchWeaponMode(ModeNum-1);
+}
+
+// Cycle through the various weapon modes
+function ServerSwitchWeaponMode (byte NewMode)
+{
+	Log("Fifty9 ServerSwitchWeaponMode: Stock open: "$bStockOpen);
+	
+	if (ReloadState != RS_None)
+		return;
+	
+	if (NewMode == 255)
+		NewMode = CurrentWeaponMode + 1;
+	
+	while (NewMode != CurrentWeaponMode && (NewMode >= WeaponModes.length || WeaponModes[NewMode].bUnavailable) )
+	{
+		if (NewMode >= WeaponModes.length)
+			NewMode = 0;
+		else
+			NewMode++;
+	}
+
+	if (!WeaponModes[NewMode].bUnavailable)
+	{
+		CommonSwitchWeaponMode(NewMode);
+		ClientSwitchWeaponMode(CurrentWeaponMode);
+		NetUpdateTime = Level.TimeSeconds - 1;
+	}
+	
+}
+
+simulated function CommonSwitchWeaponMode(byte NewMode)
+{
+	Super.CommonSwitchWeaponMode(NewMode);
+	if (WeaponModes[NewMode].ModeID ~= "WM_Burst" || WeaponModes[NewMode].ModeId ~= "WM_Burst" || WeaponModes[NewMode].ModeId ~= "WM_BigBurst")
+	{
+		SwitchStock(true);
+	}
+	else
+	{
+		SwitchStock(false);
+	}
+}*/
+//======================================================================
+// Stock behaviour
+//
+// Increase accuracy by extending stock
+//======================================================================
+
+exec simulated function WeaponSpecial(optional byte i)
+{
+
+	if (ReloadState != RS_None)
+		return;
+	if (Clientstate != WS_ReadyToFire)
+		return;
+
+	if (bHasLaser)	
+		ServerSwitchLaser(!bLaserOn);
+	
+	if (!bStockLocked)
+		SwitchStock(!bStockOpen);
+}
+
+simulated function SwitchStock(bool bNewValue)
+{
+	if (bNewValue == bStockOpen)
+		return;
+
+	Log("Fifty9 SwitchStock: Stock open: "$bStockOpen);
+	
+	if (Role == ROLE_Authority)
+		bServerReloading = True;
+	ReloadState = RS_GearSwitch;
+	
+	TemporaryScopeDown(0.4);
+	
+	SetBoneRotation('Stock', rot(0,0,0));
+	
+	bStockOpen = bNewValue;
+	
+	if (bNewValue)
+		PlayAnim(StockOpenAnim);
+	else
+		PlayAnim(StockCloseAnim);
+		
+	AdjustStockProperties();
+}
+
+simulated function AdjustStockProperties()
+{
+	if (bStockOpen)
+		ApplyStockAim();
+	else
+		AimComponent.Recalculate();
+}
+
+simulated function ApplyStockAim()
+{
+	if (bStockOpen)
+	{
+		AimComponent.CrouchMultiplier 	*= 0.7f;
+		AimComponent.AimAdjustTime 		*= 1.5;
+		AimComponent.AimSpread.Max 		*= 1.2;
+		AimComponent.AimSpread.Min 		*= 1.2;
+		AimComponent.ChaosDeclineTime	*= 1.2;
+		RcComponent.PitchFactor			*= 0.8;
+		RcComponent.YawFactor			*= 0.8;
+		RcComponent.XRandFactor			*= 0.8;
+		RcComponent.YRandFactor			*= 0.8;
+		RcComponent.CrouchMultiplier 	*= 0.8;
+		
+		SightingTime = 0.3f; // awkward to sight
+		SightBobScale = 0.15f * class'BallisticGameStyles'.static.GetReplicatedStyle().default.SightBobScale;
+	}
+	else
+	{
+		SightingTime = default.SightingTime;
+		SightBobScale = default.SightBobScale * class'BallisticGameStyles'.static.GetReplicatedStyle().default.SightBobScale;
+	}
+}
+
+simulated function SetStockRotation()
+{
+	if (bStockOpen)
+	{
+		SetBoneRotation('Stock', rot(32768,0,0));
+		bStockOpenRotated = true;
+	}
+	else
+	{
+		SetBoneRotation('Stock', rot(0,0,0));
+		bStockOpenRotated = false;
+	}
+}
+
+simulated function PlayIdle()
+{
+	if (bStockOpen && !bStockOpenRotated)
+	{
+		SetStockRotation();
+		IdleTweenTime=0.0;
+		super.PlayIdle();
+		IdleTweenTime=default.IdleTweenTime;
+	}
+	else if (!bStockOpen && bStockOpenRotated)
+		SetStockRotation();
+	else
+		super.PlayIdle();
+}
+
+simulated function PlayCocking(optional byte Type)
+{
+	if (Type == 2)
+		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
+	else
+		PlayAnim(CockAnim, CockAnimRate, 0.2);
+}
+
+
+simulated function Notify_Fifty9Melee()
+{
+	if (Role == ROLE_Authority)
+		Fifty9SecondaryFire(BFireMode[1]).NotifiedDoFireEffect();
+	PlayOwnedSound(BFireMode[1].BallisticFireSound.Sound,
+		BFireMode[1].BallisticFireSound.Slot,
+		BFireMode[1].BallisticFireSound.Volume,
+		BFireMode[1].BallisticFireSound.bNoOverride,
+		BFireMode[1].BallisticFireSound.Radius,
+		BFireMode[1].BallisticFireSound.Pitch,
+		BFireMode[1].BallisticFireSound.bAtten);
+}
+
+//Laser ========
+
+simulated function OnLaserSwitched()
+{
+	if (bLaserOn)
+		ApplyLaserAim();
+	else
+		AimComponent.Recalculate();
+}
+
+simulated function ApplyLaserAim()
+{
+	AimComponent.AimAdjustTime *= 0.75;
+	AimComponent.AimSpread.Max *= 0.65;
+	AimComponent.AimSpread.Min *= 0.65;
+}
+
+simulated event PostNetReceive()
+{
+	if (level.NetMode != NM_Client)
+		return;
+	if (bLaserOn != default.bLaserOn)
+	{
+		OnLaserSwitched();
+
+		default.bLaserOn = bLaserOn;
+		ClientSwitchLaser();
+	}
+	Super.PostNetReceive();
+}
+
+function ServerSwitchLaser(bool bNewLaserOn)
+{
+	bLaserOn = bNewLaserOn;
+
+	if (ThirdPersonActor != None)
+		Fifty9Attachment(ThirdPersonActor).bLaserOn = bLaserOn;
+
+	OnLaserSwitched();
+
+    if (Instigator.IsLocallyControlled())
+		ClientSwitchLaser();
+}
+
+simulated function ClientSwitchLaser()
+{		
+	OnLaserSwitched();
+
+	if (bLaserOn)
+	{
+		SpawnLaserDot();
+		PlaySound(LaserOnSound,,0.7,,32);
+	}
+	else
+	{
+		KillLaserDot();
+		PlaySound(LaserOffSound,,0.7,,32);
+	}
+	if (!IsinState('DualAction') && !IsinState('PendingDualAction') && ReloadState != RS_GearSwitch)
+		PlayIdle();
+}
+
+simulated function KillLaserDot()
+{
+	if (LaserDot != None)
+	{
+		LaserDot.Kill();
+		LaserDot = None;
+	}
+}
+simulated function SpawnLaserDot(optional vector Loc)
+{
+	if (LaserDot == None)
+		LaserDot = Spawn(class'MD24LaserDot',,,Loc);
+}
+
+simulated function bool PutDown()
+{
+	if (Super.PutDown())
+	{
+		KillLaserDot();
+		if (ThirdPersonActor != None)
+			Fifty9Attachment(ThirdPersonActor).bLaserOn = false;
+		return true;
+	}
+	return false;
+}
+
+simulated function Destroyed ()
+{
+	default.bLaserOn = false;
+	if (Laser != None)
+		Laser.Destroy();
+	if (LaserDot != None)
+		LaserDot.Destroy();
+	Super.Destroyed();
+}
+
+simulated function vector ConvertFOVs (vector InVec, float InFOV, float OutFOV, float Distance)
+{
+	local vector ViewLoc, Outvec, Dir, X, Y, Z;
+	local rotator ViewRot;
+
+	ViewLoc = Instigator.Location + Instigator.EyePosition();
+	ViewRot = Instigator.GetViewRotation();
+	Dir = InVec - ViewLoc;
+	GetAxes(ViewRot, X, Y, Z);
+
+    OutVec.X = Distance / tan(OutFOV * PI / 360);
+    OutVec.Y = (Dir dot Y) * (Distance / tan(InFOV * PI / 360)) / (Dir dot X);
+    OutVec.Z = (Dir dot Z) * (Distance / tan(InFOV * PI / 360)) / (Dir dot X);
+    OutVec = OutVec >> ViewRot;
+
+	return OutVec + ViewLoc;
+}
+
+// Draw a laser beam and dot to show exact path of bullets before they're fired
+simulated function DrawLaserSight ( Canvas Canvas )
+{
+	local Vector HitLocation, Start, End, HitNormal, Scale3D, Loc;
+	local Rotator AimDir;
+	local Actor Other;
+
+	if ((ClientState == WS_Hidden) || (!bLaserOn) || Instigator == None || Instigator.Controller == None || Laser==None)
+		return;
+
+	AimDir = BallisticFire(FireMode[0]).GetFireAim(Start);
+	Loc = GetBoneCoords('tip2').Origin;
+
+	End = Start + Normal(Vector(AimDir))*5000;
+	Other = FireMode[0].Trace (HitLocation, HitNormal, End, Start, true);
+	if (Other == None)
+		HitLocation = End;
+
+	// Draw dot at end of beam
+	if (!bStriking && ReloadState == RS_None && ClientState == WS_ReadyToFire && !IsInState('DualAction') && Level.TimeSeconds - FireMode[0].NextFireTime > 0.2 && Level.TimeSeconds - FireMode[1].NextFireTime > 0.2)
+		SpawnLaserDot(HitLocation);
+	else
+		KillLaserDot();
+	if (LaserDot != None)
+		LaserDot.SetLocation(HitLocation);
+	Canvas.DrawActor(LaserDot, false, false, Instigator.Controller.FovAngle);
+
+	// Draw beam from bone on gun to point on wall(This is tricky cause they are drawn with different FOVs)
+	Laser.SetLocation(Loc);
+	HitLocation = ConvertFOVs(End, Instigator.Controller.FovAngle, DisplayFOV, 400);
+	if (!bStriking && ReloadState == RS_None && ClientState == WS_ReadyToFire && !IsInState('DualAction') && Level.TimeSeconds - FireMode[0].NextFireTime > 0.2 && Level.TimeSeconds - FireMode[1].NextFireTime > 0.2)
+		Laser.SetRotation(Rotator(HitLocation - Loc));
+	else
+	{
+		AimDir = GetBoneRotation('tip2');
+		Laser.SetRotation(AimDir);
+	}
+	Scale3D.X = VSize(HitLocation-Loc)/128;
+	Scale3D.Y = 1;
+	Scale3D.Z = 1;
+	Laser.SetDrawScale3D(Scale3D);
+	Canvas.DrawActor(Laser, false, false, DisplayFOV);
+}
+
+// AI Interface =====
+function byte BestMode()	{	return 0;	}
+
+function float GetAIRating()
+{
+	local Bot B;
+	
+	local float Dist;
+	local float Rating;
+
+	B = Bot(Instigator.Controller);
+	
+	if ( B == None )
+		return AIRating;
+
+	Rating = Super.GetAIRating();
+
+	if (B.Enemy == None)
+		return Rating;
+
+	Dist = VSize(B.Enemy.Location - Instigator.Location);
+	
+	return class'BUtil'.static.DistanceAtten(Rating, 0.35, Dist, 768, 2048); 
+}
+
+// tells bot whether to charge or back off while using this weapon
+function float SuggestAttackStyle()	{	return 0.9;	}
+// tells bot whether to charge or back off while defending against this weapon
+function float SuggestDefenseStyle()	{	return -0.9;	}
+// End AI Stuff =====
+
+defaultproperties
+{
+	AIRating=0.85
+	CurrentRating=0.85
+
+	StockOpenAnim="StockOut"
+	StockCloseAnim="StockIn"
+	StockChaosAimSpread=2048
+	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
+	AIReloadTime=1.000000
+	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_Fifty9'
+	BigIconCoords=(Y1=24)
+	SightFXClass=Class'BallisticProV55.Fifty9SightLEDs'
+	
+	LaserOnSound=Sound'BW_Core_WeaponSound.TEC.RSMP-LaserClick'
+	LaserOffSound=Sound'BW_Core_WeaponSound.TEC.RSMP-LaserClick'
+	
+	bWT_Bullet=True
+	bWT_Machinegun=True
+	ManualLines(0)="Sprays low caliber bullets. Has an extremely high fire rate and very high DPS, but suffers from recoil and hip stability problems and has low penetration and awful effective range."
+	ManualLines(1)="Continually slashes with the attached blade. Damage output is modest and range is low."
+	ManualLines(2)="The Fifty-9's stock can be engaged or disengaged with the Weapon Function key. With the stock engaged, the recoil is reduced but the hipfire spread increases. The Fifty-9 is extremely effective at very close range."
+	SpecialInfo(0)=(Info="120.0;10.0;0.8;40.0;0.0;0.4;-999.0")
+	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.150000)
+	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.148000)
+	MagAmmo=25
+	CockSound=(Sound=Sound'BW_Core_WeaponSound.UZI.UZI-Cock',Volume=0.800000)
+	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.UZI.UZI-ClipOut',Volume=0.700000)
+	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.UZI.UZI-ClipIn',Volume=0.700000)
+	ClipInFrame=0.650000
+	CurrentWeaponMode=0
+    WeaponModes(0)=(ModeName="Burst",ModeID="WM_Burst",Value=5.000000)
+    WeaponModes(1)=(ModeName="Auto",ModeID="WM_FullAuto")
+	WeaponModes(2)=(bUnavailable=True)
+	bNoCrosshairInScope=True
+	
+	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc1',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Cross4',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=114),Color2=(B=99,G=228),StartSize1=126,StartSize2=33)
+    NDCrosshairInfo=(SpreadRatios=(Y1=0.800000,Y2=1.000000),MaxScale=6.000000)
+    NDCrosshairChaosFactor=0.300000
+
+	ParamsClasses(0)=Class'Fifty9WeaponParamsComp'	
+	ParamsClasses(1)=Class'Fifty9WeaponParamsClassic'	
+	ParamsClasses(2)=Class'Fifty9WeaponParamsRealistic'	
+    ParamsClasses(3)=Class'Fifty9WeaponParamsTactical'
+	FireModeClass(0)=Class'BallisticProV55.Fifty9PrimaryFire'
+	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	PutDownTime=0.400000
+	BringUpTime=0.500000
+	SelectForce="SwitchToAssaultRifle"
+	bShowChargingBar=false
+	Description="Krome Firepower is a relatively new arms company created with the aim of producing guns with 'style'. The Fifty-9 is one such weapon. Taking an original small arm, and replacing certain parts, adding new attachments, custom paint jobs, etc. Krome weapons are designed for civilian purposes, self defense, bounty hunters, enthusiasts, and collectors. This particular model comes with attached Krome blades, to add some extra flair to the weapon."
+	Priority=31
+	HudColor=(B=255,G=125,R=75)
+	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
+	InventoryGroup=1
+	GroupOffset=1
+	PickupClass=Class'BallisticProV55.Fifty9Pickup'
+
+	PlayerViewOffset=(X=10,Y=4,Z=-6)
+	SightOffset=(X=-10,Z=3.3)
+	SightPivot=(Pitch=128)
+	SightZoomFactor=1.2
+	SightBobScale=0.3f
+
+	AttachmentClass=Class'BallisticProV55.Fifty9Attachment'
+	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_Fifty9'
+	IconCoords=(X2=127,Y2=31)
+	ItemName="Fifty-9 Machine Pistol"
+	LightType=LT_Pulse
+	LightEffect=LE_NonIncidence
+	LightHue=30
+	LightSaturation=150
+	LightBrightness=130.000000
+	LightRadius=3.000000
+	Mesh=SkeletalMesh'BW_Core_WeaponAnim.Fifty9_FPm'
+	DrawScale=0.300000
+}

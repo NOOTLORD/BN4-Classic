@@ -1,0 +1,25 @@
+//=============================================================================
+// BOGPAttachment.
+//
+// 3rd person weapon attachment for BOGP Pistol
+//
+// by Logan "BlackEagle" Richert.
+// uses code by Nolan "Dark Carnivour" Richert.
+// Copyright� 2011 RuneStorm. All Rights Reserved.
+//=============================================================================
+class HB4Attachment extends HandgunAttachment;
+
+defaultproperties
+{
+     WeaponClass=class'HB4GrenadeBlaster'
+     MuzzleFlashClass=Class'BWBP_APC_Pro.HB4FlashEmitter'
+     ReloadAnimRate=0.825000
+     FlashScale=0.200000
+     BrassMode=MU_None
+     InstantMode=MU_None
+     WaterTracerMode=MU_None
+     bHeavy=True
+     CockingAnim="Reload_BreakOpen"
+     Mesh=SkeletalMesh'BWBP_APC_Anim.HB4_TPm'
+     DrawScale=1.000000
+}

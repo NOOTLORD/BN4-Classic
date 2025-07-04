@@ -1,0 +1,45 @@
+//=============================================================================
+// GASCPickup.
+//
+// by Logan "BlackEagle" Richert.
+// uses code by Nolan "Dark Carnivour" Richert.
+// Copyright 2011 RuneStorm. All Rights Reserved.
+//=============================================================================
+class GASCPickup extends BallisticHandgunPickup
+	placeable;
+
+static function StaticPrecache(LevelInfo L)
+{
+	L.AddPrecacheMaterial(Texture'BWBP_APC_Tex.GASC.GASCMain');
+	L.AddPrecacheMaterial(Texture'BWBP_APC_Tex.GASC.GASCMagMain');
+     L.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.GASC.GASCPickupHi');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.GASC.GASCPickupLo');
+}
+
+simulated function UpdatePrecacheMaterials()
+{
+	Level.AddPrecacheMaterial(Texture'BWBP_APC_Tex.GASC.GASCMain');
+	Level.AddPrecacheMaterial(Texture'BWBP_APC_Tex.GASC.GASCMagMain');
+     super.UpdatePrecacheMaterials();   
+}
+
+simulated function UpdatePrecacheStaticMeshes()
+{
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.GASC.GASCPickupHi');
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.GASC.GASCPickupLo');
+     Super.UpdatePrecacheStaticMeshes();     
+}
+
+defaultproperties
+{
+     LowPolyStaticMesh=StaticMesh'BWBP_APC_Static.GASC.GASCPickupLo'
+     PickupDrawScale=0.600000
+     InventoryType=Class'BWBP_APC_Pro.GASCPistol'
+     RespawnTime=10.000000
+     PickupMessage="You picked up the Gaucho and Stallion"
+     PickupSound=Sound'BW_Core_WeaponSound.M806.M806Putaway'
+     StaticMesh=StaticMesh'BWBP_APC_Static.GASC.GASCPickupHi'
+     Physics=PHYS_None
+     DrawScale=1.000000
+     CollisionHeight=4.000000
+}
