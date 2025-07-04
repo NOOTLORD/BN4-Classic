@@ -30,7 +30,10 @@
 // Slightly modified by (NL)NOOTLORD
 // Mostly removing unused var's and remove the config options
 // ========================================================================
-class BN4hitsound extends Mutator;
+class BN4hitsound extends Mutator
+	transient
+	HideDropDown
+	CacheExempt;
 
 #exec AUDIO IMPORT FILE="Sounds\QFeedback.wav"     NAME="Hit"        
 #exec AUDIO IMPORT FILE="Sounds\QFeedbackTeam.wav" NAME="HitTeam"

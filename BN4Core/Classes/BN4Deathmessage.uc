@@ -7,11 +7,6 @@ class BN4Deathmessage extends LocalMessage;
 var(Message) localized string KilledString, SomeoneString;
 var config bool bNoConsoleDeathMessages;
 
-static function color GetConsoleColor( PlayerReplicationInfo RelatedPRI_1 )
-{
-    return class'HUD'.Default.GreenColor;
-}
-
 static function string GetString(
 	optional int Switch,
 	optional PlayerReplicationInfo RelatedPRI_1, 
@@ -110,14 +105,14 @@ defaultproperties
 {
 	bNoConsoleDeathMessages=False
 	ChildMessage=class'BN4KillerMessagePlus'
-	DrawColor=(R=255,G=255,B=255,A=255)
 	KilledString="was killed by"
 	SomeoneString="someone"
-    bIsSpecial=true	
+    bIsSpecial=True
     Lifetime=6
     bFadeMessage=True	
     DrawPivot=DP_MiddleRight	
 	StackMode=SM_Down
     PosX=0.985000
     PosY=0.075000	
+	FontSize=0
 }

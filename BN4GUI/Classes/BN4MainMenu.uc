@@ -75,15 +75,15 @@ function MenuIn_OnArrival(GUIComponent Sender, EAnimationType Type)
     if (!Controller.bQuietMenu)
 	    PlayerOwner().PlaySound(FadeInSound);
 
-	b_Multiplayer.Animate(0.012284,0.289235,0.45);
+	b_Multiplayer.Animate(0.012284,0.569183,0.30);
     b_Multiplayer.OnArrival = PlayPopSound;
-	b_Host.Animate(0.012284,0.334808,0.5);
+	b_Host.Animate(0.012284,0.614756,0.35);
     b_Host.OnArrival = PlayPopSound;
-	b_InstantAction.Animate(0.012284,0.380381,0.55);
+	b_InstantAction.Animate(0.012284,0.660329,0.40);
     b_InstantAction.OnArrival = PlayPopSound;
-	b_Settings.Animate(0.795805,0.940278,0.6);
+	b_Settings.Animate(0.012284,0.705902,0.45);
     b_Settings.OnArrival = PlayPopSound;
-	b_Quit.Animate(0.932524,0.940278,0.65);
+	b_Quit.Animate(0.012284,0.751476,0.50);
     b_Quit.OnArrival = MenuIn_Done;
 }
 
@@ -222,12 +222,12 @@ function bool ButtonClick(GUIComponent Sender)
 	if (Selected==None)
     	return false;
 
-	InitAnimOut( i_TV, -0.000977, 1.668619, 0.35);
-	InitAnimOut(b_Multiplayer,1.15,0.449282,0.35);
-	InitAnimOut(b_Host,1.3,0.534027,0.35);
-	InitAnimOut(b_InstantAction,1.45,0.618619,0.35);
+	InitAnimOut( i_TV, -0.000977, 1.668619, 0.20);
+	InitAnimOut(b_Multiplayer,1.15,0.449282,0.20);
+	InitAnimOut(b_Host,1.3,0.534027,0.25);
+	InitAnimOut(b_InstantAction,1.45,0.618619,0.30);
 	InitAnimOut(b_Settings,1.75,0.800327,0.35);
-	InitAnimOut(b_Quit,1.9,0.887567,0.35);
+	InitAnimOut(b_Quit,1.9,0.887567,0.40);
 
     return true;
 }
@@ -353,7 +353,7 @@ defaultproperties
 		WinWidth=0.147204
 		WinHeight=0.037760
 		WinLeft=0.012284
-		WinTop=0.289235
+		WinTop=0.569183
 		bFocusOnWatch=true
         TabOrder=1
 		bUseCaptionHeight=true
@@ -369,8 +369,8 @@ defaultproperties
 		OnClick=ButtonClick
 		WinWidth=0.153498
 		WinHeight=0.037760
-		WinLeft=0.012507
-		WinTop=0.334808
+		WinLeft=0.012284
+		WinTop=0.614756
 		bFocusOnWatch=true
         TabOrder=2
 		bUseCaptionHeight=true
@@ -386,8 +386,8 @@ defaultproperties
 		OnClick=ButtonClick
 		WinWidth=0.203041
 		WinHeight=0.037760
-		WinLeft=0.013484
-		WinTop=0.380381
+		WinLeft=0.012284
+		WinTop=0.660329
 		bFocusOnWatch=true
         TabOrder=3
 		bUseCaptionHeight=true
@@ -401,12 +401,12 @@ defaultproperties
         CaptionAlign=TXTA_Left
 		Hint=""
 		OnClick=ButtonClick
-		WinWidth=0.116611
+		WinWidth=0.117588
 		WinHeight=0.037760
-		WinLeft=0.795805
-		WinTop=0.940278
+		WinLeft=0.012284
+		WinTop=0.705902
 		bFocusOnWatch=true
-        TabOrder=5
+        TabOrder=4
 		bUseCaptionHeight=true
 	End Object
 
@@ -420,10 +420,10 @@ defaultproperties
 		OnClick=ButtonClick
 		WinWidth=0.058017
 		WinHeight=0.037760
-		WinLeft=0.932524
-		WinTop=0.940278
+		WinLeft=0.012284
+		WinTop=0.751476
 		bFocusOnWatch=true
-        TabOrder=6
+        TabOrder=5
 		bUseCaptionHeight=true
 	End Object
 
@@ -431,11 +431,12 @@ defaultproperties
 	    Caption="Version: 0.0.1 ALPHA "
         TextColor=(R=255,G=255,B=255,A=140)
         TextFont="UT2SmallFont"
-        WinTop=0.950000
-        WinWidth=0.560000
-        WinHeight=0.050000
+		WinWidth=0.179141
+		WinHeight=0.050000
+		WinLeft=0.004883
+		WinTop=0.943490
      End Object	
-	
+
 	i_Background=PageBackground
     i_TV=ImgTV
 	b_MultiPlayer=MultiplayerButton

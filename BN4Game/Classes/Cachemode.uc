@@ -1,9 +1,10 @@
 // ======================================================================================================
 // Written by (NL)NOOTLORD 
 // New deathmatch gamemode to strip out most of epic's asset caching and add BW assets in there place
-// Also fully exposed the FillPlayInfo function so we can remove or show some options that we want
+// Also fully exposed the FillPlayInfo function so we can remove or only show options that we want
 // ======================================================================================================
 class Cachemode extends DeathMatch;
+
 
 #exec OBJ LOAD FILE=XEffectMat.utx
 #exec OBJ LOAD FILE="..\Textures\AW-2004Particles.utx"
@@ -14,7 +15,36 @@ class Cachemode extends DeathMatch;
 #exec OBJ LOAD FILE=LastManStanding.utx
 #exec OBJ LOAD FILE=HUDContent.utx
 
+var const localized string	BallisticGroup;
+var	  globalconfig string	BWConfigVar;		// Just some var for the ballistic config setting
+var   localized string	BWConfigDisplayText,BWConfigDescText;
+
 var globalconfig bool		bCustomPreload;		// if true, precache non-Epic characters as well
+
+function PostBeginPlay()
+{
+  local GameRules G;
+    
+  G = spawn(class'BN4hitsoundRules');
+
+  if ( Level.Game.GameRulesModifiers == None )
+    Level.Game.GameRulesModifiers = G;
+  else    
+    Level.Game.GameRulesModifiers.AddGameRules(G);
+
+  Super.PostBeginPlay();   
+
+}
+
+event InitGame( string Options, out string Error )
+{
+	super.InitGame(Options, Error);
+
+	AddMutator("BallisticProV55.Mut_BallisticPro");
+	AddMutator("BallisticProV55.Mut_Regeneration");	
+	AddMutator("XGame.MutNoAdrenaline");
+	
+}
 
 static function FillPlayInfo(PlayInfo PlayInfo)
 {
@@ -60,6 +90,8 @@ static function FillPlayInfo(PlayInfo PlayInfo)
 	//PlayInfo.AddSetting(default.ServerGroup, "MinNetPlayers",       	GetDisplayText("MinNetPlayers"),       	100,  1, "Text",     "3;0:32",				,True,True);
 	//PlayInfo.AddSetting(default.ServerGroup, "NetWait",             	GetDisplayText("NetWait"),             	200,  1, "Text",     "3;0:60",				,True,True);
 	//PlayInfo.AddSetting(default.ServerGroup, "RestartWait",         	GetDisplayText("RestartWait"),         	200,  1, "Text",     "3;0:60",				,True,True);
+
+	PlayInfo.AddSetting(default.GameGroup, "BWConfigVar", 				default.BWConfigDisplayText, 			60, 2, "Custom", ";;BallisticProV55.MutConfigMenu_Pro");
 
 	class'MasterServerUplink'.static.FillPlayInfo(PlayInfo);
 
@@ -165,6 +197,8 @@ static function string GetDescriptionText(string PropName)
 		case "bAutoNumBots":       		return default.DMPropDescText[11];
 		case "LateEntryLives":     		return default.DMPropDescText[12];
 		case "bAllowPlayerLights": 		return default.DMPropDescText[13];
+		case "BWConfigVar":				return default.BWConfigDescText;
+
 	}
 
 	return Super.GetDescriptionText(PropName);
@@ -215,17 +249,26 @@ static function PrecacheGameTextures(LevelInfo myLevel)
 	{
 		myLevel.AddPrecacheMaterial(Material'HUDContent.NoEntry');
 	}	
-
-	//UT2004 derez effects
-	myLevel.AddPrecacheMaterial(Material'EpicParticles.BurnFlare1');
-	myLevel.AddPrecacheMaterial(Material'DeRez.DeRezSkin');
-	myLevel.AddPrecacheMaterial(Material'DeRez.RezTest4');
-
+	
 	// water effects
 	myLevel.AddPrecacheMaterial(Material'xGame.xCausticRing2');
 	myLevel.AddPrecacheMaterial(Material'AW-2004Particles.Energy.SparkHead');
 	myLevel.AddPrecacheMaterial(Material'xGame.xSplashBase');
 	myLevel.AddPrecacheMaterial(Material'xGame.xWaterdrops2');
+
+	//BW
+	myLevel.AddPrecacheMaterial(Shader'BW_Core_WeaponTex.Hands.Hands-Shiny');
+	myLevel.AddPrecacheMaterial(Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny');
+	myLevel.AddPrecacheMaterial(Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny');	
+	myLevel.AddPrecacheMaterial(TexEnvMap'BW_Core_WeaponTex.Effects.ShotSpecEnv');
+	myLevel.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Hands.BallisticHand-SpecMask');
+
+	class'BallisticProV55.X4Pickup'.static.StaticPrecache(myLevel);
+	class'BallisticProV55.EKS43Pickup'.static.StaticPrecache(myLevel);
+	class'BWBP_SKC_Pro.X8Pickup'.static.StaticPrecache(myLevel);
+
+	class'BallisticProV55.M46Pickup'.static.StaticPrecache(myLevel);
+
 
 	if ( ((myLevel.NetMode == NM_ListenServer) || (myLevel.NetMode == NM_Client))
 		&& !myLevel.bSkinsPreloaded && 
@@ -316,24 +359,24 @@ static function PrecacheGameStaticMeshes(LevelInfo myLevel)
 	myLevel.AddPrecacheStaticMesh(StaticMesh'XEffects.GibOrganicUpperarm');
 }
 
-function AddGameSpecificInventory(Pawn p)
-{
-	return;
-}
-
-
 defaultproperties
 {
-	DefaultPlayerClassName="XGame.xPawn"
-    PlayerControllerClassName="XGame.XPlayer"
+    BallisticGroup="Ballistic"	
+    BWConfigDisplayText="Ballistic Settings"
+    BWConfigDescText="Options for Ballistic Weapons."	
+	bColoredDMSkins=False
+	bAllowTrans=False
+	bAllowWeaponThrowing=False
+	DefaultPlayerClassName="BallisticProV55.BallisticPawn"
+    PlayerControllerClassName="BallisticProV55.BallisticPlayer"
     MapListType="XInterface.MapListDeathMatch"
     HUDType="XInterface.HudCDeathMatch"
-	DeathMessageClass=class'BN4Deathmessage'
+	DeathMessageClass=class'Ballistic_DeathMessage'
     ScreenShotName="UT2004Thumbnails.DMShots"
     DecoTextName="XGame.Deathmatch"
     Acronym="DM"
     MapPrefix="DM"
-    GameName="Cache game"
+    GameName="DeathMatch"
     DefaultEnemyRosterClass="XGame.xDMRoster"
     Description="Free-for-all kill or be killed.  The player with the most frags wins."
 }

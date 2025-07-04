@@ -8,7 +8,7 @@
 
 class BN4ControlBinder extends KeyBindMenu;
 
-var localized string BindingLabel[150];
+var localized string BindingLabel[50];
 
 function LoadCommands()
 {
@@ -83,48 +83,60 @@ DefaultProperties
     BindingLabel(5)="Jump"
     Bindings(6)=(KeyLabel="Walk",Alias="Walking")
     BindingLabel(6)="Walk"
-    Bindings(7)=(KeyLabel="Crouch",Alias="Duck")
-    BindingLabel(7)="Crouch"
+    Bindings(7)=(KeyLabel="Sprint",Alias="Mutate BStartSprint|OnRelease Mutate BStopSprint")
+    BindingLabel(7)="Sprint"
+    Bindings(8)=(KeyLabel="Crouch",Alias="Duck")
+    BindingLabel(8)="Crouch"
 
-    Bindings(8)=(bIsSectionLabel=true,KeyLabel="Weapons")
-    BindingLabel(8)="Weapons"
-    Bindings(9)=(KeyLabel="Fire",Alias="Fire")
-    BindingLabel(9)="Fire"
-    Bindings(10)=(KeyLabel="Next Weapon",Alias="NextWeapon")
-    BindingLabel(10)="Next Weapon"
-    Bindings(11)=(KeyLabel="Prev Weapon",Alias="PrevWeapon")
-    BindingLabel(11)="Prev Weapon"
-    Bindings(12)=(KeyLabel="Primary",Alias="SwitchWeapon 1")
-    BindingLabel(12)="Primary"
-    Bindings(13)=(KeyLabel="Secondary",Alias="SwitchWeapon 2")
-    BindingLabel(13)="Secondary"
-	Bindings(14)=(KeyLabel="Melee",Alias="SwitchWeapon 3")
-    BindingLabel(14)="Melee"
-    Bindings(15)=(KeyLabel="Explosives",Alias="SwitchWeapon 4")
-    BindingLabel(15)="Explosives"
+    Bindings(9)=(bIsSectionLabel=true,KeyLabel="Weapons")
+    BindingLabel(9)="Weapons"
+    Bindings(10)=(KeyLabel="Fire",Alias="Fire")
+    BindingLabel(10)="Fire"
+    Bindings(11)=(KeyLabel="Alt-Fire/Aim Down Sights",Alias="AltFire")
+    BindingLabel(11)="Alt-Fire/Aim Down Sights"
+    Bindings(12)=(KeyLabel="Reload",Alias="Reload")
+    BindingLabel(12)="Reload"
+    Bindings(13)=(KeyLabel="Switch Fire Mode",Alias="SwitchWeaponMode")
+    BindingLabel(13)="Switch Fire Mode"
+    Bindings(14)=(KeyLabel="Next Weapon",Alias="NextWeapon")
+    BindingLabel(14)="Next Weapon"
+    Bindings(15)=(KeyLabel="Prev Weapon",Alias="PrevWeapon")
+    BindingLabel(15)="Prev Weapon"
+    Bindings(16)=(KeyLabel="Primary",Alias="SwitchWeapon 1")
+    BindingLabel(16)="Primary"
+    Bindings(17)=(KeyLabel="Secondary",Alias="SwitchWeapon 2")
+    BindingLabel(17)="Secondary"
+	Bindings(18)=(KeyLabel="Melee",Alias="SwitchWeapon 3")
+    BindingLabel(18)="Melee"
+    Bindings(19)=(KeyLabel="Explosives",Alias="SwitchWeapon 4")
+    BindingLabel(19)="Explosives"
 
-    Bindings(16)=(bIsSectionLabel=true,KeyLabel="Game")
-    BindingLabel(16)="Game"
-    Bindings(17)=(KeyLabel="Say",Alias="Talk")
-    BindingLabel(17)="Say"
-    Bindings(18)=(KeyLabel="Team Say",Alias="TeamTalk")
-    BindingLabel(18)="Team Say"
-    Bindings(19)=(KeyLabel="Speech Menu",Alias="SpeechMenuToggle")
-    BindingLabel(19)="Speech Menu"
-    Bindings(20)=(KeyLabel="Use",Alias="use")
-    BindingLabel(20)="Use"
-    Bindings(21)=(KeyLabel="ScoreBoard",Alias="ShowScores")
-    BindingLabel(21)="ScoreBoard Toggle"
-    Bindings(22)=(KeyLabel="ScoreBoard (QuickView)",Alias="ScoreToggle")
-    BindingLabel(22)="ScoreBoard"
-    Bindings(23)=(KeyLabel="Menu",Alias="ShowMenu")
-    BindingLabel(23)="Menu"
-    Bindings(24)=(KeyLabel="Toggle Console",Alias="ConsoleToggle")
-    BindingLabel(24)="Toggle Console"
-    Bindings(25)=(KeyLabel="Cancel Pending Connection",Alias="Cancel")
-    BindingLabel(25)="Cancel Pending Connection"
-    Bindings(26)=(KeyLabel="Toggle Connection Status",Alias="Stat Net")
-    BindingLabel(26)="Toggle Connection Status"
-    Bindings(27)=(KeyLabel="Toggle FPS Counter",Alias="Stat Fps")
-    BindingLabel(27)="Toggle FPS Counter"
+    Bindings(20)=(bIsSectionLabel=true,KeyLabel="Game")
+    BindingLabel(20)="Game"
+    Bindings(21)=(KeyLabel="Loadout Menu",Alias="Mutate Loadout")
+    BindingLabel(21)="Loadout Menu"
+    Bindings(22)=(KeyLabel="Suicide",Alias="Suicide")
+    BindingLabel(22)="Suicide"
+    Bindings(23)=(KeyLabel="Say",Alias="Talk")
+    BindingLabel(23)="Say"
+    Bindings(24)=(KeyLabel="Team Say",Alias="TeamTalk")
+    BindingLabel(24)="Team Say"
+    Bindings(25)=(KeyLabel="Speech Menu",Alias="SpeechMenuToggle")
+    BindingLabel(25)="Speech Menu"
+    Bindings(26)=(KeyLabel="Use",Alias="use")
+    BindingLabel(26)="Use"
+    Bindings(27)=(KeyLabel="ScoreBoard",Alias="ShowScores")
+    BindingLabel(27)="ScoreBoard Toggle"
+    Bindings(28)=(KeyLabel="ScoreBoard (QuickView)",Alias="ScoreToggle")
+    BindingLabel(28)="ScoreBoard"
+    Bindings(29)=(KeyLabel="Menu",Alias="ShowMenu")
+    BindingLabel(29)="Menu"
+    Bindings(30)=(KeyLabel="Toggle Console",Alias="ConsoleToggle")
+    BindingLabel(30)="Toggle Console"
+    Bindings(31)=(KeyLabel="Cancel Pending Connection",Alias="Cancel")
+    BindingLabel(31)="Cancel Pending Connection"
+    Bindings(32)=(KeyLabel="Toggle Connection Status",Alias="Stat Net")
+    BindingLabel(32)="Toggle Connection Status"
+    Bindings(33)=(KeyLabel="Toggle FPS Counter",Alias="Stat Fps")
+    BindingLabel(33)="Toggle FPS Counter"
 }

@@ -6,10 +6,18 @@
 //   by CoolDude (2004-12)
 //
 // GameRules for Q3AFeedback.uc
-//
 // ===============================================================================================================================
 class BN4hitsoundRules extends GameRules;
 
+#exec AUDIO IMPORT FILE="Sounds\QFeedback.wav"     NAME="Hit"        
+#exec AUDIO IMPORT FILE="Sounds\QFeedbackTeam.wav" NAME="HitTeam"
+
+var() bool bHitSound;          		  // TRUE  : Play a hitsound when you hit an enemy (default)
+                                      // FALSE : Don't play a hitsound when you hit an enemy
+var() bool bTeamHit;           		  // TRUE  : Play a sound when you hit a teammate (default)
+                                      // FALSE : Don't play a sound when you hit a teammate
+var() bool bCombineHits;              // TRUE  : Multiple damage hits play one sound (e.g. Flakcannon) (default)
+                                      // FALSE : Multiple damage hits play multiple sounds
 var bool  bSoundAgain;
 var Sound SoundHitNormal;
 var Sound SoundHitTeam;
@@ -25,7 +33,7 @@ function PostBeginPlay()
   SoundHitNormal   = Sound'Hit';
   SoundHitTeam     = Sound'HitTeam'; 
 
-  if (class'BN4hitsound'.default.bCombineHits)
+  if (default.bCombineHits)
     HitVolume=1.0;
   else
     HitVolume=1.0;
@@ -54,14 +62,14 @@ function int NetDamage( int OriginalDamage, int Damage, Pawn Victim, Pawn Instig
 	    // Check if you hit a teammate (or a teamvehicle) in a team game
 	    if ( (Level.Game.bTeamGame) && (Victim.GetTeamNum() == InstigatedBy.GetTeamNum()) )	// GetTeamNum takes care of vehicles too
 	    {
-        if (class'BN4hitsound'.default.bTeamHit)
+        if (bTeamHit)
 		      PlayerController(InstigatedBy.Controller).ClientPlaySound(SoundHitTeam,true,HitVolume);
 		    //Log("Hit teammate");
 	    }
 	    // Otherwise, you hit the enemy, so play the normal feedback sound
 	    else
 	    {
-        if (class'BN4hitsound'.default.bHitSound)
+        if (bHitSound)
         {
 		        // Victim has no armour
 		        PlayerController(InstigatedBy.Controller).ClientPlaySound(SoundHitNormal,true,HitVolume);
@@ -69,7 +77,7 @@ function int NetDamage( int OriginalDamage, int Damage, Pawn Victim, Pawn Instig
         }
 	    }
 
-      if (class'BN4hitsound'.default.bCombineHits)
+      if (bCombineHits)
       {
         bSoundAgain=False;
         SetTimer(0.1, False);
@@ -93,4 +101,11 @@ function int NetDamage( int OriginalDamage, int Damage, Pawn Victim, Pawn Instig
 simulated function Timer()
 {
   bSoundAgain=True;
+}
+
+defaultproperties
+{
+    bHitSound=True
+    bTeamHit=True
+    bCombineHits=True  
 }
