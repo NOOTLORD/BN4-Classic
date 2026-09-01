@@ -1,15 +1,9 @@
 //=============================================================================
-// RS04Pickup.
+// RS04 Pickup class
 //=============================================================================
 class RS04Pickup extends BallisticHandGunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.RS04.RS04-Main');

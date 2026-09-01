@@ -59,7 +59,7 @@ function InitializeConfigTab()
 	//ch_AllWeaps.MyCheckBox.OnClick = InternalOnClick;
 
 	//ch_AllWeaps.MyCheckBox.SetChecked(bUseAllWeapons);
-	fl_ChangeInterval.SetValue(class'ClientOutfittingInterface'.default.ChangeInterval);
+	//fl_ChangeInterval.SetValue(class'ClientOutfittingInterface'.default.ChangeInterval);
 
 	LoadList();
 
@@ -551,7 +551,7 @@ function SaveSettings()
 {
 	if (!bInitialized)
 		return;
-	class'ClientOutfittingInterface'.default.ChangeInterval = fl_ChangeInterval.GetValue();
+	//class'ClientOutfittingInterface'.default.ChangeInterval = fl_ChangeInterval.GetValue();
 	class'ClientOutfittingInterface'.static.StaticSaveConfig();
 	SaveBoxesToMutator();
 	SaveConfig();
@@ -790,7 +790,7 @@ defaultproperties
      End Object
      ch_AllWeaps=moCheckBox'BallisticProV55.ConfigTab_Outfitting.ch_AllWeapsCheck'*/
 
-     Begin Object Class=moFloatEdit Name=fl_ChangeIntervalFloat
+     /*Begin Object Class=moFloatEdit Name=fl_ChangeIntervalFloat
          MinValue=0.000000
          MaxValue=600.000000
          ComponentJustification=TXTA_Left
@@ -804,7 +804,7 @@ defaultproperties
          WinWidth=0.450000
          WinHeight=0.040000
      End Object
-     fl_ChangeInterval=moFloatEdit'BallisticProV55.ConfigTab_Outfitting.fl_ChangeIntervalFloat'
+     fl_ChangeInterval=moFloatEdit'BallisticProV55.ConfigTab_Outfitting.fl_ChangeIntervalFloat'*/
 
      BoxNames(0)="Melee"
      BoxNames(1)="Secondary"

@@ -282,7 +282,6 @@ defaultproperties
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_BX5'
 	BigIconCoords=(Y1=24,Y2=240)
-	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Trap=True
@@ -301,9 +300,6 @@ defaultproperties
 	GunLength=0.000000
 	bAimDisabled=True
 	ParamsClasses(0)=Class'BX5WeaponParamsComp'
-	ParamsClasses(1)=Class'BX5WeaponParamsClassic' //todo: state to properly set spring mine dmg
-	ParamsClasses(2)=Class'BX5WeaponParamsRealistic' //todo: state to properly set spring mine dmg
-    ParamsClasses(3)=Class'BX5WeaponParamsTactical'
 	FireModeClass(0)=Class'BallisticProV55.BX5PrimaryFire'
 	FireModeClass(1)=Class'BallisticProV55.BX5PrimaryFire'
 	NDCrosshairCfg=(Pic2=Texture'BW_Core_WeaponTex.Crosshairs.A73OutA',USize2=256,VSize2=256,Color1=(B=23,G=78,R=119),Color2=(G=98,R=158),StartSize1=135,StartSize2=87)
@@ -324,7 +320,7 @@ defaultproperties
 	AttachmentClass=Class'BallisticProV55.BX5Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_BX5'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="BX5-SM Land Mine"
+	ItemName="BX5"
 	Mesh=SkeletalMesh'BW_Core_WeaponAnim.BX5_FPm'
 	DrawScale=0.300000
 	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'

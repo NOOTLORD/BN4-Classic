@@ -1,15 +1,9 @@
 //=============================================================================
-// T9CNPickup.
+// T9CN Pickup class
 //=============================================================================
 class T9CNPickup extends BallisticHandgunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Main');

@@ -1,20 +1,13 @@
 //=============================================================================
-// AM67Pickup.
+// AM67 Pickup class
 //=============================================================================
 class AM67Pickup extends BallisticHandgunPickup
 	placeable;
-     
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
+
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.AM67.AM67Main');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.AM67.AM67SpecMask');
- 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.AM67Clips');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.PickupHD');
  	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.PickupLD');    
 }
@@ -27,7 +20,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.AM67Clips');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.PickupHD');
  	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.AM67.PickupLD');
 }

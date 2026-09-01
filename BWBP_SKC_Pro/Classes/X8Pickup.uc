@@ -1,15 +1,9 @@
 //=============================================================================
-// X8 Ballistic Knife pickup.
+// X8 Pickup class
 //=============================================================================
 class X8Pickup extends BallisticWeaponPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.AK490.Knife-Misc');

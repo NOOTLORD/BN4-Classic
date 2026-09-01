@@ -1,10 +1,9 @@
 // ======================================================================================================
 // Written by (NL)NOOTLORD 
 // New deathmatch gamemode to strip out most of epic's asset caching and add BW assets in there place
-// Also fully exposed the FillPlayInfo function so we can remove or only show options that we want
+// Also fully exposed the FillPlayInfo function so we can hide or show options that we want
 // ======================================================================================================
 class Cachemode extends DeathMatch;
-
 
 #exec OBJ LOAD FILE=XEffectMat.utx
 #exec OBJ LOAD FILE="..\Textures\AW-2004Particles.utx"
@@ -202,6 +201,26 @@ static function string GetDescriptionText(string PropName)
 	}
 
 	return Super.GetDescriptionText(PropName);
+}
+
+event PlayerController Login( string Portal, string Options, out string Error )
+{
+	local PlayerController pc;
+
+	pc = Super.Login(Portal, Options, Error);
+	if (pc != None)
+		pc.PawnClass = class'BallisticProV55.BallisticPawn';
+	return pc;
+}
+
+function Bot SpawnBot(optional string botName)
+{
+	local Bot B;
+
+	B = Super.SpawnBot(botName);
+	if (B != None)
+		B.PawnClass = class'BallisticProV55.BallisticPawn';
+	return B;
 }
 
 static function PrecacheGameTextures(LevelInfo myLevel)

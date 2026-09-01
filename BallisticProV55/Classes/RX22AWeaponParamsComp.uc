@@ -29,7 +29,7 @@ defaultproperties
     // SECONDARY FIRE
     //=================================================================	
 	
-	Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
+	/*Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
 		Recoil=32.000000
 		WarnTargetPct=0.500000
 		FireSound=(Sound=Sound'BW_Core_WeaponSound.RX22A.RX22A-FuelLoop',Volume=0.600000,Slot=SLOT_Interact,bNoOverride=False)
@@ -40,7 +40,7 @@ defaultproperties
 		FireInterval=0.100000
 		FireEndAnim=
 		FireEffectParams(0)=ProjectileEffectParams'ArenaSecondaryEffectParams'
-	End Object
+	End Object*/
 		
 	//=================================================================
 	// RECOIL
@@ -83,7 +83,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
-		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
+		//AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
     Layouts(0)=WeaponParams'ArenaParams'
 	
@@ -94,14 +94,14 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	Begin Object Class=WeaponCamo Name=RX22A_Tan
+	/*Begin Object Class=WeaponCamo Name=RX22A_Tan
 		Index=1
 		CamoName="Tan"
 		WeaponMaterialSwaps(0)=(Material=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny',Index=0,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.RX22ACamos.RX22ESkin",Index=1,AIndex=0,PIndex=0)
 		Weight=10
-	End Object
+	End Object*/
 	
 	Camos(0)=WeaponCamo'RX22A_Green'
-	Camos(1)=WeaponCamo'RX22A_Tan'
+	//Camos(1)=WeaponCamo'RX22A_Tan'
 }

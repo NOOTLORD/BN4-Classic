@@ -5,7 +5,7 @@
 class BN4Crosshairs extends CrosshairPack
 	notplaceable;
 
-DefaultProperties
+defaultproperties
 {
 	Crosshair(0)=(FriendlyName="Dot",CrosshairTexture=Texture'BN4Crosshairs.Hud.crosshair_dot')
 	Crosshair(1)=(FriendlyName="Dots",CrosshairTexture=Texture'BN4Crosshairs.Hud.crosshair_dots')

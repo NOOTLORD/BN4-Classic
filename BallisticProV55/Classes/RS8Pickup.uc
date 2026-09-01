@@ -1,20 +1,13 @@
 //=============================================================================
-// RS8Pickup.
+// RS8 Pickup class
 //=============================================================================
 class RS8Pickup extends BallisticHandgunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.RS8.RS8Skin');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.RS8.RS8_SpecMask');
- 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8Clips');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8PickupHi');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8PickupLo');    
 }
@@ -27,7 +20,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8Clips');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8PickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.RS8.RS8PickupLo');
 }

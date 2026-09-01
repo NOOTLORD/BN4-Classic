@@ -83,6 +83,6 @@ defaultproperties
     bTossed=False
     bSplashDamage=False
     bRecommendSplashDamage=False
-    BotRefireRate=0.20
+    BotRefireRate=0.055000
     WarnTargetPct=0.2
 }

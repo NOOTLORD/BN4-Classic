@@ -1,7 +1,6 @@
 class BN4SpecialKillMessage extends LocalMessage;
 
 var(Messages)	localized string 	DecapitationString;
-var sound HeadShotSound; // OBSOLETE
 
 static function string GetString(
 	optional int Switch,

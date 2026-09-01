@@ -167,6 +167,13 @@ var 	float 				StrafeScale, BackpedalScale;
 var 	float 				MyFriction, OldMovementSpeed;
 var     bool                bCanDodge;
 
+// UpdateEyeHeight related
+var EPhysics OldPhysics2;
+var vector OldLocation;
+var float OldBaseEyeHeight;
+var int IgnoreZChangeTicks;
+var float EyeHeightOffset;
+
 replication
 {
 	reliable if (Role == ROLE_Authority)
@@ -182,6 +189,9 @@ simulated event PostNetBeginPlay()
 		bDramaticLighting=False;
 		AmbientGlow=0;
 	}
+
+	OldBaseEyeHeight = default.BaseEyeHeight;
+    OldLocation = Location;
 
 	ApplyMovementOverrides();
 	ApplySizeOverrides();
@@ -1219,6 +1229,8 @@ function MessageHealBlock()
 	if (PlayerController(Controller) != None && NextHealMessageTime < Level.TimeSeconds)
 	{
 		NextHealMessageTime = Level.TimeSeconds + 1;
+		
+		if (HealPreventer != None)
 		PlayerController(Controller).ReceiveLocalizedMessage(HealBlockMessage, 0, HealPreventer.PlayerReplicationInfo);
 	}
 }
@@ -3229,6 +3241,59 @@ simulated event ModifyVelocity(float DeltaTime, vector OldVelocity)
 	}
 
 	OldMovementSpeed = VSize(Velocity);
+
+}
+
+event UpdateEyeHeight( float DeltaTime )
+{
+    local vector Delta;
+
+    if (BallisticPlayer(Controller) == none || BallisticPlayer(Controller).bUseNewEyeHeightAlgorithm == false) {
+        super.UpdateEyeHeight(DeltaTime);
+        return;
+    }
+
+    if ( Controller == None )
+    {
+        EyeHeight = 0;
+        return;
+    }
+    if ( Level.NetMode == NM_DedicatedServer )
+    {
+        Eyeheight = BaseEyeheight;
+        return;
+    }
+    if ( bTearOff )
+    {
+        EyeHeight = Default.BaseEyeheight;
+        bUpdateEyeHeight = false;
+        return;
+    }
+
+    if (Controller.WantsSmoothedView()) {
+        Delta = Location - OldLocation;
+
+        // remove lifts from the equation.
+        if (Base != none)
+            Delta -= DeltaTime * Base.Velocity;
+
+        // Step detection heuristic
+        if (IgnoreZChangeTicks == 0 && Abs(Delta.Z) > DeltaTime * GroundSpeed)
+            EyeHeightOffset += FClamp(Delta.Z, -MAXSTEPHEIGHT, MAXSTEPHEIGHT);
+    }
+
+    OldLocation = Location;
+    OldPhysics2 = Physics;
+    if (IgnoreZChangeTicks > 0) IgnoreZChangeTicks--;
+
+    if (Controller.WantsSmoothedView())
+        EyeHeightOffset += BaseEyeHeight - OldBaseEyeHeight;
+    OldBaseEyeHeight = BaseEyeHeight;
+
+    EyeHeightOffset *= Exp(-9.0 * DeltaTime);
+    EyeHeight = BaseEyeHeight - EyeHeightOffset;
+
+    Controller.AdjustView(DeltaTime);
 }
 
 defaultproperties
@@ -3236,96 +3301,81 @@ defaultproperties
 	bAlwaysRelevant=True
     bCanDodge=True
     bCanDoubleJump=True
-     MoverLeaveGrace=1.000000
-     MinDragDistance=40.000000
-     MaxPoolVelocity=20.000000
-     HighImpactVelocity=1000.000000
-     LowImpactVelocity=500.000000
-     TimeBetweenImpacts=1.000000
-	 //MinTimeBetweenPainSounds=0.600000
-     NewDeResSound=SoundGroup'BW_Core_WeaponSound.Misc.DeRes'
-     MeleeAnim="Melee_Smack"
-     Fades(0)=Texture'BW_Core_WeaponTex.Icons.stealth_8'
-     Fades(1)=Texture'BW_Core_WeaponTex.Icons.stealth_16'
-     Fades(2)=Texture'BW_Core_WeaponTex.Icons.stealth_24'
-     Fades(3)=Texture'BW_Core_WeaponTex.Icons.stealth_32'
-     Fades(4)=Texture'BW_Core_WeaponTex.Icons.stealth_40'
-     Fades(5)=Texture'BW_Core_WeaponTex.Icons.stealth_48'
-     Fades(6)=Texture'BW_Core_WeaponTex.Icons.stealth_56'
-     Fades(7)=Texture'BW_Core_WeaponTex.Icons.stealth_64'
-     Fades(8)=Texture'BW_Core_WeaponTex.Icons.stealth_72'
-     Fades(9)=Texture'BW_Core_WeaponTex.Icons.stealth_80'
-     Fades(10)=Texture'BW_Core_WeaponTex.Icons.stealth_88'
-     Fades(11)=Texture'BW_Core_WeaponTex.Icons.stealth_96'
-     Fades(12)=Texture'BW_Core_WeaponTex.Icons.stealth_104'
-     Fades(13)=Texture'BW_Core_WeaponTex.Icons.stealth_112'
-     Fades(14)=Texture'BW_Core_WeaponTex.Icons.stealth_120'
-     Fades(15)=Texture'BW_Core_WeaponTex.Icons.stealth_128'
-     UDamageSound=Sound'BW_Core_WeaponSound.Udamage.UDamageFire'
-
-	 BloodFlashV=(X=1000,Y=250,Z=250)
-     ShieldFlashV=(X=750,Y=500,Z=350)
-
-     FootstepVolume=0.25
-     FootstepRadius=1536.000000
-	 GruntVolume=0.25
-     GruntRadius=28.000000
-
-	 // used to play footsteps at consistent volume regardless of position
-	 // the fine sound controls, like occlusion factors and rolloff curves, are native
-	 // so we're forced into this to get the footstep behaviour we want
-	 // thankfully, it won't affect sounds we play through our weapons or attachments
-	 SoundOcclusion=OCCLUSION_None
-
-	 BaseEyeHeight=30
-	 CrouchEyeHeight=19
-	 CrouchHeight=32
-
-     CollisionRadius=22.000000
-     HeadRadius=13.000000
-
-
-
-
-     DeResTime=4.000000
-     RagDeathUpKick=0.000000
-     bCanWalkOffLedges=True
-     bSpecialHUD=True
-     Visibility=64
-	
-     TransientSoundVolume=0.300000
-	 
-	 StrafeScale=1.000000
-     BackpedalScale=1.000000
-     //MyFriction=4.000000
-     RagdollLifeSpan=10.000000
-
+    MoverLeaveGrace=1.000000
+    MinDragDistance=40.000000
+    MaxPoolVelocity=20.000000
+    HighImpactVelocity=1000.000000
+    LowImpactVelocity=500.000000
+    TimeBetweenImpacts=1.000000
+	//MinTimeBetweenPainSounds=0.600000
+    NewDeResSound=SoundGroup'BW_Core_WeaponSound.Misc.DeRes'
+    MeleeAnim="Melee_Smack"
+    Fades(0)=Texture'BW_Core_WeaponTex.Icons.stealth_8'
+    Fades(1)=Texture'BW_Core_WeaponTex.Icons.stealth_16'
+    Fades(2)=Texture'BW_Core_WeaponTex.Icons.stealth_24'
+    Fades(3)=Texture'BW_Core_WeaponTex.Icons.stealth_32'
+    Fades(4)=Texture'BW_Core_WeaponTex.Icons.stealth_40'
+    Fades(5)=Texture'BW_Core_WeaponTex.Icons.stealth_48'
+    Fades(6)=Texture'BW_Core_WeaponTex.Icons.stealth_56'
+    Fades(7)=Texture'BW_Core_WeaponTex.Icons.stealth_64'
+    Fades(8)=Texture'BW_Core_WeaponTex.Icons.stealth_72'
+    Fades(9)=Texture'BW_Core_WeaponTex.Icons.stealth_80'
+    Fades(10)=Texture'BW_Core_WeaponTex.Icons.stealth_88'
+    Fades(11)=Texture'BW_Core_WeaponTex.Icons.stealth_96'
+    Fades(12)=Texture'BW_Core_WeaponTex.Icons.stealth_104'
+    Fades(13)=Texture'BW_Core_WeaponTex.Icons.stealth_112'
+    Fades(14)=Texture'BW_Core_WeaponTex.Icons.stealth_120'
+    Fades(15)=Texture'BW_Core_WeaponTex.Icons.stealth_128'
+    UDamageSound=Sound'BW_Core_WeaponSound.Udamage.UDamageFire'
+	BloodFlashV=(X=1000,Y=250,Z=250)
+    ShieldFlashV=(X=750,Y=500,Z=350)
+    FootstepVolume=0.25
+    FootstepRadius=1536.000000
+	GruntVolume=0.25
+    GruntRadius=28.000000
+	// used to play footsteps at consistent volume regardless of position
+	// the fine sound controls, like occlusion factors and rolloff curves, are native
+	// so we're forced into this to get the footstep behaviour we want
+	// thankfully, it won't affect sounds we play through our weapons or attachments
+	SoundOcclusion=OCCLUSION_None
+	BaseEyeHeight=30
+	CrouchEyeHeight=19
+	CrouchHeight=32
+    CollisionRadius=22.000000
+    HeadRadius=13.000000
+    DeResTime=4.000000
+    RagDeathUpKick=0.000000
+    bCanWalkOffLedges=True
+    bSpecialHUD=True
+    Visibility=64
+    TransientSoundVolume=0.300000 
+	StrafeScale=1.000000
+    BackpedalScale=1.000000
+    //MyFriction=4.000000
+    RagdollLifeSpan=10.000000
 	// the default value of this variable is used by C++ to work out move animation rates.
 	// do not use or change the default in code - use class'BallisticReplicationInfo'.default.PlayerGroundSpeed instead.
 	// the default value is assigned from game styles as PlayerAnimationGroundSpeed
-     GroundSpeed=360.000000
-
-	 LadderSpeed=280.000000
-     WaterSpeed=150.000000
-     //AirSpeed=270.000000
-     WalkingPct=0.900000
-	 CrouchedPct=0.350000
-     //DodgeSpeedFactor=1.200000
-     //DodgeSpeedZ=190.000000
+    GroundSpeed=360.000000
+	LadderSpeed=280.000000
+    WaterSpeed=150.000000
+    //AirSpeed=270.000000
+    WalkingPct=0.900000
+	CrouchedPct=0.350000
+    //DodgeSpeedFactor=1.200000
+    //DodgeSpeedZ=190.000000
 	RagImpactVolume=0
-     Begin Object Class=KarmaParamsSkel Name=PawnKParams
-         KConvulseSpacing=(Max=2.200000)
-         KLinearDamping=0.150000
-         KAngularDamping=0.050000
-         KBuoyancy=1.000000
-         KStartEnabled=True
-         KVelDropBelowThreshold=-1.000000
-         bHighDetailOnly=False
-         KFriction=0.600000
-         KRestitution=0.300000
-         KImpactThreshold=500.000000
-     End Object
-
-     KParams=KarmaParamsSkel'BallisticProV55.BallisticPawn.PawnKParams'
-
+    Begin Object Class=KarmaParamsSkel Name=PawnKParams
+        KConvulseSpacing=(Max=2.200000)
+        KLinearDamping=0.150000
+        KAngularDamping=0.050000
+        KBuoyancy=1.000000
+        KStartEnabled=True
+        KVelDropBelowThreshold=-1.000000
+        bHighDetailOnly=False
+        KFriction=0.600000
+    	KRestitution=0.300000
+        KImpactThreshold=500.000000
+    End Object
+    KParams=KarmaParamsSkel'BallisticProV55.BallisticPawn.PawnKParams'
 }

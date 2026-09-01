@@ -25,7 +25,7 @@ defaultproperties
     // SECONDARY FIRE
     //=================================================================	
 	
-	Begin Object Class=FireEffectParams Name=ArenaSecondaryEffectParams
+	/*Begin Object Class=FireEffectParams Name=ArenaSecondaryEffectParams
         EffectString="Spring mode"
 	End Object
 	
@@ -33,7 +33,7 @@ defaultproperties
 		FireInterval=0.700000
 		AmmoPerFire=0
 		FireEffectParams(0)=FireEffectParams'ArenaSecondaryEffectParams'
-	End Object
+	End Object*/
 		
 	//=================================================================
 	// RECOIL
@@ -68,7 +68,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'UniversalRecoilParams'
         AimParams(0)=AimParams'UniversalAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
-        AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
+        //AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
     Layouts(0)=WeaponParams'UniversalParams'
 }

@@ -22,7 +22,6 @@ defaultproperties
      DeathString="%k lurched onto %o in a ball of flames."
      FemaleSuicide="%o successfully seared off her hands."
      MaleSuicide="%o successfully seared off his hands."
-     bSkeletize=True
      GibPerterbation=0.100000
      KDamageImpulse=200.000000
 }

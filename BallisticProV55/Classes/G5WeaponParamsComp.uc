@@ -98,7 +98,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	Begin Object Class=WeaponCamo Name=G5_Pirate
+	/*Begin Object Class=WeaponCamo Name=G5_Pirate
 		Index=1
 		CamoName="Pirate Gray"
 		Weight=10
@@ -107,8 +107,8 @@ defaultproperties
 		WeaponMaterialSwaps(2)=(MaterialName="BWBP_Camos_Tex.G5Camos.SMAA-Shine",Index=-1,AIndex=0,PIndex=-1)
 		WeaponMaterialSwaps(3)=(MaterialName="BWBP_Camos_Tex.G5Camos.SMAAScope",Index=2,AIndex=5,PIndex=4)
 		WeaponMaterialSwaps(4)=(MaterialName="BWBP_Camos_Tex.G5Camos.SMAARocket",Index=4,AIndex=3,PIndex=3)
-	End Object
+	End Object*/
 	
 	Camos(0)=WeaponCamo'G5_UTC'
-	Camos(1)=WeaponCamo'G5_Pirate'
+	//Camos(1)=WeaponCamo'G5_Pirate'
 }

@@ -399,9 +399,6 @@ defaultproperties
 	SightOffset=(X=-3.00,Y=0.00,Z=2.30)
 	SightZoomFactor=1.2
 	ParamsClasses(0)=Class'LonghornWeaponParamsComp'
-	ParamsClasses(1)=Class'LonghornWeaponParamsClassic'
-	ParamsClasses(2)=Class'LonghornWeaponParamsRealistic'
-    ParamsClasses(3)=Class'LonghornWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.LonghornPrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
 	SelectAnimRate=1.100000

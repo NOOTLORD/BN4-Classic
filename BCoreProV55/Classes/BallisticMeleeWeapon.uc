@@ -97,10 +97,13 @@ final function bool CheckBlockArc(Vector HitLocation, Pawn InstigatedBy)
 function AdjustPlayerDamage( out int Damage, Pawn InstigatedBy, Vector HitLocation, out Vector Momentum, class<DamageType> DamageType)
 {
 	local class<BallisticDamageType> BDT;
-	
-	if (InstigatedBy != None && InstigatedBy.Controller != None && InstigatedBy.Controller.SameTeamAs(InstigatorController))
-		return;
-		
+			
+    if (InstigatedBy == None || InstigatedBy.Controller == None)
+        return;
+        
+    if (InstigatedBy.Controller.SameTeamAs(InstigatorController))
+        return;
+
 	BDT = class<BallisticDamageType>(DamageType);
 	
 	if (VSize(Momentum) < 60)
@@ -173,6 +176,17 @@ simulated event AnimEnd (int Channel)
 			Instigator.SetAnimAction('LowerBlock');	*/
 		Super.AnimEnd(Channel);
 	}
+}
+
+//Draws simple crosshairs to accurately describe hipfire at any FOV and resolution.
+simulated function DrawSimpleCrosshairs(Canvas C)
+{
+	local float Offset;
+
+	Offset = C.ClipX / 2;
+	Offset *= tan (MeleeSpreadAngle) / tan((Instigator.Controller.FovAngle/2) * 0.01745329252);
+	
+	DrawSimpleCrosshairBars(C, Offset, Offset / 3);
 }
 
 simulated event Tick (Float DT)

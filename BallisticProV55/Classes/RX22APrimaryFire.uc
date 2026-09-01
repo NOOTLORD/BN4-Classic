@@ -291,9 +291,7 @@ defaultproperties
 {
      FireSoundLoop=Sound'BW_Core_WeaponSound.RX22A.RX22A-FireLoop'
      TraceRange=(Min=1800.000000,Max=1800.000000)
-     Damage=14.000000
-     
-     
+     Damage=14.000000       
      KickForce=1000
      PenetrateForce=50
      FireChaos=0.050000

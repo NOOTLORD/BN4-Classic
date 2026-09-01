@@ -1,16 +1,32 @@
 //=============================================================================
-// SMATPickup.
+// SMAT Pickup class
 //=============================================================================
 class SMATPickup extends BallisticWeaponPickup
 	placeable;
 
+static function StaticPrecache(LevelInfo L)
+{
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.SMAT.SMAT-Main');
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.SMAT.SMAT-Misc');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATPickupHi');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATPickupLo');	
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATCasing');   
+}
+
 simulated function UpdatePrecacheMaterials()
 {
-// todo: add this stuff
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.SMAT.SMAT-Main');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.SMAT.SMAT-Misc');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase');	
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-HolosightBasic');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Holosight');
 }
+
 simulated function UpdatePrecacheStaticMeshes()
 {
-// todo: add this stuff
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATPickupHi');
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATPickupLo');
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.SMAT.SMATCasing');
 }
 
 defaultproperties

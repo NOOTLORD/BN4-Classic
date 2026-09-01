@@ -9,7 +9,7 @@
 //=============================================================================
 class MJ51SecondaryFire extends BallisticProjectileFire;
 
-var   bool		bLoaded;
+/*var   bool		bLoaded;
 
 simulated function bool CheckGrenade()
 {
@@ -58,4 +58,4 @@ defaultproperties
      ProjectileClass=Class'BWBP_SKC_Pro.G51Grenade_HE'
      BotRefireRate=0.300000
      WarnTargetPct=0.300000
-}
+}*/

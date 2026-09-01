@@ -62,7 +62,7 @@ simulated function CheckNoGrenades()
 
 // Hurt radius that uses delayed damage and makes sure if instigator is hit, he'll go last
 // Spawns an actor corrupter here
-simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation )
+/*simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation )
 {
 	local actor Victims;
 	local float damageScale, dist;
@@ -107,8 +107,8 @@ simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, cl
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			if (Victims != None)
-				ApplySlowdown(Pawn(Victims), DamageAmount/4);
+			/*if (Victims != None)
+				ApplySlowdown(Pawn(Victims), DamageAmount/4);*/
 		}
 	}
 	if (bHitInstigator)
@@ -136,16 +136,16 @@ simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, cl
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			if (Victims != None)
-				ApplySlowdown(Pawn(Victims), DamageAmount/4);
+			/*if (Victims != None)
+				ApplySlowdown(Pawn(Victims), DamageAmount/4);*/
 	}
 	bHurtEntry = false;
-}
+}*/
 
-function ApplySlowdown(Pawn P, float Duration)
+/*function ApplySlowdown(Pawn P, float Duration)
 {
 	class'BCSprintControl'.static.AddSlowTo(P, 0.6, Duration);
-}
+}*/
 
 // AI Interface =====
 function byte BestMode()	{	return 0;	}
@@ -201,7 +201,6 @@ defaultproperties
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      BigIconMaterial=Texture'BWBP_SKC_Tex.XM84.BigIcon_XM84'
      BigIconCoords=(Y1=12,Y2=255)
-     
      bWT_Hazardous=True
      bWT_Splash=True
      bWT_Grenade=True
@@ -211,13 +210,11 @@ defaultproperties
      SpecialInfo(0)=(Info="60.0;5.0;0.25;30.0;0.0;0.0;0.4")
      BringUpSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Pullout',Volume=0.112000)
      PutDownSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Putaway',Volume=0.111000)
+	 WeaponModes(1)=(ModeName="",ModeID="WM_None",Value=1.000000)
 	 CurrentWeaponMode=0
 	 ParamsClasses(0)=Class'XM84WeaponParamsComp'
-	 ParamsClasses(1)=Class'XM84WeaponParamsClassic'
-	 ParamsClasses(2)=Class'XM84WeaponParamsRealistic'
-     ParamsClasses(3)=Class'XM84WeaponParamsTactical'
      FireModeClass(0)=Class'BWBP_SKC_Pro.XM84PrimaryFire'
-     FireModeClass(1)=Class'BWBP_SKC_Pro.XM84PrimaryFire'
+     FireModeClass(1)=Class'BWBP_SKC_Pro.XM84SecondaryFire'
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=7,G=255,R=255,A=166),Color2=(B=255,G=26,R=12,A=229),StartSize1=112,StartSize2=210)
      NDCrosshairInfo=(SpreadRatios=(Y2=0.500000),MaxScale=8.000000)
      SelectAnimRate=2.000000
@@ -239,7 +236,7 @@ defaultproperties
      AttachmentClass=Class'BWBP_SKC_Pro.XM84Attachment'
      IconMaterial=Texture'BWBP_SKC_Tex.XM84.SmallIcon_XM84'
      IconCoords=(X2=127,Y2=31)
-     ItemName="XM84 Heavy Tech Grenade"
+     ItemName="XM84"
      Mesh=SkeletalMesh'BWBP_SKC_Anim.XM84_FPm'
      DrawScale=0.300000
      Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'

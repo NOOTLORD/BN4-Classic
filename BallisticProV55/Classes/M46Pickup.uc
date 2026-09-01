@@ -1,5 +1,5 @@
 //=============================================================================
-// M46Pickup.
+// M46A1 Pickup class
 //
 // by Logan "BlackEagle" Richert.
 // uses code by Nolan "Dark Carnivour" Richert.
@@ -8,12 +8,6 @@
 class M46Pickup extends BallisticWeaponPickup
 	placeable;
 	
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.OA-AR.OA-AR_Main');
@@ -24,7 +18,6 @@ static function StaticPrecache(LevelInfo L)
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.OA-AR.OA-AR_Scope_Spec');	
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.RDS.RDS-Sight');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.RDS.RDS_Sight_SI');		
-	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_Ammo');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_Grenade');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_PickupHi');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_PickupLo');
@@ -44,7 +37,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_Ammo');	
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_Grenade');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_PickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.OA-AR.OA-AR_PickupLo');

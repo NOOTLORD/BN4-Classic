@@ -20,7 +20,6 @@ defaultproperties
 	FemaleSuicide="%o blasted herself with an MD24."
 	MaleSuicide="%o blasted himself with an MD24."
 	VehicleDamageScaling=0.000000
-
 	TagMultiplier=0.7
 	TagDuration=0.1
 }

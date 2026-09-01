@@ -26,7 +26,6 @@ defaultproperties
      DeathString="%o was set a blaze by %k's FP7."
      FemaleSuicide="%o ran around like a maniac in a ball of fire."
      MaleSuicide="%o ran around like a maniac in a ball of fire."
-     bSkeletize=True
      bDelayedDamage=True
      GibPerterbation=0.100000
      KDamageImpulse=200.000000

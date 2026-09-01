@@ -1,19 +1,9 @@
 //=============================================================================
-// MRT6Pickup.
+// MRT6 Pickup class
 //=============================================================================
 class MRT6Pickup extends BallisticHandgunPickup
 	placeable;
 
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponStatic.usx
-
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.MRT6.MRT6Skin');	

@@ -34,7 +34,6 @@ defaultproperties
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_NRP57'
      BigIconCoords=(Y1=16,Y2=245)
-     
      bWT_Hazardous=True
      bWT_Splash=True
      bWT_Grenade=True
@@ -46,15 +45,10 @@ defaultproperties
      PutDownSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Putaway',Volume=0.111000)
      CurrentWeaponMode=0
      ParamsClasses(0)=Class'NRP57WeaponParamsComp'
-     ParamsClasses(1)=Class'NRP57WeaponParamsClassic'
-     ParamsClasses(2)=Class'NRP57WeaponParamsRealistic'
-     ParamsClasses(3)=Class'NRP57WeaponParamsTactical'
      FireModeClass(0)=Class'BallisticProV55.NRP57PrimaryFire'
-     FireModeClass(1)=Class'BallisticProV55.NRP57PrimaryFire'
-	 
-	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(G=119,R=0,A=192),Color2=(A=192),StartSize1=112,StartSize2=110)
+     FireModeClass(1)=Class'BallisticProV55.NRP57SecondaryFire' 
+	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(G=119,R=0,A=192),Color2=(A=192),StartSize1=112,StartSize2=110)
      NDCrosshairInfo=(SpreadRatios=(Y2=0.500000),MaxScale=8.000000)
-     
      SelectAnimRate=2.250000
      PutDownAnimRate=2.000000
      PutDownTime=0.700000
@@ -73,7 +67,7 @@ defaultproperties
      AttachmentClass=Class'BallisticProV55.NRP57Attachment'
      IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_NRP57'
      IconCoords=(X2=127,Y2=31)
-     ItemName="NRP-57 'Pineapple'"
+     ItemName="NRP57"
      Mesh=SkeletalMesh'BW_Core_WeaponAnim.NRP57_FPm'
      DrawScale=0.300000
 }

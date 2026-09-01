@@ -223,11 +223,9 @@ defaultproperties
 	LeverOnSound=(Sound=Sound'BW_Core_WeaponSound.RX22A.RX22A-LeverOn',Volume=0.600000,Radius=24.000000,Pitch=1.000000)
 	LeverOffSound=(Sound=Sound'BW_Core_WeaponSound.RX22A.RX22A-LeverOff',Volume=0.600000,Radius=24.000000,Pitch=1.000000)
 	ValveAnim="TurnValve"
-
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_RX22A'
 	BigIconCoords=(Y2=240)
-	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_RapidProj=True
@@ -250,16 +248,11 @@ defaultproperties
 	SightDisplayFOV=40.000000
 	SightZoomFactor=1.2
 	ParamsClasses(0)=Class'RX22AWeaponParamsComp'
-	ParamsClasses(1)=Class'RX22AWeaponParamsClassic'
-	ParamsClasses(2)=Class'RX22AWeaponParamsRealistic'
-    ParamsClasses(3)=Class'RX22AWeaponParamsTactical'
 	FireModeClass(0)=Class'BallisticProV55.RX22APrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
-	
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc8',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.G5OutA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=94),Color2=(A=181),StartSize1=115,StartSize2=82)
     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),MaxScale=3.000000)
     NDCrosshairChaosFactor=0.700000
-	
 	BringUpTime=1.200000
 	SelectForce="SwitchToAssaultRifle"
 	AIRating=0.9
@@ -275,7 +268,7 @@ defaultproperties
 	AttachmentClass=Class'BallisticProV55.RX22AAttachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_RX22A'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="RX-22A Flamethrower"
+	ItemName="RX22A"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=30
@@ -287,6 +280,4 @@ defaultproperties
 	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'
 	Skins(1)=Texture'BW_Core_WeaponTex.RX22A.RX22ASkin'
 	Skins(2)=Texture'BW_Core_WeaponTex.RX22A.RX22AShield'
-	bFullVolume=True
-	SoundRadius=128.000000
 }

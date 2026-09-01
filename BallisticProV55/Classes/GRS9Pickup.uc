@@ -1,5 +1,5 @@
 //=============================================================================
-// GRS9Pickup.
+// GRS9 Pickup class
 //=============================================================================
 class GRS9Pickup extends BallisticHandgunPickup
 	placeable;
@@ -9,7 +9,6 @@ static function StaticPrecache(LevelInfo L)
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Glock.Glock_Main');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Glock.Glock_SpecMask');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Glock.LaserBeam');
-	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-Ammo');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-HD');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-LD');
 }
@@ -23,7 +22,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-Ammo');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-HD');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.Glock.Glock-LD');
 }

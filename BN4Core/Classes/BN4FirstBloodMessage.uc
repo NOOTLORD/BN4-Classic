@@ -1,7 +1,6 @@
 class BN4FirstBloodMessage extends CriticalEventPlus;
 
 var localized string FirstBloodString;
-var sound FirstBloodSound; // OBSOLETE
 
 static function string GetString(
 	optional int Switch,

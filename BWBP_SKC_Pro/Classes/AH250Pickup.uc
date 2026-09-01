@@ -1,15 +1,9 @@
 //=============================================================================
-// AH250Pickup. DE pickup.
+// AH250 Pickup class
 //=============================================================================
 class AH250Pickup extends BallisticHandgunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// A gametype needing to do this won't spawn any pickups. Don't preload them or their assets here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Main');

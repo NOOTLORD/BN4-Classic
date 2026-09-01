@@ -1,22 +1,18 @@
 //=============================================================================
-// XM84Pickup.
+// XM84 Pickup class
 //=============================================================================
 class XM84Pickup extends BallisticWeaponPickup
 	placeable;
 
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponStatic.usx
-
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.XM84.XM84-MainDark');
+	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.A73.A73Energy');
+	L.AddPrecacheMaterial(Texture'UT2004Weapons.Shaders.ShockRipple');
+	L.AddPrecacheMaterial(Texture'XGameTextures.SuperPickups.AdrenalinInner');
+	L.AddPrecacheMaterial(Texture'XGameShaders.ZoomFX.ScreenNoise');
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.XM84.XM84-TechMask');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.XM84.XM84Clip');
 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.XM84.XM84Projectile');
 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.XM84.XM84PickupHi');
 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.XM84.XM84PickupLo');
@@ -25,13 +21,13 @@ static function StaticPrecache(LevelInfo L)
 simulated function UpdatePrecacheMaterials()
 {
 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.XM84.XM84-MainDark');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Particles.Explode2');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Particles.Shockwave');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Decals.Explosion1');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Decals.Explosion2');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Decals.Explosion3');
-	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.Decals.Explosion4');
+	Level.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.A73.A73Energy');
+	Level.AddPrecacheMaterial(Texture'UT2004Weapons.Shaders.ShockRipple');
+	Level.AddPrecacheMaterial(Texture'XGameTextures.SuperPickups.AdrenalinInner');
+	Level.AddPrecacheMaterial(Texture'XGameShaders.ZoomFX.ScreenNoise');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.XM84.XM84-TechMask');
 }
+
 simulated function UpdatePrecacheStaticMeshes()
 {
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.XM84.XM84Clip');

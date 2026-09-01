@@ -1,15 +1,9 @@
 //=============================================================================
-// XRS10Pickup.
+// XRS10 Pickup class
 //=============================================================================
 class XRS10Pickup extends BallisticHandgunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.XRS10.XRS10Skin');
@@ -18,7 +12,6 @@ static function StaticPrecache(LevelInfo L)
  	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.XRS10.XRS10LaserSpec');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.XRS10.XRS10Silencer2');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.XRS10.XRS10SilencerSpec');
- 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10Clips');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10PickupHi');
 	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10PickupLo');    
 }
@@ -35,7 +28,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10Clips');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10PickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.XRS10.XRS10PickupLo');
 }

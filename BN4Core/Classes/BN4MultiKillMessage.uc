@@ -1,7 +1,6 @@
 class BN4MultiKillMessage extends LocalMessage;
 
 var	localized string 	KillString[7];
-var sound		KillSound[7]; // OBSOLETE
 var name KillSoundName[7];
 
 static function string GetString(

@@ -8,13 +8,13 @@
 //=============================================================================
 class MGLauncher extends BallisticWeapon;
 
-var() Material	MatDef;
-var() Material	MatArmed;
+//var() Material	MatDef;
+//var() Material	MatArmed;
 var() Rotator	DrumRot;
 
-var bool bRemoteGrenadeOut;
+//var bool bRemoteGrenadeOut;
 
-replication
+/*replication
 {
 	unreliable if (Role == ROLE_Authority)
 		ClientUpdateGrenadeStatus;
@@ -25,7 +25,7 @@ function ServerSwitchWeaponMode (byte NewMode)
 	if (CurrentWeaponMode > 0 && FireMode[0].IsFiring())
 		return;
 	super.ServerSwitchWeaponMode (NewMode);
-}
+}*/
 
 simulated function AnimEnded (int Channel, name anim, float frame, float rate)
 {
@@ -111,7 +111,7 @@ simulated function AnimEnded (int Channel, name anim, float frame, float rate)
 		ReloadState = RS_None;
 }
 
-function UpdateGrenadeStatus(bool bDetonatable)
+/*function UpdateGrenadeStatus(bool bDetonatable)
 {
 	bRemoteGrenadeOut = bDetonatable;
 	
@@ -138,7 +138,7 @@ simulated function bool HasAmmo()
 	if (bRemoteGrenadeOut)
 		return true;
 	return Super.HasAmmo();
-}
+}*/
 
 simulated function float RateSelf()
 {
@@ -194,16 +194,17 @@ simulated function Notify_BrassOut()
 
 defaultproperties
 {
-	MatDef=Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase'
-	MatArmed=Texture'BWBP_SKC_Tex.MGL.MGL-Screen'
+	//MatDef=Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase'
+	//MatArmed=Texture'BWBP_SKC_Tex.MGL.MGL-Screen'
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	TeamSkins(1)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BWBP_SKC_Tex.MGL.BigIcon_MGL'
 	IdleTweenTime=0.000000
-	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Projectile=True
+	bWT_Grenade=True
+	bWT_Spam=True
 	bWT_Super=True
 	ManualLines(0)="Launches a grenade. Fire rate, damage and explosive radius are good. These grenades have an arming delay and if striking a surface when unarmed will ricochet. Direct impacts will always result in explosion."
 	ManualLines(1)="Employs a manually controlled grenade. Pressing altfire again detonates the grenade."
@@ -217,18 +218,12 @@ defaultproperties
 	ClipInFrame=0.325000
 	StartShovelAnim="ReloadStart"
 	EndShovelAnim="ReloadEnd"
-	WeaponModes(0)=(ModeName="Timed",bUnavailable=True,ModeID="WM_FullAuto")
-	WeaponModes(1)=(ModeName="Impact",ModeID="WM_FullAuto")
-	WeaponModes(2)=(ModeName="4-Round Burst",bUnavailable=True)
+	WeaponModes(0)=(ModeName="",ModeID="WM_FullAuto")
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.G5InA',pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=255,G=255,R=255,A=127),Color2=(B=0,G=255,R=255,A=192),StartSize1=113,StartSize2=244)
     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),SizeFactors=(X1=0.750000,X2=0.750000),MaxScale=8.000000)
-	CurrentWeaponMode=1
-	bNoCrosshairInScope=True
+	CurrentWeaponMode=0
 	GunLength=48.000000
 	ParamsClasses(0)=Class'MGLWeaponParamsComp'
-	ParamsClasses(1)=Class'MGLWeaponParamsClassic'
-	ParamsClasses(2)=Class'MGLWeaponParamsRealistic'
-    ParamsClasses(3)=Class'MGLWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.MGLPrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
 	SelectAnimRate=1.500000
@@ -244,15 +239,15 @@ defaultproperties
 	GroupOffset=4
 	PickupClass=Class'BWBP_SKC_Pro.MGLPickup'
 	bNonCocking=True
+	bNoCrosshairInScope=True
 	PlayerViewOffset=(X=16.00,Y=10.00,Z=-12.00)
 	SightOffset=(X=-1.00,Y=0.00,Z=18.10)
 	SightPivot=(Pitch=512)
 	SightBobScale=1
-
 	AttachmentClass=Class'BWBP_SKC_Pro.MGLAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.MGL.SmallIcon_MGL'
 	IconCoords=(X2=127,Y2=35)
-	ItemName="Conqueror MGL"
+	ItemName="MGL"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=25

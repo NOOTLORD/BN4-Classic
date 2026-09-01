@@ -48,8 +48,7 @@ defaultproperties
      PinPullSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-PinOut',Volume=0.100000,Radius=24.000000,Pitch=1.000000,bAtten=True)
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_FP7'
-     BigIconCoords=(Y1=12,Y2=240)
-     
+     BigIconCoords=(Y1=12,Y2=240)   
      bWT_Hazardous=True
      bWT_Splash=True
      bWT_Grenade=True
@@ -58,18 +57,13 @@ defaultproperties
      ManualLines(2)="As with all grenades, Weapon Function or Reload can be used to release the clip and cook the grenade in the user's hand. Care must be taken not to overcook the grenade, lest the user be incinerated. The FP7 grenade is effective in chokepoints, against static positions or when thrown at the enemy en masse."
      SpecialInfo(0)=(Info="0.0;5.0;-999.0;25.0;-999.0;0.0;0.5")
      BringUpSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Pullout',Volume=0.112000)
-     PutDownSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Putaway',Volume=0.111000)
-	 
-	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=128),Color2=(A=212),StartSize1=98,StartSize2=101)
-     NDCrosshairInfo=(SpreadRatios=(Y2=0.500000),MaxScale=8.000000)
-	 
+     PutDownSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Putaway',Volume=0.111000) 
+	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=128),Color2=(A=212),StartSize1=98,StartSize2=101)
+     NDCrosshairInfo=(SpreadRatios=(Y2=0.500000),MaxScale=8.000000) 
      CurrentWeaponMode=0
      ParamsClasses(0)=Class'FP7WeaponParamsComp'
-     ParamsClasses(1)=Class'FP7WeaponParamsClassic'
-     ParamsClasses(2)=Class'FP7WeaponParamsRealistic'
-     ParamsClasses(3)=Class'FP7WeaponParamsTactical'
      FireModeClass(0)=Class'BallisticProV55.FP7PrimaryFire'
-     FireModeClass(1)=Class'BallisticProV55.FP7PrimaryFire'
+     FireModeClass(1)=Class'BallisticProV55.FP7SecondaryFire'
      SelectForce="SwitchToAssaultRifle"
      AIRating=0.8500000
      CurrentRating=0.8500000
@@ -85,7 +79,7 @@ defaultproperties
      AttachmentClass=Class'BallisticProV55.FP7Attachment'
      IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_FP7'
      IconCoords=(X2=127,Y2=31)
-     ItemName="FP7 Grenade"
+     ItemName="FP7"
      Mesh=SkeletalMesh'BW_Core_WeaponAnim.FP7_FPm'
      DrawScale=0.300000
 }

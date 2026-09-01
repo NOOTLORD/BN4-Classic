@@ -80,7 +80,7 @@ simulated function Explode(vector HitLocation, vector HitNormal)
 }
 
 // Useful if you want to spare a directly hit enemy from the radius damage
-function TargetedHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation, Optional actor Victim )
+/*function TargetedHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation, Optional actor Victim )
 {
 	local Pawn Victims;
 	local float damageScale, dist;
@@ -116,8 +116,8 @@ function TargetedHurtRadius( float DamageAmount, float DamageRadius, class<Damag
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			if (Victims != None)
-				ApplySlowdown(Victims, 4);
+			/*if (Victims != None)
+				ApplySlowdown(Victims, 4);*/
 		}
 	}
 	
@@ -151,17 +151,17 @@ function TargetedHurtRadius( float DamageAmount, float DamageRadius, class<Damag
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			if (Victims != None)
-				ApplySlowdown(Victims, Damage/4);
+			/*if (Victims != None)
+				ApplySlowdown(Victims, Damage/4);*/
 		}
 	}
 	bHurtEntry = false;
-}
+}*/
 
-function ApplySlowdown(Pawn P, float Duration)
+/*function ApplySlowdown(Pawn P, float Duration)
 {
 	class'BCSprintControl'.static.AddSlowTo(P, 0.6, Duration);
-}
+}*/
 
 defaultproperties
 {

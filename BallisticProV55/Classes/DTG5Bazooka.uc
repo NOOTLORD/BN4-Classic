@@ -13,7 +13,6 @@ defaultproperties
      DeathStrings(0)="%o was blown to pieces by %k's G5."
      DeathStrings(1)="%o caught %k's G5 rocket."
      DeathStrings(2)="%k launched %kh G5 rocket into %o's face."
-     AimedString="Scoped"
      InvasionDamageScaling=3.000000
      DamageIdent="Ordnance"
      DisplacementType=DSP_Linear

@@ -9,14 +9,14 @@ defaultproperties
 	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams
 		TraceRange=(Min=10000.000000,Max=13000.000000)
 		DecayRange=(Min=1575,Max=3675)
-		PenetrationEnergy=32
 		RangeAtten=0.900000
 		Damage=26
 		DamageType=Class'BWBP_APC_Pro.DTMJ51Assault'
 		DamageTypeHead=Class'BWBP_APC_Pro.DTMJ51AssaultHead'
 		DamageTypeArm=Class'BWBP_APC_Pro.DTMJ51AssaultLimb'
-		PenetrateForce=18
-		bPenetrate=True
+		PenetrateForce=150
+		PenetrationEnergy=0
+		bPenetrate=False
 		MuzzleFlashClass=Class'BWBP_SKC_Pro.G51FlashEmitter'
 		FlashScaleFactor=0.450000
 		FireSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ55-Fire')
@@ -36,7 +36,7 @@ defaultproperties
 	// SECONDARY FIRE
 	//=================================================================	
 
-	Begin Object Class=GrenadeEffectParams Name=ArenaSecondaryEffectParams_HE
+	/*Begin Object Class=GrenadeEffectParams Name=ArenaSecondaryEffectParams_HE
 		ProjectileClass=Class'BWBP_SKC_Pro.G51Grenade_HE'
 		SpawnOffset=(X=15.000000,Y=10.000000,Z=-9.000000)
 		Speed=3750.000000
@@ -56,7 +56,7 @@ defaultproperties
 		FireInterval=0.600000
 		FireAnim="FireGrenade"	
 	FireEffectParams(0)=GrenadeEffectParams'ArenaSecondaryEffectParams_HE'
-	End Object
+	End Object*/
 		
 	//=================================================================
 	// RECOIL
@@ -71,7 +71,7 @@ defaultproperties
 		DeclineDelay=0.140000
 		DeclineTime=1.00000
 		CrouchMultiplier=0.850000
-		ViewBindFactor=0.4
+		ViewBindFactor=1.000000
 		HipMultiplier=1.25
 	End Object
 
@@ -96,20 +96,19 @@ defaultproperties
 		SightOffset=(X=25.000000,Y=-6.4500000,Z=20.5000000)
 		SightingTime=0.350000	
 		SightMoveSpeedFactor=0.8
-		WeaponModes(0)=(ModeName="Semi",ModeID="WM_SemiAuto",Value=1.000000,bUnavailable=False)
-		WeaponModes(1)=(ModeName="Burst",ModeID="WM_BigBurst",Value=3.000000)
-		InitialWeaponMode=1
 		ReloadAnimRate=1.25
 		CockAnimRate=1.25
 		MagAmmo=30
         InventorySize=6
+		WeaponModes(0)=(ModeName="Burst",ModeID="WM_BigBurst",Value=3.000000)
+		InitialWeaponMode=0
 		RecoilParams(0)=RecoilParams'ArenaRecoilParams'
 		AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams_HE'
 	End Object
 	
-	Begin Object Class=WeaponParams Name=ArenaParams_EOtech
+	/*Begin Object Class=WeaponParams Name=ArenaParams_EOtech
 		Weight=10
 		LayoutName="EOtech + HE"
 		SightOffset=(X=25.000000,Y=-6.4500000,Z=20.5000000)
@@ -127,10 +126,10 @@ defaultproperties
 		AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams_HE'
-	End Object
+	End Object*/
 
 	Layouts(0)=WeaponParams'ArenaParams_HE'
-	Layouts(1)=WeaponParams'ArenaParams_EOtech'
+	//Layouts(1)=WeaponParams'ArenaParams_EOtech'
 
 	//Camos =====================================
 	Begin Object Class=WeaponCamo Name=MJ51_Black

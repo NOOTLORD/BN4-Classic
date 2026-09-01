@@ -805,8 +805,7 @@ defaultproperties
 	AIReloadTime=4.000000
 	LaserAimSpread=(Min=0,Max=256)
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_G5'
-	BigIconCoords=(Y1=36,Y2=230)
-	
+	BigIconCoords=(Y1=36,Y2=230)	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Projectile=True
@@ -819,7 +818,6 @@ defaultproperties
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.G5.G5-Putaway',Volume=0.220000)
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.G5.G5-Lever')
 	ReloadAnim="ReloadLoop"
-
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.G5.G5-Load')
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.G5.G5-LoadHatch')
 	bCanSkipReload=True
@@ -828,11 +826,10 @@ defaultproperties
 	StartShovelAnimRate=1.250000
 	EndShovelAnim="FinishReload"
 	EndShovelAnimRate=1.250000
-	WeaponModes(0)=(ModeName="Rocket")
-	WeaponModes(1)=(ModeName="Mortar",ModeID="WM_SemiAuto")
+	WeaponModes(0)=(ModeName="")
+	WeaponModes(1)=(bUnavailable=True)
 	WeaponModes(2)=(bUnavailable=True)
 	CurrentWeaponMode=0
-
 	MinZoom=2.000000
 	MaxZoom=8.000000
 	ZoomStages=2
@@ -843,18 +840,13 @@ defaultproperties
 	ZoomInSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomIn',Volume=0.500000,Pitch=1.000000)
 	ZoomOutSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomOut',Volume=0.500000,Pitch=1.000000)
 	FullZoomFOV=10.000000
-
 	NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.G5OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.G5InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=0,G=0,R=255,A=228),Color2=(B=0,G=255,R=255,A=228),StartSize1=97,StartSize2=103)
-
 	bNoCrosshairInScope=True
 	SightingTime=0.500000
 	ParamsClasses(0)=Class'G5WeaponParamsComp'
-	ParamsClasses(1)=Class'G5WeaponParamsClassic' //todo: seeker stats
-	ParamsClasses(2)=Class'G5WeaponParamsRealistic' //todo: seeker stats
-    ParamsClasses(3)=Class'G5WeaponParamsTactical'
 	FireModeClass(0)=Class'BallisticProV55.G5PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BallisticProV55.G5SecondaryFire'
 	SelectAnimRate=0.600000
 	PutDownAnimRate=0.800000
 	PutDownTime=0.800000
@@ -876,7 +868,7 @@ defaultproperties
 	AttachmentClass=Class'BallisticProV55.G5Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_G5'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="G5 Missile Launcher"
+	ItemName="G5"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=25

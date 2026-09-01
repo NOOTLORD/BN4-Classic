@@ -1,5 +1,5 @@
 // ==========================================================================
-// Written by (NL)NOOTLORD 
+// Slightly modified by (NL)NOOTLORD
 // Removed the armor hit sound because BN4 has no armor so we don't need it
 //
 // Q3AFeedback for UT2004
@@ -26,9 +26,6 @@
 //   - Combine Damagehits option (Multiple damage hits play one sound,
 //     e.g. Flakcannon).
 //   - As a bonus : Humiliation anouncement when killed with a Melee weapon.
-//
-// Slightly modified by (NL)NOOTLORD
-// Mostly removing unused var's and remove the config options
 // ========================================================================
 class BN4hitsound extends Mutator
 	transient

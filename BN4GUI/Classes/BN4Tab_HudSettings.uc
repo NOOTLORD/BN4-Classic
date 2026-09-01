@@ -2,7 +2,6 @@
 //  Written by (NL)NOOTLORD 
 //  New hud settings tab to change some stuff around
 //==================================================================================
-
 class BN4Tab_HudSettings extends Settings_Tabs;
 
 var automated GUISectionBackground i_BG1, i_BG2;

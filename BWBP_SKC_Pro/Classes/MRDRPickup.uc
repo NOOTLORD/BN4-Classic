@@ -1,20 +1,13 @@
 //=============================================================================
-// MRDRPickup.
+// MRDR Pickup class
 //=============================================================================
 class MRDRPickup extends BallisticHandgunPickup
 	placeable;
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MRDR.MRDR-Main');
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MRDR.MRDRMuzzleFlash');
- 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDR88AmmoPickup');
 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRMuzzleFlash');
 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRPickupHi');
      L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRPickupLo');    
@@ -28,7 +21,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDR88AmmoPickup');
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRMuzzleFlash');
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRPickupHi');
      Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MRDR.MRDRPickupLo');

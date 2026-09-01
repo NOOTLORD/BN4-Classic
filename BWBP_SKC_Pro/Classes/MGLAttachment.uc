@@ -9,8 +9,6 @@ defaultproperties
 	BrassClass=Class'BWBP_SKC_Pro.Brass_Longhorn'
 	BrassMode=MU_None
 	InstantMode=MU_Both
-	FlashMode=MU_Both
-	LightMode=MU_Both
 	TracerClass=class'TraceEmitter_Default'
 	TracerMix=-3
 	WaterTracerClass=class'TraceEmitter_WaterBullet'

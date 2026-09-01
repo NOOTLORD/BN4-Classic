@@ -11,7 +11,6 @@ class ClientLoadoutInterface extends Actor DependsOn(Mut_Loadout);
 var Mut_Loadout Mut;		// The Loadout mutator
 var PlayerController PC;	// PlayerController associated with this COI
 var float			LastLoadoutTime;
-var() config float	ChangeInterval;
 
 var array<string>	Group0;
 var array<string>	Group1;
@@ -186,7 +185,6 @@ function ServerLoadoutChanged(string Stuff0, string Stuff1, string Stuff2, strin
 	if (PC.Pawn == None || PC.Pawn.Health < 1)
 		return;
 	if ( (Level.TimeSeconds - PC.Pawn.SpawnTime < DeathMatch(Level.Game).SpawnProtectionTime * 5) ||
-		 (level.TimeSeconds - LastLoadoutTime > ChangeInterval) ||
 		 (Invasion(level.Game)!=None && !Invasion(level.Game).bWaveInProgress) ||
 		 (CTFGame(level.Game)!=None && PC.GetTeamNum()<2 && VSize(CTFTeamAI(CTFGame(level.Game).Teams[PC.GetTeamNum()].AI).FriendlyFlag.HomeBase.Location - PC.Pawn.Location) < 384) )
 	{
@@ -230,7 +228,6 @@ function ServerSetLoadout(string Stuff0, string Stuff1, string Stuff2, string St
 
 defaultproperties
 {
-     ChangeInterval=60.000000
      bHidden=True
      bOnlyRelevantToOwner=True
      bAlwaysRelevant=True

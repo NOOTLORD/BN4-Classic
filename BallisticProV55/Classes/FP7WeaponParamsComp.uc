@@ -16,7 +16,6 @@ defaultproperties
 		DamageRadius=200.000000
 		HeadMult=1.0
 		LimbMult=1.0
-		SpreadMode=FSM_Rectangle
 		Recoil=0.0
 		Chaos=-1.0
         FireSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Throw',Volume=0.5,Radius=12.000000,bAtten=True)
@@ -85,11 +84,9 @@ defaultproperties
         InventorySize=1
 		//ViewOffset=(X=8.000000,Y=10.000000,Z=-12.000000)
 		ViewPivot=(Pitch=1024,Yaw=-1024)
-
-		WeaponModes(0)=(ModeName="Fixed Throw",ModeID="WM_None",Value=1.00)
-		WeaponModes(1)=(ModeName="Charged Throw",ModeID="WM_None",Value=0.00)
+		WeaponModes(0)=(ModeName="",ModeID="WM_None",Value=1.00)
+		WeaponModes(1)=(bUnavailable=True)
 		WeaponModes(2)=(bUnavailable=True)
-
         RecoilParams(0)=RecoilParams'UniversalRecoilParams'
         AimParams(0)=AimParams'UniversalAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'

@@ -175,11 +175,8 @@ defaultproperties
 	bNeedCock=False
 	bCockOnEmpty=False
 	bCockAfterReload=False
-	WeaponModes(0)=(ModeName="Single Fire")
-	WeaponModes(1)=(bUnavailable=True)
-	WeaponModes(2)=(bUnavailable=True)
+	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
 	CurrentWeaponMode=0
-
 	ScopeViewTex=Texture'BWBP_SKC_Tex.SMAA.SMATAAScopeView'
 	ZoomInSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomIn',Volume=0.500000,Pitch=1.000000)
 	ZoomOutSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomOut',Volume=0.500000,Pitch=1.000000)
@@ -192,12 +189,7 @@ defaultproperties
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc6',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Cross1',USize1=256,VSize1=256,Color1=(A=192),Color2=(A=192),StartSize1=89,StartSize2=13)
 	NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.250000,X2=1.000000,Y2=1.000000),MaxScale=3.000000)
 	//CrosshairChaosFactor=0.750000
-
-
 	ParamsClasses(0)=Class'SMATWeaponParamsArena'
-	ParamsClasses(1)=Class'SMATWeaponParamsClassic' 
-	ParamsClasses(2)=Class'SMATWeaponParamsRealistic'
-	ParamsClasses(3)=Class'SMATWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.SMATPrimaryFire'
 	FireModeClass(1)=Class'BWBP_SKC_Pro.SMATSecondaryFire'
 	SelectAnimRate=0.600000
@@ -208,7 +200,7 @@ defaultproperties
 	AIRating=0.750000
 	CurrentRating=0.750000
 	SightingTime=0.750000
-	bShowChargingBar=True
+	bShowChargingBar=False
 	Description="FGM-16 Shoulder Mounted Anti-Tank Infantry Cannon||Manufacturer: UTC Defense Tech|Primary: Launch Rocket|Secondary: Detonate Rocket||The SMAT Infantry Cannon is a reloadable, single shot rocket launcher. The portable version of the Flak 54 AT system, the FGM-16 SMAT is housed in a reinforced casing with advanced recoil buffering technlogy and fires high-speed HEAT-DP shaped charges for maximum penetration and damage. Engineered after UTC generals noticed the Cryons' knack for overrunning and taking over their Flak 54 sites, this new portable cannon has been the bane of Cryon armored divisions ever since."
 	Priority=164
 	CenteredOffsetY=10.000000
@@ -217,14 +209,12 @@ defaultproperties
 	InventoryGroup=4
 	GroupOffset=4
 	PickupClass=Class'BWBP_SKC_Pro.SMATPickup'
-
-	PlayerViewOffset=(X=-6.00,Y=5.00,Z=-1.00)
+	PlayerViewOffset=(X=-3.00,Y=5.00,Z=-1.00)
 	SightOffset=(X=20.00,Y=0.00,Z=0.50)
-
 	AttachmentClass=Class'BWBP_SKC_Pro.SMATAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.SMAT.SmallIcon_SMAT'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="S.M.A.T. Infantry Cannon"
+	ItemName="SMAT"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=25

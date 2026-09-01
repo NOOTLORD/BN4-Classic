@@ -20,7 +20,6 @@ defaultproperties
      DeathString="%o was immolated %k."
      FemaleSuicide="%o immolated herself."
      MaleSuicide="%o immolated himself."
-     bSkeletize=True
      bDelayedDamage=True
      GibPerterbation=0.100000
      KDamageImpulse=200.000000

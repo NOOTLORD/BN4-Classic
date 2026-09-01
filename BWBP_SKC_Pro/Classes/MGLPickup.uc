@@ -1,5 +1,5 @@
 //=============================================================================
-// MGLPickup.
+// MGL Pickup class
 //=============================================================================
 class MGLPickup extends BallisticWeaponPickup
 	placeable;
@@ -7,26 +7,24 @@ class MGLPickup extends BallisticWeaponPickup
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 #exec OBJ LOAD FILE=BW_Core_WeaponStatic.usx
 
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Main');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-HolosightBasic');
 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Screen');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase');
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase');	
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-HolosightBasic');
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Holosight');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MGL.MGLPickupHigh');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.MGL.MGLPickupLow');	
 }
 
 simulated function UpdatePrecacheMaterials()
 {
 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Main');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-HolosightBasic');
 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Screen');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase');	
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-HolosightBasic');
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.MGL.MGL-Holosight');
 }
 
 simulated function UpdatePrecacheStaticMeshes()

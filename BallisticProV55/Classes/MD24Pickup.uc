@@ -1,5 +1,5 @@
 //=============================================================================
-// MD24Pickup.
+// MD24 Pickup class
 //
 // by Logan "BlackEagle" Richert.
 // uses code by Nolan "Dark Carnivour" Richert.
@@ -7,22 +7,13 @@
 //=============================================================================
 class MD24Pickup extends BallisticHandgunPickup
 	placeable;
-
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
-#exec OBJ LOAD FILE=BW_Core_WeaponStatic.usx
-
-//===========================================================================
-// StaticPrecache
-//
-// Explicitly called by some gametypes upon the pickup class to preload it.
-// Gametypes needing to do this don't use pickups. Don't preload them here.
-//===========================================================================
+     
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.MD24.MD24_Main');
 	L.AddPrecacheMaterial(Texture'BW_Core_WeaponTex.MD24.MD24_Clip');
-     L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_Ammo');
+	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_PickupHi');
+	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_PickupLo');
 }
 
 simulated function UpdatePrecacheMaterials()
@@ -33,7 +24,6 @@ simulated function UpdatePrecacheMaterials()
 
 simulated function UpdatePrecacheStaticMeshes()
 {
-	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_Ammo');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_PickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.MD24.MD24_PickupLo');
 }

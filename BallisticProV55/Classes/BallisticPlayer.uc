@@ -54,6 +54,8 @@ var float                               DesiredFlashScale;
 var Vector                              DesiredFlashFog;
 var bool								bOverrideDmgFlash;
 
+var() globalconfig bool bUseNewEyeHeightAlgorithm;
+
 // Fractional Parts of Pitch/Yaw Input
 var transient float PitchFraction, YawFraction;
 
@@ -62,7 +64,7 @@ replication
 	reliable if (Role == ROLE_Authority)
 		LastLoadoutClasses;
 	reliable if (Role < ROLE_Authority)
-		ServerCamDist, ServerReloaded;
+		ServerCamDist, ServerReloaded, ServerSetEyeHeightAlgorithm;
     unreliable if( Role==ROLE_Authority )
         ClientDmgFlash;
 }
@@ -1483,22 +1485,41 @@ exec function ShowVoteMenu()
 	Player.GUIController.OpenMenu(s);
 }
 
+function ServerSetEyeHeightAlgorithm(bool B) {
+    bUseNewEyeHeightAlgorithm = B;
+}
+
+function SetEyeHeightAlgorithm(bool B) {
+    bUseNewEyeHeightAlgorithm = B;
+    ServerSetEyeHeightAlgorithm(B);
+}
+
+function bool WantsSmoothedView()
+{
+    if (Pawn == none) return false;
+
+    return
+        (((Pawn.Physics == PHYS_Walking) || (Pawn.Physics == PHYS_Spider)) && Pawn.bJustLanded == false) ||
+        (Pawn.Physics == PHYS_Falling && BallisticPawn(Pawn).OldPhysics2 == PHYS_Walking);
+}
+
 defaultproperties
 {
-     WeapUIEnter=Sound'MenuSounds.selectDshort'
-     WeapUIExit=Sound'MenuSounds.selectK'
-     WeapUIFail=Sound'MenuSounds.denied1'
-     WeapUIUse=Sound'MenuSounds.selectJ'
-     WeapUICycle=Sound'MenuSounds.MS_ListChangeDown'
-     WeapUIChange=Sound'MenuSounds.MS_ListChangeUp'
-     ZoomTimeMod=1.500000
-     SavedBehindDistFactor=1.000000
-     BehindDistFactor=1.000000
-     WeapUIHelp(0)="Fire to confirm selection."
-     WeapUIHelp(1)="Altfire to exit UI."
-     WeapUIHelp(2)="Next and Previous Weapon to cycle."
-     WeapUIHelp(3)="Weapon Numbers to skip to group."
-     ComboNameList(3)="BallisticProV55.Ballistic_ComboMiniMe"
-     AnnouncerLevel=1
-     PawnClass=Class'BallisticProV55.BallisticPawn'
+    bUseNewEyeHeightAlgorithm=True
+    WeapUIEnter=Sound'MenuSounds.selectDshort'
+    WeapUIExit=Sound'MenuSounds.selectK'
+    WeapUIFail=Sound'MenuSounds.denied1'
+    WeapUIUse=Sound'MenuSounds.selectJ'
+    WeapUICycle=Sound'MenuSounds.MS_ListChangeDown'
+    WeapUIChange=Sound'MenuSounds.MS_ListChangeUp'
+    ZoomTimeMod=1.500000
+    SavedBehindDistFactor=1.000000
+    BehindDistFactor=1.000000
+    WeapUIHelp(0)="Fire to confirm selection."
+    WeapUIHelp(1)="Altfire to exit UI."
+    WeapUIHelp(2)="Next and Previous Weapon to cycle."
+    WeapUIHelp(3)="Weapon Numbers to skip to group."
+    ComboNameList(3)="BallisticProV55.Ballistic_ComboMiniMe"
+    AnnouncerLevel=1
+    PawnClass=Class'BallisticProV55.BallisticPawn'
 }

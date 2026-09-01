@@ -1,11 +1,7 @@
-//==============================================================================
-//  Created on: 11/23/2003
-//  Description
-//
-//  Written by Ron Prestenback
-//  � 2003, Epic Games, Inc. All Rights Reserved
-//==============================================================================
-
+//==================================================================================
+//  Written by (NL)NOOTLORD 
+//  This is to remove unused keys and integrate BW keys
+//==================================================================================
 class BN4ControlBinder extends KeyBindMenu;
 
 var localized string BindingLabel[50];

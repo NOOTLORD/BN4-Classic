@@ -1,6 +1,6 @@
 // ===============================================================================================================================
 // Written by (NL)NOOTLORD 
-// Removed the armor check as BN4 has no armor, kept almost all of the code the same but removed the check for armor and teammate
+// Removed the armor check as BN4 has no armor, kept almost all of the code the same
 //
 // Q3ADamageRules by
 //   by CoolDude (2004-12)
