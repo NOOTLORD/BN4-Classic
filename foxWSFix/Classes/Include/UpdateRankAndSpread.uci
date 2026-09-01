@@ -1,5 +1,0 @@
-#include Classes\Include\_Internal\UpdateRankAndSpread.uci
-simulated function UpdateRankAndSpread(Canvas C)
-{
-	WideUpdateRankAndSpread(C);
-}

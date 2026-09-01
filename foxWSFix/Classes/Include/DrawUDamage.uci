@@ -1,5 +1,0 @@
-#include Classes\Include\_Internal\DrawUDamage.uci
-simulated function DrawUDamage(Canvas C)
-{
-	WideDrawUDamage(C);
-}

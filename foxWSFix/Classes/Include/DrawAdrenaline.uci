@@ -1,5 +1,0 @@
-#include Classes\Include\_Internal\DrawAdrenaline.uci
-simulated function DrawAdrenaline(Canvas C)
-{
-	WideDrawAdrenaline(C);
-}

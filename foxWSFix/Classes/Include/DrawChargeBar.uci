@@ -1,5 +1,0 @@
-#include Classes\Include\_Internal\DrawChargeBar.uci
-simulated function DrawChargeBar(Canvas C)
-{
-	WideDrawChargeBar(C);
-}
