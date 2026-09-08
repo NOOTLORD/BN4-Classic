@@ -160,8 +160,7 @@ event InitGame( string Options, out string Error )
 
     if (InventoryMode != "")
     	AddMutator(InventoryMode);
-
-	AddMutator("XGame.MutNoAdrenaline");
+		AddMutator("XGame.MutNoAdrenaline");
 
 }
 

@@ -7,7 +7,7 @@
 class Mut_Pickups extends Mutator 
 	HideDropDown 
 	CacheExempt;
-
+	
 var globalconfig bool bRemoveAmmoPacks; 		// ammo packs
 var globalconfig bool bRemoveUDamage; 			// damage amplifier
 var globalconfig bool bRemoveShieldPack; 		// small armor

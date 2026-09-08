@@ -14,6 +14,7 @@ defaultproperties
      DeathStrings(1)="%o came face-to-face with %k's Longhorn."
      DeathStrings(2)="%k gored %o with %kh explosive Longhorn."
      DeathStrings(3)="%o got rammed by %k's lethal Longhorn."
+     SimpleKillString="Longhorn Grenade Impact"
      InvasionDamageScaling=2.000000
      DamageIdent="Ordnance"
      DisplacementType=DSP_Linear

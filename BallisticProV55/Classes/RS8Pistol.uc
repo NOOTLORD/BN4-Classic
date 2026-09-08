@@ -54,8 +54,14 @@ simulated function OnWeaponParamsChanged()
 	{
 		bHasKnife=true;
 		MeleeFireMode.Damage = 70;
+		RS8MeleeFire(MeleeFireMode).SwitchBladeMode(true);
 	}
-	
+	else
+	{
+		MeleeFireMode.Damage = default.MeleeFireMode.Damage;
+		RS8MeleeFire(MeleeFireMode).SwitchBladeMode(false);
+	}
+
 	if (InStr(WeaponParams.LayoutTags, "comp") != -1)
 	{
 		bCompensated=true;
@@ -80,7 +86,7 @@ simulated function PlayIdle()
 {
 	super.PlayIdle();
 
-	if (bPendingSightUp || SightingState != SS_None || bScopeView || !CanPlayAnim(IdleAnim, ,"IDLE"))
+	if (!bLaserOn || bPendingSightUp || SightingState != SS_None || bScopeView || !CanPlayAnim(IdleAnim, ,"IDLE"))
 		return;
 	FreezeAnimAt(0.0);
 }
@@ -283,14 +289,6 @@ simulated function OnScopeViewChanged()
 	if (Hand < 0)
 		SightOffset.Y = default.SightOffset.Y * -1;
 }*/
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
 
 /*function ServerSwitchSilencer(bool bNewValue)
 {
@@ -522,6 +520,7 @@ defaultproperties
 	AIReloadTime=1.000000
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_RS8'
 	BigIconCoords=(X1=64,Y1=70,X2=418)
+	CockingBringUpTime=0.800000
 	bWT_Bullet=True
 	bWT_Sidearm=True
 	ManualLines(0)="Semi-automatic 10mm fire. Moderate damage and fire rate. Has the option of burst fire."
@@ -531,6 +530,7 @@ defaultproperties
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.145000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.145000)
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-Cock')
+	CockSelectSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-ClipIn')
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-ClipOut')
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-ClipIn')
 	ClipInFrame=0.650000

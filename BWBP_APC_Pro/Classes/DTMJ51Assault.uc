@@ -8,8 +8,11 @@
 //=============================================================================
 class DTMJ51Assault extends DT_BWBullet;
 
+
+// Decompiled with UE Explorer.
 defaultproperties
 {
+    DeathStrings=/* Array type was not detected. */
     WeaponClass=Class'MJ51Carbine'
     DeathString="%k shot through %o with the MJ51."
     FemaleSuicide="%o nailed herself with the MJ51."

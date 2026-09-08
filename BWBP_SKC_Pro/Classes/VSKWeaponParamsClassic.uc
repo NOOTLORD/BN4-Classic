@@ -103,6 +103,7 @@ defaultproperties
 	//=================================================================	
 	
 	Begin Object Class=WeaponParams Name=ClassicParams
+		LayoutName="8x Scope"
 		Weight=30
 		InventorySize=7
 		bNeedCock=True
@@ -114,7 +115,7 @@ defaultproperties
 		SightingTime=0.450000
 		//Function
 		SightPivot=(Pitch=0,Roll=0)
-		ZoomType=ZT_Smooth
+		ZoomType=ZT_Logarithmic
 		RecoilParams(0)=RecoilParams'ClassicRecoilParams'
 		AimParams(0)=AimParams'ClassicAimParams'
 		FireParams(0)=FireParams'ClassicPrimaryFireHeavyParams'
@@ -122,6 +123,7 @@ defaultproperties
 	End Object
 	
 	Begin Object Class=WeaponParams Name=ClassicParams_Irons
+		LayoutName="Iron Sights"
 		Weight=30
 		InventorySize=7
 		SightMoveSpeedFactor=0.500000

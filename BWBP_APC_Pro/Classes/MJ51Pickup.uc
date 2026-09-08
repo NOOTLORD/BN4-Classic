@@ -1,5 +1,5 @@
 //=============================================================================
-// MJ51 Pickup class
+// MJ51Pickup.
 //=============================================================================
 class MJ51Pickup extends BallisticWeaponPickup
 	placeable;
@@ -7,28 +7,22 @@ class MJ51Pickup extends BallisticWeaponPickup
 static function StaticPrecache(LevelInfo L)
 {
 	L.AddPrecacheMaterial(Texture'BWBP_APC_Tex.M4A1.M4-Main');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.M4A1.M4-Ord');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.LK05.LK05-EOTech-RDS');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.NoScope.Rifle-Spec');
- 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.LK05.LK05-Illum-RDS');
  	L.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupHi');
-	L.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupLo');
+	L.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupLo');   
 }
 
 simulated function UpdatePrecacheMaterials()
 {
-	Level.AddPrecacheMaterial(Texture'BWBP_APC_Tex.M4A1.M4-Main');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.M4A1.M4-Ord');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.LK05.LK05-EOTech-RDS');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.NoScope.Rifle-Spec');
- 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.LK05.LK05-Illum-RDS');
+    Level.AddPrecacheMaterial(Texture'BWBP_APC_Tex.M4A1.M4-Main');
+    Super.UpdatePrecacheMaterials();
 }
 
 simulated function UpdatePrecacheStaticMeshes()
 {
- 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupHi');
+	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_APC_Static.MJ51.MJ51PickupLo');
-}
+    Super.UpdatePrecacheStaticMeshes();
+} 
 
 defaultproperties
 {

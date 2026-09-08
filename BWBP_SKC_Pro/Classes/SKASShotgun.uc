@@ -7,9 +7,7 @@
 // by Nolan "Dark Carnivour" Richert
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class SKASShotgun extends BallisticProShotgun
-	HideDropDown
-	CacheExempt;
+class SKASShotgun extends BallisticProShotgun;
 
 var() sound     QuickCockSound;
 var() sound		UltraDrawSound;       	//56k MODEM ACTION.

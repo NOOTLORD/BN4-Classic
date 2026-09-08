@@ -30,7 +30,7 @@ replication
 // Notifys for greande loading sounds
 simulated function Notify_OAARGrenadeOpen()	{	PlaySound(GrenOpenSound, SLOT_Misc, 0.5, ,64);	}
 simulated function Notify_OAARGrenadeIn()		{	PlaySound(GrenLoadSound, SLOT_Misc, 0.5, ,64);	}
-simulated function Notify_OAARGrenadeClose()	{	PlaySound(GrenCloseSound, SLOT_Misc, 0.5, ,64); }
+simulated function Notify_OAARGrenadeClose()	{	PlaySound(GrenCloseSound, SLOT_Misc, 0.5, ,64); M46SecondaryFire(FireMode[1]).bLoaded = true; FireMode[1].PreFireTime = FireMode[1].default.PreFireTime; }
 
 // A grenade has just been picked up. Loads one in if we're empty
 function GrenadePickedUp ()
@@ -122,7 +122,7 @@ simulated function LoadGrenade()
 	if (ReloadState == RS_None)
 	{
 		ReloadState=RS_Cocking;
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.1, , 0);
 	}
 }
 
@@ -175,7 +175,8 @@ function ServerWeaponSpecial(optional byte i)
 			if (Level.TimeSeconds < Mines[j].TriggerStartTime - 1 || Mines[j].TriggerStartTime == 0)
 				break;
 			Mines[j].Explode(Mines[j].Location, Vector(Mines[j].Rotation));
-			Mines.Remove(j, 1);
+			if (j < Mines.Length && Mines[j] != None)
+				Mines.Remove(j, 1);
 			break;
 		}
 	}
@@ -249,7 +250,6 @@ simulated function float RateSelf()
 	return CurrentRating;
 }
 */
-
 // AI Interface =====
 function byte BestMode()	{	return 0;	}
 
@@ -263,7 +263,6 @@ simulated function bool IsReloadingGrenade()
  		return true;
 	return false;
 }
-
 
 function bool CanAttack(Actor Other)
 {

@@ -9,7 +9,7 @@
 //=============================================================================
 class MGLSecondaryFire extends BallisticProProjectileFire;
 
-/*var MGLGrenadeRemote	LastGrenade; //remote det grenade
+var MGLGrenadeRemote	LastGrenade; //remote det grenade
 var float						DetonationInterval;
 
 // Check if there is ammo in clip if we use weapon's mag or is there some in inventory if we don't
@@ -55,6 +55,8 @@ simulated function bool AllowFire()
 // Detonates mines if one is out
 simulated event ModeDoFire()
 {
+	if (BW == None)
+		return;
 	if (MGLauncher(BW).bRemoteGrenadeOut)
 	{
 		if (Weapon.Role == ROLE_Authority)
@@ -210,4 +212,4 @@ defaultproperties
      ProjectileClass=Class'BWBP_SKC_Pro.MGLGrenadeRemote'
      BotRefireRate=0.300000
      WarnTargetPct=0.300000
-}*/
+}

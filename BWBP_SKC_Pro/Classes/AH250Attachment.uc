@@ -7,16 +7,7 @@
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
 class AH250Attachment extends HandgunAttachment;
-
-simulated function PostBeginPlay()
-{
-	Super.PostBeginPlay();
-	
-	SetBoneScale (0, 0.0, 'RedDotSight');
-	SetBoneScale (1, 0.0, 'LAM');
-}
-
-/*var Vector		SpawnOffset;
+var Vector		SpawnOffset;
 
 var   bool					bLaserOn;	//Is laser currently active
 var   bool					bOldLaserOn;//Old bLaserOn
@@ -30,6 +21,14 @@ replication
 	unreliable if ( Role==ROLE_Authority )
 		LaserRot;
 }
+
+/*simulated function PostBeginPlay()
+{
+	Super.PostBeginPlay();
+	
+	SetBoneScale (0, 0.0, 'RedDotSight');
+	SetBoneScale (1, 0.0, 'LAM');
+}*/
 
 simulated function Tick(float DT)
 {
@@ -91,7 +90,7 @@ simulated function Destroyed()
 	if (Laser != None)
 		Laser.Destroy();
 	Super.Destroyed();
-}*/
+}
 
 defaultproperties
 {
@@ -112,4 +111,10 @@ defaultproperties
 	Mesh=SkeletalMesh'BWBP_SKC_Anim.AHDeagle_TPm'
 	RelativeLocation=(Z=6.000000)
 	DrawScale=0.175000
+	Skins(0)=Shader'BWBP_SKC_Tex.Eagle.Eagle-MainShine'
+	Skins(1)=Shader'BWBP_SKC_Tex.Eagle.Eagle-MainShine'
+	Skins(2)=Texture'BWBP_SKC_Tex.Eagle.Eagle-Misc'
+	Skins(3)=Texture'BWBP_SKC_Tex.Eagle.Eagle-ScopeRed'
+	Skins(4)=Texture'BWBP_SKC_Tex.Eagle.Eagle-Front'
+	Skins(5)=Shader'BWBP_SKC_Tex.Eagle.Eagle-SightDotGreen'
 }

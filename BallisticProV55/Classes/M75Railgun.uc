@@ -26,11 +26,12 @@ var   Array<Pawn>		PawnList;		// A list of all the potential pawns to view in th
 var() material			WallVisionSkin;	// Texture to assign to players when theyare viewed with Thermal mode
 var   bool				bThermal;		// Is thermal mode active? Clientside
 var   bool				bUpdatePawns;	// Should viewable pawn list be updated
-var   Pawn				UpdatedPawns[16];// List of pawns to view in thermal scope
+var   Pawn				UpdatedPawns[128];// List of pawns to view in thermal scope
 var() material			Flaretex;		// Texture to use to obscure vision when viewing enemies directly through the thermal scope
 var() float				ThermalRange;	// Maximum range at which it is possible to see enemies through walls
 var   ColorModifier		ColorMod;
 var   float				NextPawnListUpdateTime;
+var()	bool		bIsIrons;
 
 
 simulated event PreBeginPlay()
@@ -48,6 +49,20 @@ simulated event PostNetBeginPlay()
 	if (class'BallisticReplicationInfo'.static.IsRealism())
 	{
 		M75PrimaryFire(FireMode[0]).bFireOnRelease=True;
+	}
+}
+
+simulated function OnWeaponParamsChanged()
+{
+    super.OnWeaponParamsChanged();
+		
+	assert(WeaponParams != None);
+	
+	bIsIrons=false;
+
+	if (InStr(WeaponParams.LayoutTags, "irons") != -1)
+	{
+		bIsIrons=true;
 	}
 }
 
@@ -101,7 +116,7 @@ simulated function bool PutDown()
 
 exec simulated function WeaponSpecial(optional byte i)
 {
-	if (ClientState != WS_ReadyToFire || ReloadState != RS_None)
+	if (ClientState != WS_ReadyToFire || ReloadState != RS_None || bIsIrons)
 		return;
 		
 	bThermal = !bThermal;

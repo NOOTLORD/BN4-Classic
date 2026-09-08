@@ -435,7 +435,7 @@ simulated function BringUp(optional Weapon PrevWeapon)
 	if (Instigator != None && AIController(Instigator.Controller) != None)
 	{
 		ServerSwitchLaser(FRand() > 0.5);
-		ServerFlashlight(FRand() > 0.5);
+		ServerFlashlight(FRand() > 0.7);
 	}
 
 	if (AIController(Instigator.Controller) != None)
@@ -447,7 +447,11 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		SetBoneScale (0, 0.0, SilencerBone);
 
 	if ( ThirdPersonActor != None )
+	{
 		LK05Attachment(ThirdPersonActor).bLaserOn = bLaserOn;
+		LK05Attachment(ThirdPersonActor).bSilenced = bSilenced;
+		LK05Attachment(ThirdPersonActor).IAOverride(bSilenced);
+	}
 
 
 	Instigator.AmbientSound = UsedAmbientSound;
@@ -495,7 +499,11 @@ simulated function float RateSelf()
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -547,7 +555,6 @@ defaultproperties
 	AIReloadTime=1.000000
 	BigIconMaterial=Texture'BWBP_SKC_Tex.LK05.BigIcon_LK05'
 	BigIconCoords=(Y1=36,Y2=225)
-	
 	bWT_Bullet=True
     bNetNotify=True
     bCockOnEmpty=False
@@ -555,6 +562,7 @@ defaultproperties
     BringUpSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-PullOut',Volume=0.223000)
     PutDownSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-Putaway',Volume=0.270000)
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.LK05.LK05-Cock',Volume=1.200000)
+	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.LK05.LK05-Cock',Volume=1.200000)
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.LK05.LK05-MagOut',Volume=1.400000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.LK05.LK05-MagIn',Volume=1.400000)
 	ClipInFrame=0.650000
@@ -568,7 +576,7 @@ defaultproperties
 	ParamsClasses(2)=Class'LK05WeaponParamsRealistic'
     ParamsClasses(3)=Class'LK05WeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.LK05PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.LK05SecondaryFire'
 	IdleAnimRate=0.500000
 	SelectAnimRate=1.660000
 	PutDownAnimRate=1.330000
@@ -581,8 +589,7 @@ defaultproperties
 	Priority=41
 	HudColor=(B=24,G=48)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=4
 	PickupClass=Class'BWBP_SKC_Pro.LK05Pickup'
 
 	PlayerViewOffset=(X=6.00,Y=3.50,Z=-2.00)

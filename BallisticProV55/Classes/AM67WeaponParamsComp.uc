@@ -163,6 +163,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
         FireParams(0)=FireParams'ArenaPriFireParams'
+        AltFireParams(0)=FireParams'ArenaSecondaryFireParams_Flash'
     End Object */
 
     Begin Object Class=WeaponParams Name=ArenaParams_RDS
@@ -186,6 +187,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
         FireParams(0)=FireParams'ArenaPriFireParams'
+        //AltFireParams(0)=FireParams'ArenaSecondaryFireParams_LaserSight'
     End Object 
 
     /*Begin Object Class=WeaponParams Name=ArenaParams_CombatLaser

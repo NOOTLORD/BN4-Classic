@@ -14,10 +14,7 @@ defaultproperties
 	WeaponClass=class'X4Knife'
      MeleeAltStrikeAnim="Blade_Smack"
      ImpactManager=class'IM_Knife'
-     BrassMode=MU_None
      InstantMode=MU_Both
-     FlashMode=MU_None
-     LightMode=MU_None
      TrackAnimMode=MU_Both
      WaterTracerClass=class'TraceEmitter_WaterBullet'
      MeleeStrikeAnim="Blade_Stab"

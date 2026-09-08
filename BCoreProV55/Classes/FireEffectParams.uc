@@ -97,15 +97,19 @@ function FireModeStats GetStats()
 
 defaultproperties
 {
-    FlashScaleFactor=1f
+    FlashScaleFactor=1.000000
 	FlashBone="tip"
-    // AI //
+	FireSound=(Volume=1.000000,Radius=512.000000,Pitch=1.000000,bNoOverride=True)
+	Recoil=0.000000
+	PushbackForce=0.000000
+    Chaos=0.000000
+	Heat=0.000000
+	Inaccuracy=(X=0,Y=0)
+	SpreadMode=FSM_Circle
     SplashDamage=false
     RecommendSplashDamage=false
-    BotRefireRate=0.95
-
-    FireSound=(Volume=1.000000,Radius=512.000000,Pitch=1.000000,bNoOverride=True)
-
+    BotRefireRate=0.000000
+	WarnTargetPct=0.000000
     ShotTypeString="times"
     EffectString="Unknown"
 }

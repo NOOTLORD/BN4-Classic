@@ -256,10 +256,18 @@ function InitLaser(optional byte i)
 
 simulated function PlayCocking(optional byte Type)
 {
-	if (Type == 2 && HasAnim(CockAnimPostReload))
-		SafePlayAnim(CockAnimPostReload, CockAnimRate, 0.2, , "RELOAD");
-	else
-		SafePlayAnim(CockAnim, CockAnimRate, 0.2, , "RELOAD");
+    local float AdjustedCockAnimRate;
+
+    // Adjust cock animation rate only during reloading
+    if (ReloadState != RS_None && ReloadState != RS_Cocking)
+        AdjustedCockAnimRate = CockAnimRate * class'BallisticReplicationInfo'.default.ReloadScale;
+    else
+        AdjustedCockAnimRate = CockAnimRate; // Use default rate for firing
+
+    if (Type == 2 && HasAnim(CockAnimPostReload))
+        SafePlayAnim(CockAnimPostReload, AdjustedCockAnimRate, 0.2, , "RELOAD");
+    else
+        SafePlayAnim(CockAnim, AdjustedCockAnimRate, 0.2, , "RELOAD");
 
 	if (SightingState != SS_None && Type != 1)
 		TemporaryScopeDown(0.5);
@@ -305,7 +313,11 @@ function Notify_Deploy()
 		End = Start + vector(Instigator.Rotation) * Forward;
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 		if (T == None)
 			HitLoc = End;
 		End = HitLoc - vect(0,0,100);
@@ -313,7 +325,11 @@ function Notify_Deploy()
 		if (T != None && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
 			break;
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -341,7 +357,7 @@ function Notify_Deploy()
 	CompressedEq.Pitch = (CompressedEq.Pitch << 8);
 	CompressedEq.Yaw = (CompressedEq.Yaw << 8);
 
-    Turret = Spawn(class'M99Turret', None,, HitLoc, Instigator.Rotation);
+    Turret = Spawn(class'M99Turret', None,, HitLoc, CompressedEq);
 
     if (Turret != None)
     {
@@ -395,6 +411,7 @@ defaultproperties
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78Pullout',Volume=0.220000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78Putaway',Volume=0.220000)
 	CockSound=(Sound=Sound'BWBP_JCF_Sounds.M99.M99Cock',Volume=1.500000)
+	CockSelectSound=(Sound=Sound'BWBP_JCF_Sounds.M99.M99Cock',Volume=1.500000)
 	ClipOutSound=(Sound=Sound'BWBP_JCF_Sounds.M99.M99-BoltUp',Volume=1.200000)
 	BoltPullSound=(Sound=Sound'BWBP_JCF_Sounds.M99.M99-BoltPull',Volume=1.200000)
 	ClipInSound=(Sound=Sound'BWBP_JCF_Sounds.M99.M99-BulletInsert',Volume=1.500000)
@@ -423,12 +440,10 @@ defaultproperties
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc6',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Misc5',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=130,G=135,R=137,A=62),Color2=(B=0,G=172,R=0,A=80),StartSize1=127,StartSize2=96)
 	NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)
 	FireModeClass(0)=Class'BWBP_JCF_Pro.M99PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_JCF_Pro.M99DeployFire'
 	BringUpTime=1.000000
-	CockingBringUpTime=3.200000
-	//PutDownTime=2.200000
 	PutDownTime=0.800000
-	CockSelectAnim="PulloutFancy"
+	CockingBringUpTime=2.800000
 	SelectAnim="Pullout"
 	PutDownAnim="Putaway"
 	SelectForce="SwitchToAssaultRifle"
@@ -439,8 +454,7 @@ defaultproperties
 	Description="M99 ECS .55 Anti Material Rifle||Manufacturer: Enravion Combat Solutions|Primary: Single Powerful Shot|Secondary: Activate Zooming Scope||In the 21st century the M99 was an effective long range sniper rifle, with a high penetration power. During the Skrith wars however the M99 lost its relevance due to its slow fire rate and old ammunition. Weapons like the M75-TIC Railgun were far more effective and feared. In the middle of the war the production of the M75 was too expensive to arm every sniper with it. Thus Enravion Combat Solutions started to do researches on how to improve old firearms and they succeeded. The M99-ECS was the result. Many improvements like better materials and a high quality scope made the rifle useful again. The major improvement however was the ammunition. The new 55.cal ECS armor piercing round easily penetrates concrete wall, with minimal deformations. Due to its nano coating the 55.cal ECS projectile glides through the air with minimal aerodynamic drag. This way it keeps its high V0"
 	Priority=33
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=9
 	PickupClass=Class'BWBP_JCF_Pro.M99Pickup'
 	PlayerViewOffset=(X=-1.000000,Y=-4.000000,Z=-30.000000)
 	BobDamping=1.500000

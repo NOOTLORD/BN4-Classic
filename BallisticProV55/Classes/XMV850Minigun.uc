@@ -71,7 +71,6 @@ simulated event PostNetBeginPlay()
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -231,7 +230,11 @@ function Notify_Deploy()
 		End = Start + vector(Instigator.Rotation) * Forward;
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 		if (T == None)
 			HitLoc = End;
 		End = HitLoc - vect(0,0,100);
@@ -239,7 +242,11 @@ function Notify_Deploy()
 		if (T != None && HitLoc.Z <= Start.Z - class'BallisticTurret'.default.MinTurretEyeDepth && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
 			break;
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -404,19 +411,15 @@ function float SuggestDefenseStyle()	{	return 1;	}
 
 defaultproperties
 {
-
 	BarrelSpinSound=Sound'BW_Core_WeaponSound.XMV-850.XMV-BarrelSpinLoop'
 	BarrelStopSound=Sound'BW_Core_WeaponSound.XMV-850.XMV-BarrelStop'
 	BarrelStartSound=Sound'BW_Core_WeaponSound.XMV-850.XMV-BarrelStart'
 	DeploySound=Sound'BW_Core_WeaponSound.XMV-850.XMV-Deploy'
 	UndeploySound=Sound'BW_Core_WeaponSound.XMV-850.XMV-UnDeploy'
-
-
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny',SkinNum=0)
 	AIReloadTime=4.000000
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_XMV850'
 	BigIconCoords=(Y2=255)
-	
 	bWT_Bullet=True
 	bWT_Machinegun=True
 	ManualLines(0)="Spins up the barrel. Once spun up to speed, unleashes a hail of bullets. Incredible fire rate and moderate damage. Sustained damage output is extremely high. Large ammo reserves due to the attached backpack mean the weapon can fire continuously for long periods."
@@ -425,27 +428,21 @@ defaultproperties
 	SpecialInfo(0)=(Info="480.0;60.0;2.0;100.0;0.5;0.5;0.5")
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XMV-850.XMV-Pullout',Volume=0.212000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XMV-850.XMV-Putaway',Volume=0.212000)
-
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.M353.M353-Cock')
 	ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.M50.M50ClipHit')
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.XMV-850.XMV-ClipOut')
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.XMV-850.XMV-ClipIn')
 	ClipInFrame=0.650000
-
 	WeaponModes(0)=(ModeName="1200 RPM",ModeID="WM_FullAuto")
 	WeaponModes(1)=(ModeName="2400 RPM",ModeID="WM_FullAuto",bUnavailable=True)
 	WeaponModes(2)=(ModeName="3600 RPM",ModeID="WM_FullAuto",bUnavailable=True)
-
 	RotationSpeeds(0)=0.33 // 1200 RPM - 150 revolutions per minute x 6 shots
 	RotationSpeeds(1)=0.66 // 2400 RPM - 300 revolutions per minute x 6 shots
 	RotationSpeeds(2)=1.00  // 3600 RPM - 600 revolutions per minute x 6 shots
-
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc7',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Misc9',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=119),Color2=(B=220,R=0,A=206),StartSize1=101)
-    NDCrosshairInfo=(SpreadRatios=(Y2=0.500000))
-    
+    NDCrosshairInfo=(SpreadRatios=(Y2=0.500000))  
 	CurrentWeaponMode=0
 	bShowChargingBar=True
-
 	ParamsClasses(0)=Class'XMV850WeaponParamsComp'
 	ParamsClasses(1)=Class'XMV850WeaponParamsClassic'
 	ParamsClasses(2)=Class'XMV850WeaponParamsRealistic'
@@ -467,7 +464,6 @@ defaultproperties
 	InventoryGroup=1
 	GroupOffset=1
 	PickupClass=Class'BallisticProV55.XMV850Pickup'
-
 	PlayerViewOffset=(X=4.5,Y=4,Z=-5)
 	SightOffset=(X=-6.5,Y=-1,Z=7.5)
 	SightPivot=(Pitch=700,Roll=2048)

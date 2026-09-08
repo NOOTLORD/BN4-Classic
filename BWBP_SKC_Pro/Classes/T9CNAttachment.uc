@@ -8,7 +8,7 @@
 //=============================================================================
 class T9CNAttachment extends HandgunAttachment;
 
-/*var() class<BCImpactManager>    ImpactManagerAlt;		//Impact Manager to use for gauss effects
+var() class<BCImpactManager>    ImpactManagerAlt;		//Impact Manager to use for gauss effects
 var() class<BCTraceEmitter>	AltTracerClass;		//Type of tracer to use for alt fire effects
 
 /*simulated function InstantFireEffects(byte Mode)
@@ -165,22 +165,23 @@ simulated function MeleeFireEffects()
 //	if (ImpactManager != None)
 		class'IM_GunHit'.static.StartSpawn(HitLocation, mHitNormal, mHitSurf, instigator);
 }
-*/
+
 defaultproperties
 {
 	WeaponClass=class'T9CNMachinePistol'
 	MuzzleFlashClass=Class'BWBP_SKC_Pro.T9CNFlashEmitter'
 	AltMuzzleFlashClass=Class'BWBP_SKC_Pro.M2020FlashEmitter'
 	ImpactManager=class'IM_Bullet'
-    //ImpactManagerAlt=class'IM_BulletGauss'
+    ImpactManagerAlt=class'IM_BulletGauss'
 	FlashScale=0.800000
 	BrassClass=class'Brass_Pistol'
 	//TrackAnimMode=MU_Secondary
 	InstantMode=MU_Both
 	FlashMode=MU_Both
+	LightMode=MU_Both
 	TracerMode=MU_Both
 	TracerClass=class'TraceEmitter_Default'
-	//AltTracerClass=class'TraceEmitter_Gauss'
+	AltTracerClass=class'TraceEmitter_Gauss'
 	TracerChance=0.500000
 	WaterTracerClass=class'TraceEmitter_WaterBullet'
 	FlyBySound=(Sound=SoundGroup'BW_Core_WeaponSound.FlyBys.Bullet-Whizz',Volume=0.700000)

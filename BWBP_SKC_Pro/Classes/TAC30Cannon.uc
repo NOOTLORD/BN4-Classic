@@ -8,6 +8,7 @@
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
 class TAC30Cannon extends BallisticWeapon
+	transient
 	HideDropDown
 	CacheExempt;
 

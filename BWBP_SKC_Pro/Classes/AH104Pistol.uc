@@ -7,9 +7,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AH104Pistol extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class AH104Pistol extends BallisticWeapon;
 
 var Name 			ReloadAltAnim;
 var() int			AltMagAmmo;
@@ -204,14 +202,6 @@ simulated function BringUp(optional Weapon PrevWeapon)
 	{
 		ReloadAnim = 'Reload';
 	}
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 simulated function PlayIdle()
@@ -473,8 +463,8 @@ simulated function float ChargeBar()
 
 defaultproperties
 {
-	DrumInSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-FlameMagIn',Volume=1.100000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
-	DrumOutSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-FlameMagOut',Volume=1.100000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
+	DrumInSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-FlameMagIn',Volume=1.100000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
+	DrumOutSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-FlameMagOut',Volume=1.100000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
 	ReloadAltAnim="ReloadAlt"
 	LaserOnSound=Sound'BWBP_SKC_Sounds.AH104.AH104-SightOn'
 	LaserOffSound=Sound'BWBP_SKC_Sounds.AH104.AH104-SightOff'
@@ -490,6 +480,7 @@ defaultproperties
 	MagAmmo=7
 	AltMagAmmo=50
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-Cock',Volume=0.800000)
+	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-Cock',Volume=0.800000)
 	ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.AM67.AM67-ClipHit')
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-ClipOut',Volume=0.800000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.AH104.AH104-ClipIn',Volume=0.800000)

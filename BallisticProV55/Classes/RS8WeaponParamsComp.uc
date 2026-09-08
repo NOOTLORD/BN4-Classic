@@ -24,11 +24,12 @@ defaultproperties
 		Recoil=360.000000
 		Chaos=0.250000
 		BotRefireRate=0.750000
-		FireSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RS8-HFire',Volume=1.100000)
+		FireSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-Fire',Volume=1.100000)
 	End Object
 
 	Begin Object Class=FireParams Name=ArenaPrimaryFireParams
 		FireInterval=0.20000
+		FireEndAnim=
 		//AimedFireAnim='SightFire'
 		FireAnimRate=2	
 		FireEffectParams(0)=InstantEffectParams'ArenaPrimaryEffectParams'
@@ -106,7 +107,7 @@ defaultproperties
 		HookStopFactor=1.700000
 		HookPullForce=100.000000
 		SpreadMode=FSM_Rectangle
-		FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Radius=32.000000,bAtten=True)
+		FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Radius=32.000000,batten=false)
 		Recoil=0.0
 		Chaos=-1.0
 		BotRefireRate=0.800000

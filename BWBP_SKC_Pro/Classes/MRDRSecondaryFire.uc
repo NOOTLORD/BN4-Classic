@@ -6,7 +6,7 @@
 //=============================================================================
 class MRDRsecondaryFire extends BallisticMeleeFire;
 
-/*var() Array<name> SliceAnims;
+var() Array<name> SliceAnims;
 var int SliceAnim;
 
 function ServerPlayFiring()
@@ -71,7 +71,7 @@ defaultproperties
      HookPullForce=100.000000
      bUseWeaponMag=False
      bIgnoreReload=True
-     BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,bAtten=True)
+     BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,batten=false)
      bAISilent=True
      FireAnim="Melee1"
      FireRate=0.500000
@@ -82,4 +82,4 @@ defaultproperties
      ShakeRotTime=2.500000
      BotRefireRate=0.800000
      WarnTargetPct=0.100000
-}*/
+}

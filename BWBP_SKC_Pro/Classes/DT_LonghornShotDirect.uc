@@ -13,6 +13,7 @@ defaultproperties
      DeathStrings(0)="%k's Longhorn chose the direct approach for %o."
      DeathStrings(1)="%k peppered %o with explosive Longhorn shot."
      DeathStrings(2)="%k knocked %o into next week with %kh Longhorn."
+     SimpleKillString="Longhorn Cluster Shot Impact"
      InvasionDamageScaling=2.000000
      DamageIdent="Ordnance"
      WeaponClass=Class'BWBP_SKC_Pro.LonghornLauncher'

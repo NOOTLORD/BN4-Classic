@@ -71,7 +71,7 @@ function LoadWeapons(ClientOutfittingInterface COI, int group)
 	{
         if (LoadWIFromCache(COI.GetGroupItem(group, i), WI))
         {
-            Log("Group "$group$", index "$i$" is "$COI.GetGroupItem(group, i));
+            //Log("Group "$group$", index "$i$" is "$COI.GetGroupItem(group, i));
 
             if (WI.InventoryGroup != lastIndex)
             {
@@ -91,7 +91,7 @@ function LoadWeapons(ClientOutfittingInterface COI, int group)
 }
 
 // Get Name, BigIconMaterial and classname of weapon at index? in group?
-function bool LoadWIFromCache(string ClassStr, out BC_WeaponInfoCache.WeaponInfo WepInfo)
+simulated function bool LoadWIFromCache(string ClassStr, out BC_WeaponInfoCache.WeaponInfo WepInfo)
 {
 	local int i;
 
@@ -339,6 +339,8 @@ function bool InternalOnClick(GUIComponent Sender)
 function string GetDataString()
 {
 	local String ls;
+	if(lb_Weapons.List.Index == -1)
+		return "";
 	ls = lb_Weapons.List.GetExtra() $ "|" $ LayoutIndexList[lb_Weapons.List.Index] $ "|" $ CamoIndexList[lb_Weapons.List.Index]; //ew
 	return ls;
 	

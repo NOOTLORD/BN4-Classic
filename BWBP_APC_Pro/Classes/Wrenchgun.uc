@@ -9,6 +9,7 @@
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
 class Wrenchgun extends BallisticProShotgun
+	transient
 	HideDropDown
 	CacheExempt;
 

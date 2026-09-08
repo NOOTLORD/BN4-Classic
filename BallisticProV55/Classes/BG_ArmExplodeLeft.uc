@@ -10,7 +10,6 @@ class BG_ArmExplodeLeft extends BW_HitGoreEmitter
 defaultproperties
 {
      Begin Object Class=SpriteEmitter Name=SpriteEmitter16
-         Disabled=True
          UseCollision=True
          FadeOut=True
          RespawnDeadParticles=False

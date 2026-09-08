@@ -8,7 +8,7 @@
 //=============================================================================
 class RS04SecondaryFire extends BallisticMeleeFire;
 
-/*//sensor
+//sensor
 var() Vector			SpawnOffset;		// Projectile spawned at this offset
 var	  Projectile		Proj;				// The projectile actor
 var   bool		bLoaded;
@@ -196,7 +196,7 @@ simulated state FlashbangLight
 
 		for (C=Level.ControllerList;C!=None;C=C.NextController)
 		{
-			if (C.Pawn == None || C.Pawn.Health <= 0)
+			if (C.Pawn == None || C.Pawn.Health <= 0 || (Instigator.GetTeamNum() != 255 && C.GetTeamNum() == Instigator.GetTeamNum()))
 				continue;
 			EnemyEye = C.Pawn.EyePosition() + C.Pawn.Location;
 			Dist = VSize(EnemyEye - StartTrace);
@@ -465,7 +465,13 @@ simulated state Scope
 	{
 		if (BW.bScopeView && BW.ReloadState == RS_Cocking)
 			return true;
-		return super.CheckReloading();
+		if (BW.MeleeState > MS_Pending)
+			return false;
+		if (BW.ReloadState == RS_Cocking && !bIgnoreCocking)
+			return false;
+		if ((BW.ReloadState != RS_None || BW.bServerReloading))
+			return false;		// Is weapon busy reloading
+		return true;
 	}
 
 	// Send sight key release event to weapon
@@ -514,7 +520,7 @@ defaultproperties
 	bReleaseFireOnDie=False
 	bIgnoreReload=True
 	ScopeDownOn=SDO_PreFire
-	BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.Knife.KnifeSlash',Radius=378.000000,bAtten=True)
+	BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.Knife.KnifeSlash',Radius=378.000000,batten=false)
 	bAISilent=True
 	bFireOnRelease=False
 	bModeExclusive=True
@@ -531,4 +537,4 @@ defaultproperties
 
 	bWaitForRelease=false
 	AmmoClass=Class'BWBP_SKC_Pro.Ammo_G51Grenades'
-}*/
+}

@@ -58,7 +58,8 @@ simulated function PostBeginPlay()
 	Super.PostBeginPlay();
 	
 	GC = Spawn(class'M763GasControl', self);
-	GC.InstigatorController = Instigator.Controller;
+	if (Instigator != None)
+		GC.InstigatorController = Instigator.Controller;
 }
 
 simulated function BringUp(optional Weapon PrevWeapon)
@@ -310,9 +311,16 @@ function float SuggestDefenseStyle()
 simulated function PlayCocking(optional byte Type)
 {
 	local float Rand;
+	local float AdjustedCockAnimRate;
+
+    // Adjust cock animation rate only during reloading
+    if (ReloadState != RS_None && ReloadState != RS_Cocking)
+        AdjustedCockAnimRate = CockAnimRate * class'BallisticReplicationInfo'.default.ReloadScale;
+    else
+        AdjustedCockAnimRate = CockAnimRate; // Use default rate for firing
 	
 	if (Type == 2 && HasAnim(CockAnimPostReload))
-		SafePlayAnim(CockAnimPostReload, CockAnimRate, 0.2, , "RELOAD");
+		SafePlayAnim(CockAnimPostReload, AdjustedCockAnimRate, 0.2, , "RELOAD");
 	else
 	{	
 		Rand = FRand();
@@ -326,7 +334,7 @@ simulated function PlayCocking(optional byte Type)
 			CockAnim = 'Cock4';
 		else
 			CockAnim = 'Cock5';
-		SafePlayAnim(CockAnim, CockAnimRate, 0.2, , "RELOAD");
+		SafePlayAnim(CockAnim, AdjustedCockAnimRate, 0.2, , "RELOAD");
 	}
 }
 

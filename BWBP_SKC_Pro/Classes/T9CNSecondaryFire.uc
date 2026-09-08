@@ -6,7 +6,7 @@
 //=============================================================================
 class T9CNSecondaryFire extends BallisticProInstantFire;
 
-/*simulated state Gauss
+simulated state Gauss
 {
 	simulated function bool AllowFire()
 	{
@@ -146,7 +146,7 @@ defaultproperties
 	DamageTypeArm=Class'BWBP_SKC_Pro.DTT9CN'
 	PenetrateForce=0
 	bPenetrate=False
-	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-2',Volume=0.800000,Radius=48.000000,bAtten=True)
+	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-2',Volume=0.800000,Radius=48.000000,batten=false)
 	DryFireSound=(Sound=Sound'BW_Core_WeaponSound.Misc.DryPistol',Volume=0.700000)
 	MuzzleFlashClass=Class'BWBP_SKC_Pro.T9CNFlashEmitter'
 	FlashScaleFactor=0.600000
@@ -167,4 +167,4 @@ defaultproperties
 	ShakeOffsetMag=(X=-3.00)
 	ShakeOffsetRate=(X=-60.000000)
 	ShakeOffsetTime=2.000000
-}*/
+}

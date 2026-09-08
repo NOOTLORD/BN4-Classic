@@ -1,23 +1,16 @@
 //=============================================================================
-// RS04 Pickup class
+// RS04Pickup.
 //=============================================================================
 class RS04Pickup extends BallisticHandGunPickup
 	placeable;
 
-static function StaticPrecache(LevelInfo L)
-{
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.RS04.RS04-Main');
- 	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.RS04.RS04-SpecMask'); 
-	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.RS04.RS04PickupHi');
-     L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.RS04.RS04PickupLo');  
-}
+#exec OBJ LOAD FILE=BWBP_SKC_Tex.utx
+#exec OBJ LOAD FILE=BWBP_SKC_Static.usx
 
 simulated function UpdatePrecacheMaterials()
 {
 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.RS04.RS04-Main');
- 	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.RS04.RS04-SpecMask'); 
 }
-
 simulated function UpdatePrecacheStaticMeshes()
 {
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.RS04.RS04PickupHi');

@@ -148,6 +148,7 @@ defaultproperties
 	FlashScale=0.050000
 	BrassClass=class'Brass_Pistol'
 	InstantMode=MU_Both
+	TrackAnimMode=MU_Secondary
 	TracerClass=class'TraceEmitter_Pistol'
 	TracerChance=0.600000
 	WaterTracerClass=class'TraceEmitter_WaterBullet'

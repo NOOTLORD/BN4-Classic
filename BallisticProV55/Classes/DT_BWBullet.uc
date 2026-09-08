@@ -50,7 +50,6 @@ defaultproperties
 	VehicleDamageScaling=0.350000
 	VehicleMomentumScaling=0.150000
 	TransientSoundVolume=2
-
 	TagDuration=0.135
 	TagMultiplier=0.6
 }

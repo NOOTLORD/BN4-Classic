@@ -10,6 +10,19 @@
 //=============================================================================
 class MJ51PrimaryFire extends BallisticProInstantFire;
 
+simulated event ModeDoFire()
+{
+	if (MJ51Carbine(Weapon).bLoaded)
+	{
+		MJ51Carbine(Weapon).IndirectLaunch();
+		return;
+	}
+	if (!AllowFire())
+		return;
+		
+	super.ModeDoFire();
+}
+
 defaultproperties
 {
 	TraceRange=(Min=10000.000000,Max=13000.000000)
@@ -38,6 +51,5 @@ defaultproperties
 	ShakeOffsetMag=(X=-5.00)
 	ShakeOffsetRate=(X=-100.000000)
 	ShakeOffsetTime=2.000000
-	BotRefireRate=10.082500
 	WarnTargetPct=0.200000
 }

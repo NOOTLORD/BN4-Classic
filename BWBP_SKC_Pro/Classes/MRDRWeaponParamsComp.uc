@@ -11,9 +11,7 @@ defaultproperties
 	
 	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams
         DecayRange=(Min=525,Max=1225)
-		PenetrateForce=135
-		PenetrationEnergy=0
-		bPenetrate=False
+		PenetrationEnergy=16
         RangeAtten=0.5
 		Damage=20
         HeadMult=2.00
@@ -38,7 +36,7 @@ defaultproperties
     // SECONDARY FIRE
     //=================================================================	
 	
-	/*Begin Object Class=MeleeEffectParams Name=ArenaSecondaryEffectParams
+	Begin Object Class=MeleeEffectParams Name=ArenaSecondaryEffectParams
 		TraceRange=(Min=130.000000,Max=130.000000)
 		Damage=55
 		DamageType=Class'BWBP_SKC_Pro.DT_MRDR88Spike'
@@ -46,7 +44,7 @@ defaultproperties
 		DamageTypeArm=Class'BWBP_SKC_Pro.DT_MRDR88Spike'
 		BotRefireRate=0.800000
 		WarnTargetPct=0.100000
-		FireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,bAtten=True)
+		FireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,batten=false)
 	End Object
 	
 	Begin Object Class=FireParams Name=ArenaSecondaryFireParams
@@ -54,14 +52,14 @@ defaultproperties
 		AmmoPerFire=0
 		FireAnim="Melee1"
 		FireEffectParams(0)=MeleeEffectParams'ArenaSecondaryEffectParams'
-	End Object*/
+	End Object
 		
 	//=================================================================
 	// RECOIL
 	//=================================================================
 
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
-		ViewBindFactor=1.000000
+		ViewBindFactor=0.75
 		XCurve=(Points=(,(InVal=0.200000,OutVal=0.100000),(InVal=0.400000),(InVal=0.600000,OutVal=0.150000),(InVal=0.800000,OutVal=0.250000),(InVal=1.000000,OutVal=0.100000)))
 		YCurve=(Points=(,(InVal=0.100000,OutVal=0.200000),(InVal=0.200000,OutVal=0.250000),(InVal=0.400000,OutVal=0.550000),(InVal=0.600000,OutVal=0.800000),(InVal=1.000000,OutVal=1.000000)))
 		XRandFactor=0.050000
@@ -99,6 +97,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
+		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
     Layouts(0)=WeaponParams'ArenaParams'
 }

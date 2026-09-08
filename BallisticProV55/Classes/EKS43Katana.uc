@@ -11,6 +11,22 @@
 //=============================================================================
 class EKS43Katana extends BallisticMeleeWeapon;
 
+var() bool	bIsSuperHeated;
+
+simulated function OnWeaponParamsChanged()
+{
+    super.OnWeaponParamsChanged();
+		
+	assert(WeaponParams != None);
+	
+	bIsSuperHeated=false;
+
+	if (InStr(WeaponParams.LayoutTags, "superheated") != -1)
+	{
+		bIsSuperHeated=true;
+	}
+}
+
 // choose between regular or alt-fire
 function byte BestMode()
 {
@@ -40,7 +56,7 @@ defaultproperties
 {
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_EKS43'
-     BigIconCoords=(Y1=32,Y2=230)    
+     BigIconCoords=(Y1=32,Y2=230)     
      ManualLines(0)="Slashes with the katana. Has a relatively long range and good damage, but a poor swing rate."
      ManualLines(1)="Prepares a slash, which will be executed upon release. The damage of this slash increases the longer altfire is held, up to 1.5 seconds for maximum damage output. This attack inflicts more damage from behind."
      ManualLines(2)="The Weapon Function key allows the player to block. Whilst blocking, no attacks are possible, but all melee damage striking the player frontally will be mitigated.||The EKS-43 is effective at close range, but has lower DPS than shorter ranged melee weapons."
@@ -51,9 +67,9 @@ defaultproperties
      bAimDisabled=True
      ParamsClasses(0)=Class'EKS43WeaponParamsComp'
      FireModeClass(0)=Class'BallisticProV55.EKS43PrimaryFire'
-     FireModeClass(1)=Class'BallisticProV55.EKS43SecondaryFire'	 
+     FireModeClass(1)=Class'BallisticProV55.EKS43SecondaryFire' 
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.X3OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.X3InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=159,G=64,R=0),Color2=(B=255),StartSize1=98,StartSize2=101)
-     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),MaxScale=8.000000)	 
+     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),MaxScale=8.000000)
      SelectAnimRate=1.5
      PutDownAnimRate=1.5
      PutDownTime=0.300000

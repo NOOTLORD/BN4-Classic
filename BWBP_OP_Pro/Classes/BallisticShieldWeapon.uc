@@ -3,9 +3,7 @@
 // 
 // Transferred from JunkWars to add some shielding into BW.
 //================================================
-class BallisticShieldWeapon extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
+class BallisticShieldWeapon extends BallisticMeleeWeapon;
 
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 
@@ -81,7 +79,7 @@ function AdjustPlayerDamage( out int Damage, Pawn InstigatedBy, Vector HitLocati
 
 	BDT = class<BallisticDamageType>(DamageType);
 	
-	if (BDT != None && CheckReflect(InstigatedBy.Location, HitNormal, 0.2))
+	if (BDT != None && InstigatedBy != None && CheckReflect(InstigatedBy.Location, HitNormal, 0.2))
 	{
 		if (bBlocked)
 		{

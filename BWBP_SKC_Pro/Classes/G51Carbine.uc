@@ -31,7 +31,7 @@ var(G51)	Array<Pawn>			PawnList;		// A list of all the potential pawns to view i
 var(G51)	material			WallVisionSkin;	// Texture to assign to players when theyare viewed with Thermal mode
 var(G51)	bool				bThermal;		// Is thermal mode active?
 var(G51)	bool				bUpdatePawns;	// Should viewable pawn list be updated
-var(G51)	Pawn				UpdatedPawns[16];// List of pawns to view in thermal scope
+var(G51)	Pawn				UpdatedPawns[128];// List of pawns to view in thermal scope
 var(G51)	material			Flaretex;		// Texture to use to obscure vision when viewing enemies directly through the thermal scope
 var(G51)	float				ThermalRange;	// Maximum range at which it is possible to see enemies through walls
 var(G51)	ColorModifier		ColorMod;
@@ -300,9 +300,11 @@ simulated function SetNVLight(bool bOn)
 		if (NVLight == None)
 		{
 			NVLight = Spawn(class'HKARNVLight',,,Instigator.location);
-			NVLight.SetBase(Instigator);
+			if (NVLight != None)
+				NVLight.SetBase(Instigator);
 		}
-		NVLight.bDynamicLight = true;
+		if (NVLight != None)
+			NVLight.bDynamicLight = true;
 	}
 	else if (NVLight != None)
 		NVLight.bDynamicLight = false;
@@ -329,10 +331,13 @@ simulated event WeaponTick(float DT)
 		if (T==None)
 			HitLoc = End;
 
-		if (VSize(HitLoc-Start) > 400)
-			NVLight.SetLocation(Start + (HitLoc-Start)*0.5);
-		else
-			NVLight.SetLocation(HitLoc + HitNorm*30);
+		if (NVLight != None)
+		{
+			if (VSize(HitLoc-Start) > 400)
+				NVLight.SetLocation(Start + (HitLoc-Start)*0.5);
+			else
+				NVLight.SetLocation(HitLoc + HitNorm*30);
+		}
 	}
 	else
 		SetNVLight(false);
@@ -376,6 +381,8 @@ simulated function UpdatePawnList()
 	PawnList.Length=0;
 	ForEach DynamicActors( class 'Pawn', P)
 	{
+		if (P.PlayerReplicationInfo != None && P.PlayerReplicationInfo.Team != None && P.PlayerReplicationInfo.Team.TeamIndex == Instigator.PlayerReplicationInfo.Team.TeamIndex)
+			continue;
 		PawnList[PawnList.length] = P;
 		Dist = VSize(P.Location - Instigator.Location);
 		if (Dist <= ThermalRange &&
@@ -411,7 +418,6 @@ simulated function UpdatePawnList()
 simulated event DrawThermalMode (Canvas C)
 {
 	local Pawn P;
-	local M58Cloud Other;
 	local int i, j;
 	local float Dist, DotP;//, OtherRatio;
 	local Array<Material>	OldSkins;
@@ -421,8 +427,6 @@ simulated event DrawThermalMode (Canvas C)
 	local Array<Material>	AttOldSkins0;
 	local Array<Material>	AttOldSkins1;
 	
-	local Vector					HitLocation, HitNormal;
-
 	C.Style = ERenderStyle.STY_Modulated;
 	
 	// Draw Spinning Sweeper thing
@@ -590,7 +594,7 @@ simulated function LoadGrenade()
 	if (ReloadState == RS_None)
 	{
 		ReloadState = RS_GearSwitch;
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.1, , 0);
 	}
 }
 
@@ -685,9 +689,28 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+
+	if (bHasIR || bSilenced || bNoaltfire)
+		return 0;		
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	if (B.Skill > Rand(6))
+	{
+		if (AimComponent.GetChaos() < 0.1 || AimComponent.GetChaos() < 0.5 && VSize(B.Enemy.Location - Instigator.Location) > 500)
+			return 1;
+	}
+	else if (FRand() > 0.75)
+		return 1;
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -750,6 +773,7 @@ defaultproperties
 	 SightBobScale=0.2
 
      CockSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-Cock',Volume=1.800000)
+	 CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-Cock',Volume=1.800000)
      //ClipHitSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-MagInEmpty',Volume=1.800000)
      ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-MagOut',Volume=1.800000)
 	 ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.MJ51.MJ51-MagInEmpty',Volume=1.800000)
@@ -759,19 +783,18 @@ defaultproperties
      SightingTime=0.200000
      GunLength=50.000000
      FireModeClass(0)=Class'BWBP_SKC_Pro.G51PrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_SKC_Pro.G51SecondaryFire'
      IdleAnimRate=0.200000
      PutDownTime=0.700000
      BringUpTime=0.900000
-	 CockingBringUpTime=2.000000
+	 CockingBringUpTime=1.400000
      SelectForce="SwitchToAssaultRifle"
      AIRating=0.600000
      CurrentRating=0.600000
      Description="G51 Carbine||Manufacturer: Majestic Firearms 12|Primary: 5.56mm Rifle Fire|Secondary: Attach Smoke Grenade||The G51 is a 3-round burst carbine based off the popular SCAR-LK platform. While the S-AR 12 is the UTC's weapon of choice for close range engagements, the G51 is often seen in the hands of MP and urban security details. When paired with its native MOA-C Rifle Grenade attachment, the G51 makes an efficient riot control weapon. |Majestic Firearms 12 designed their G51 carbine alongside their MOA-C Chaff Grenade to produce a rifle with grenade launching capabilities without the need of a bulky launcher that has to be sperately maintained. Utilizing a hardened tungsten barrel and an advanced rifle grenade design, a soldier is able to seamlessly ready a grenade projectile without having to rechamber specilized rounds"
      Priority=41
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=4
      PickupClass=Class'BWBP_SKC_Pro.G51Pickup'
 	 SightAnimScale=0.3
      AttachmentClass=Class'BWBP_SKC_Pro.G51Attachment'

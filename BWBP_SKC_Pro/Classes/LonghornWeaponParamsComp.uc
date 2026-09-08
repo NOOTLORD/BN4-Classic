@@ -36,7 +36,7 @@ defaultproperties
 	// SECONDARY FIRE
 	//=================================================================	
 	
-	/*Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
+	Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
 		Recoil=2048.000000
 		SpawnOffset=(X=20,Y=4,Z=-6)
      	PushbackForce=800.000000
@@ -47,8 +47,8 @@ defaultproperties
 		BotRefireRate=0.7
      	WarnTargetPct=0.3
 		ProjectileClass=Class'BWBP_SKC_Pro.LonghornMicroClusterAlt'
-     	Speed=7500.000000
-    	MaxSpeed=7500.000000
+     	Speed=4500.000000
+    	MaxSpeed=4500.000000
     	Damage=25.000000
     	DamageRadius=256.000000
    	  	MomentumTransfer=25000.000000
@@ -61,14 +61,13 @@ defaultproperties
 		FireAnimRate=2.00000
 		AimedFireAnim="SightFire"
 		FireEffectParams(0)=ProjectileEffectParams'ArenaSecondaryEffectParams'
-	End Object*/
+	End Object
 
 	//=================================================================
 	// RECOIL
 	//=================================================================
 
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
-		ViewBindFactor=1.000000
 		XRandFactor=0.35
 		YRandFactor=0.200000
 		MinRandFactor=0.2
@@ -110,7 +109,7 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
-		//AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
+		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
     Layouts(0)=WeaponParams'ArenaParams'
 	
@@ -121,7 +120,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=Long_Black
+	Begin Object Class=WeaponCamo Name=Long_Black
 		Index=1
 		CamoName="Black"
 		Weight=10
@@ -151,11 +150,11 @@ defaultproperties
 		Weight=1
 		WeaponMaterialSwaps(0)=(Material=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny',Index=0,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.LonghornCamos.Longhorn-MainMeat",Index=1,AIndex=0,PIndex=0)
-	End Object*/
+	End Object
 	
 	Camos(0)=WeaponCamo'Long_Brass'
-	//Camos(1)=WeaponCamo'Long_Black'
-	//Camos(2)=WeaponCamo'Long_Green'
-	//Camos(3)=WeaponCamo'Long_Silver'
-	//Camos(4)=WeaponCamo'Long_Meat' // :o)
+	Camos(1)=WeaponCamo'Long_Black'
+	Camos(2)=WeaponCamo'Long_Green'
+	Camos(3)=WeaponCamo'Long_Silver'
+	Camos(4)=WeaponCamo'Long_Meat' // :o)
 }

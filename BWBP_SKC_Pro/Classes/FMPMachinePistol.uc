@@ -163,13 +163,15 @@ simulated function CommonSwitchWeaponMode (byte newMode)
 	FMPPrimaryFire(FireMode[0]).SwitchWeaponMode(newMode);
 	if (newMode == 1 && AmpCharge > 0)
 	{
-		FMPAttachment(ThirdPersonActor).SetAmpColour(true, false);
+		if (ThirdPersonActor != None)
+			FMPAttachment(ThirdPersonActor).SetAmpColour(true, false);
 		Skins[3]=AmpMaterials[1];
 		Skins[4]=AmpMaterials[2];
 	}
 	else if (newMode == 2 && AmpCharge > 0)
 	{
-		FMPAttachment(ThirdPersonActor).SetAmpColour(false, true);
+		if (ThirdPersonActor != None)
+			FMPAttachment(ThirdPersonActor).SetAmpColour(false, true);
 		Skins[3]=AmpMaterials[0];
 		Skins[4]=AmpMaterials[3];
 	}
@@ -303,9 +305,11 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+function byte BestMode()	
+{		
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -347,9 +351,6 @@ defaultproperties
 	AmplifierBone2="Amplifier2"
 	AmplifierOnAnim="AmplifierOn"
 	AmplifierOffAnim="AmplifierOff"
-	CockSelectAnim="PulloutFancy"
-	CockSelectAnimRate=1.000000
-	CockingBringUpTime=1.500000
 	AmplifierOnSound=Sound'BW_Core_WeaponSound.SRS900.SRS-SilencerOn'
 	AmplifierOffSound=Sound'BW_Core_WeaponSound.SRS900.SRS-SilencerOff'
 	AmplifierPowerOnSound=Sound'BW_Core_WeaponSound.AMP.Amp-Install'
@@ -362,8 +363,9 @@ defaultproperties
 	SpecialInfo(0)=(Info="240.0;15.0;0.9;80.0;0.7;0.7;0.4")
 	BringUpSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-Pullout',Volume=0.215000)
 	PutDownSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-Putaway',Volume=0.217000)
-	CockAnimPostReload="ReloadEndCock"
+	//CockAnimPostReload="ReloadEndCock"
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-Cock',Volume=1.400000)
+	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-Cock',Volume=1.400000)
 	ClipHitSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-MagHit',Volume=1.400000)
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-MagOut',Volume=1.400000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.MP40.MP40-MagIn',Volume=1.400000)
@@ -373,18 +375,17 @@ defaultproperties
 	WeaponModes(1)=(ModeName="Amplified: Incendiary",ModeID="WM_FullAuto",bUnavailable=True)
 	WeaponModes(2)=(ModeName="Amplified: Corrosive",ModeID="WM_FullAuto",bUnavailable=True)
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M50Out',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M50In',Color1=(A=158),StartSize1=75,StartSize2=72)
-
+	CockingBringUpTime=1.300000
 	AIRating=0.8
 	CurrentRating=0.8
 	FireModeClass(0)=Class'BWBP_SKC_Pro.FMPPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.FMPSecondaryFire'
 	PutDownTime=0.700000
 	SelectForce="SwitchToAssaultRifle"
 	Description="CWI is a relatively niche company nowadays, fine tuning weapons from wars of old only to be either preserved in museums across the galaxy or to be bought out by the highest bidders.  One such weapon is the FMP-2012, a retooled sub-machine gun from the second world war that doesn't fire very fast, but can hit pretty hard thanks to its rechambering to shoot over-pressured 9mm rounds.  It's fortunate for CWI to have the FMP be a prime candidate for NDTR's elemental amp technology, able to fire corrosive rounds or explosive rounds, breathing new life into the aging sub-machine gun.  While still inferior to it's modernized counterparts, the FMP-2012 does have its role in opening weak points to the Cryon's armor."
 	Priority=41
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=3
 	bNoCrosshairInScope=True
 	PickupClass=Class'BWBP_SKC_Pro.FMPPickup'
 

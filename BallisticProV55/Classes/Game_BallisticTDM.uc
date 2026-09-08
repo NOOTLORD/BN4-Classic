@@ -119,5 +119,4 @@ defaultproperties
      GameName="BallisticPro: Team DM"
      Description="Standard Team Deathmatch with Ballistic Weapons in Normal, Loadout, Arena or Melee configuration and other features such as Dark Players."
      DecoTextName="BallisticProV55.Game_BallisticTDM"
-}
-*/
+}*/

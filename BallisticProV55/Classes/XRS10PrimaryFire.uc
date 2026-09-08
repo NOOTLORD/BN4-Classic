@@ -58,7 +58,7 @@ function ServerPlayFiring()
 {
 	if (XRS10SubMachinegun(Weapon) != None && XRS10SubMachinegun(Weapon).bSilenced && SilencedFireSound.Sound != None)
 		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,SilencedFireSound.bNoOverride,SilencedFireSound.Radius,SilencedFireSound.Pitch,SilencedFireSound.bAtten);
-	if (BallisticFireSound.Sound != None)
+	else if (BallisticFireSound.Sound != None)
 		Weapon.PlayOwnedSound(BallisticFireSound.Sound,BallisticFireSound.Slot,BallisticFireSound.Volume,BallisticFireSound.bNoOverride,BallisticFireSound.Radius,BallisticFireSound.Pitch,BallisticFireSound.bAtten);
 
 	CheckClipFinished();
@@ -77,7 +77,7 @@ function PlayFiring()
 
 	if (XRS10SubMachinegun(Weapon) != None && XRS10SubMachinegun(Weapon).bSilenced && SilencedFireSound.Sound != None)
 		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,,SilencedFireSound.Radius,,true);
-	if (BallisticFireSound.Sound != None)
+	else if (BallisticFireSound.Sound != None)
 		Weapon.PlayOwnedSound(BallisticFireSound.Sound,BallisticFireSound.Slot,BallisticFireSound.Volume,,BallisticFireSound.Radius);
 		
 	CheckClipFinished();
@@ -104,8 +104,8 @@ defaultproperties
 	SMuzzleFlashClass=Class'BallisticProV55.XK2SilencedFlash'
 	SFlashBone="tip2"
 	SFlashScaleFactor=1.000000
-	SilencedFireSound=(Sound=Sound'BW_Core_WeaponSound.TEC.RSMP-SilenceFire',Volume=0.5,Radius=128,bAtten=True)
-	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-2',Volume=0.800000,Radius=48.000000,bAtten=True)
+	SilencedFireSound=(Sound=Sound'BW_Core_WeaponSound.TEC.RSMP-SilenceFire',Volume=0.5,Radius=128,batten=false)
+	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-2',Volume=0.800000,Radius=48.000000,batten=false)
 	DryFireSound=(Sound=Sound'BW_Core_WeaponSound.Misc.DryPistol',Volume=0.700000)
 	bDryUncock=True
 	BrassClass=Class'BallisticProV55.Brass_Pistol'

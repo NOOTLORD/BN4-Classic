@@ -3,7 +3,7 @@
 //=============================================================================
 class AD_ImpactDecal extends BallisticDecal
 	placeable;
-     
+
 var() Globalconfig bool		bPermanentImpacts;	// This decal will stay forever...
 
 event PostBeginPlay()

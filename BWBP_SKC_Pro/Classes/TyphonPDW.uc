@@ -430,7 +430,30 @@ simulated function bool HasAmmo()
 }
 
 // AI Interface =====
+// choose between regular or alt-fire
 function byte BestMode()	{	return 0;	}
+
+function float GetAIRating()
+{
+	local Bot B;
+	
+	local float Dist;
+	local float Rating;
+	
+	B = Bot(Instigator.Controller);
+	
+	if ( B == None )
+		return AIRating;
+
+	Rating = Super.GetAIRating();
+	
+	if (B.Enemy == None)
+		return Rating;
+
+	Dist = VSize(B.Enemy.Location - Instigator.Location);
+	
+	return class'BUtil'.static.DistanceAtten(Rating, 0.35, Dist, 768, 2048); 
+}
 
 // tells bot whether to charge or back off while using this weapon
 function float SuggestAttackStyle()	{	return 0.8;	}
@@ -698,16 +721,15 @@ defaultproperties
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      AIReloadTime=1.500000
      BigIconMaterial=Texture'BWBP_SKC_Tex.Typhon.BigIcon_Typhon'
-     
 	 bWT_Bullet=True
      SpecialInfo(0)=(Info="240.0;15.0;0.4;25.0;0.8;0.0;-999.0")
      BringUpSound=(Sound=Sound'BWBP_SKC_Sounds.Typhon.Typhon-Draw',Volume=0.216000)
      PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M50.M50Putaway',Volume=0.220000)
      CockSound=(Sound=Sound'BWBP_SKC_Sounds.PUMA.PUMA-Cock',Volume=1.100000)
+	 CockingBringUpTime=1.200000
      ReloadAnim="Reload"
 	 ReloadEmptyAnim="ReloadEmpty"
 	 bCockOnEmpty=True
-	 CockSelectAnim="PulloutFancyOld"
 	 CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.PUMA.PUMA-BoltSlap',Volume=1.100000)
      ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.PUMA.PUMA-MagIn',Volume=1.000000)
      ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.PUMA.PUMA-MagOut',Volume=1.000000)
@@ -719,7 +741,7 @@ defaultproperties
 	 ZoomType=ZT_Irons
 
      FireModeClass(0)=Class'BWBP_SKC_Pro.TyphonPDWPrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_SKC_Pro.TyphonPDWSecondaryFire'
      SelectForce="SwitchToAssaultRifle"
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M50In',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M353OutA',USize1=128,VSize1=128,USize2=256,VSize2=256,Color1=(B=255,G=0,R=0,A=255),Color2=(B=68,G=65,R=62,A=188),StartSize1=96,StartSize2=69)
 	 NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)
@@ -732,8 +754,8 @@ defaultproperties
 	 ManualLines(2)="Can fire rapid or power laser shots. Power shots have higher DPS and AoE damage, at the cost of a higher wind-up time and lower fire rate."
 	 Priority=19
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+	 InventoryGroup=3
+     GroupOffset=18
      PickupClass=Class'BWBP_SKC_Pro.TyphonPDWPickup'
 
      PlayerViewOffset=(X=5.00,Y=3.50,Z=-4.00)
@@ -743,7 +765,6 @@ defaultproperties
 
      PutDownTime=0.800000
      BringUpTime=1.000000
-	 CockingBringUpTime=2.000000
      AttachmentClass=Class'BWBP_SKC_Pro.TyphonPDWAttachment'
      IconMaterial=Texture'BWBP_SKC_Tex.Typhon.SmallIcon_Typhon'
      IconCoords=(X2=127,Y2=31)

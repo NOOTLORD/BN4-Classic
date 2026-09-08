@@ -7,7 +7,7 @@
 //=============================================================================
 class LonghornSecondaryFire extends BallisticProProjectileFire;
 
-/*var byte ProjectileCount;
+var byte ProjectileCount;
 var float HipMultiplier;
 
 function ServerPlayFiring()
@@ -107,4 +107,4 @@ defaultproperties
 	 //bRecommendSplashDamage=False
 	 //BotRefireRate=0.7
      //WarnTargetPct=0.3
-}*/
+}

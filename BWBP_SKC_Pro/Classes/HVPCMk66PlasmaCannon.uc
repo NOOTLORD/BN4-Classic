@@ -1,9 +1,7 @@
 //=============================================================================
 // EVPC
 //=============================================================================
-class HVPCMk66PlasmaCannon extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class HVPCMk66PlasmaCannon extends BallisticWeapon;
 
 var float		HeatLevel;			// Current Heat level, duh...
 var bool		bIsVenting;			// Busy venting
@@ -70,19 +68,19 @@ simulated function AddHeat(float Amount)
 {
 	HeatLevel += Amount;
 
-	if (HeatLevel >= 10 && HeatLevel < 15)
+	if (HeatLevel > 10.f && HeatLevel < 15.f)
 	{
-		HeatLevel = 15;
+		HeatLevel = 15.f;
 		GoBoom();
 	}
 }
 
 function GoBoom()
 {
-		PlaySound(OverHeatSound,,12.7,,2048);
-		class'IM_HVPCMk66Explosion'.static.StartSpawn(Location, vect(0,0,1), 0, self);
-		HurtRadius(1000, 1536, class'DT_BFGExplode', 8000, location);
-		Destroy();
+	PlaySound(OverHeatSound,,12.7,,2048);
+	class'IM_HVPCMk66Explosion'.static.StartSpawn(Location, vect(0,0,1), 0, self);
+	HurtRadius(1000, 1536, class'DT_BFGExplode', 8000, location);
+	Destroy();
 }
 
 simulated function ClientSetHeat(float NewHeat)
@@ -570,8 +568,8 @@ function bool CanAttack(Actor Other)
 		BotReload();
         return false;
 	}
-
-	if (HeatLevel >= 10 && !IsGoingToVent())
+	//hopefully this fixes bots accidentally frying themselves
+	if (HeatLevel >= 9.5f && !IsGoingToVent())
 	{
 		BotReload();
         return false;

@@ -5,9 +5,7 @@
 //
 // Adapted from Dark Carnivour's XMV-850 code by Azarael
 //=============================================================================
-class Z250Minigun extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class Z250Minigun extends BallisticWeapon;
 
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 
@@ -188,6 +186,11 @@ simulated function PlayScopeUp()
 //===========================================================================
 simulated function TickSighting (float DT)
 {
+	// In 3rd person, RenderOverlays is not called so PositionSights
+	// must run here to manage ZT_Irons FOV changes (#230).
+	if (!Instigator.IsFirstPerson() && SightingState != SS_None)
+		PositionSights();
+
 	if (SightingState == SS_None || SightingState == SS_Active)
 		return;
 
@@ -321,7 +324,7 @@ simulated function LoadGrenade()
 	if (ReloadState == RS_None)
 	{
 		ReloadState = RS_Cocking;
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.1, , 0);
 	}		
 }
 
@@ -385,7 +388,6 @@ function SetServerTurnVelocity (int NewTVYaw, int NewTVPitch)
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }

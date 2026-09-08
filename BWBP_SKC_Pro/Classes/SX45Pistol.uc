@@ -6,9 +6,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
-class SX45Pistol extends BallisticHandgun
-	HideDropDown
-	CacheExempt;
+class SX45Pistol extends BallisticHandgun;
 
 var(SX45)	bool		bHasAmp;
 var(SX45)   bool		bAmped;						// ARE YOU AMPED? BECAUSE THIS GUN IS!
@@ -416,14 +414,6 @@ simulated function Destroyed ()
 		FlashLightEmitter.Destroy();
 	KillProjector();
 	super.Destroyed();
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 simulated event AnimEnd (int Channel)

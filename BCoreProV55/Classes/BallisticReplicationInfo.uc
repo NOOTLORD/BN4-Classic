@@ -77,8 +77,14 @@ var float					PlayerDodgeZ;
 var() config bool			bEnableSprint;
 var() config int			StaminaChargeRate;
 var() config int			StaminaDrainRate;
+var() config float			StaminaRechargeDelay;
 var() config float			SprintSpeedFactor;
 var() config float			JumpDrain;
+
+//=============================================================================
+// CROUCH SLIDING
+//=============================================================================
+var() config bool					bAllowCrouchSliding;		// Allows crouch sliding, pretty self explainatory 
 
 //=============================================================================
 // HEALTH/ARMOR - NO REP
@@ -135,6 +141,7 @@ var struct MoveRep
 	var bool					bPlayerDeceleration;		// Decel mechanics when stopping
 	var bool					bAllowDodging;				// Enables dodging.
 	var bool					bAllowDoubleJump;			// Enables double jump.
+	var() config bool			bAllowCrouchSliding;		// Allows crouch sliding, which is a sprinting mechanic that allows players to slide while crouching.
 	var float					PlayerWalkSpeedFactor;
 	var float					PlayerCrouchSpeedFactor;
 	var float					PlayerAnimationGroundSpeed;
@@ -153,6 +160,7 @@ var struct SprintRep
 	var() config bool			bEnableSprint;
 	var() config int			StaminaChargeRate;
 	var() config int			StaminaDrainRate;
+	var() config float 			StaminaRechargeDelay;
 	var() config float			SprintSpeedFactor;
 	var() config float			JumpDrain;
 } SRep;
@@ -196,6 +204,7 @@ final function BindToReplication()
 	MRep.bPlayerDeceleration			= bPlayerDeceleration;
     MRep.bAllowDodging		            = bAllowDodging;
 	MRep.bAllowDoubleJump				= bAllowDoubleJump;
+	MRep.bAllowCrouchSliding			= bAllowCrouchSliding;
     MRep.PlayerWalkSpeedFactor      	= PlayerWalkSpeedFactor;
 	MRep.PlayerCrouchSpeedFactor      	= PlayerCrouchSpeedFactor;
 	MRep.PlayerAnimationGroundSpeed		= PlayerAnimationGroundSpeed;
@@ -211,8 +220,10 @@ final function BindToReplication()
 	SRep.bEnableSprint					= true;
 	SRep.StaminaChargeRate				= StaminaChargeRate;
 	SRep.StaminaDrainRate				= StaminaDrainRate;
+	SRep.StaminaRechargeDelay			= StaminaRechargeDelay;
     SRep.SprintSpeedFactor				= SprintSpeedFactor;
 	SRep.JumpDrain						= JumpDrain;
+
 }
 
 // Set all defaults to match server vars here
@@ -229,6 +240,8 @@ simulated function PostNetBeginPlay()
 simulated final function BindFromReplication()
 {
 	Log("BallisticReplicationInfo: BindFromReplication");
+
+	Level.MaxRagdolls 				= 100;
 
 	GameStyle 						= GRep.GameStyle;
 
@@ -259,6 +272,7 @@ simulated final function BindFromReplication()
 	bPlayerDeceleration				= MRep.bPlayerDeceleration;
     bAllowDodging		            = MRep.bAllowDodging;
 	bAllowDoubleJump				= MRep.bAllowDoubleJump;
+	bAllowCrouchSliding				= MRep.bAllowCrouchSliding;
     PlayerWalkSpeedFactor      		= MRep.PlayerWalkSpeedFactor;
 	PlayerCrouchSpeedFactor       	= MRep.PlayerCrouchSpeedFactor;
 	PlayerAnimationGroundSpeed		= MRep.PlayerAnimationGroundSpeed;
@@ -274,6 +288,7 @@ simulated final function BindFromReplication()
 	bEnableSprint					= true;
 	StaminaChargeRate				= SRep.StaminaChargeRate;
 	StaminaDrainRate				= SRep.StaminaDrainRate;
+	StaminaRechargeDelay			= SRep.StaminaRechargeDelay;
     SprintSpeedFactor				= SRep.SprintSpeedFactor;
 	JumpDrain					= SRep.JumpDrain;
 }
@@ -307,6 +322,7 @@ simulated final function BindDefaults()
 	class.default.bPlayerDeceleration			= bPlayerDeceleration;
     class.default.bAllowDodging		            = bAllowDodging;
 	class.default.bAllowDoubleJump				= bAllowDoubleJump;
+	class.default.bAllowCrouchSliding			= bAllowCrouchSliding;
     class.default.PlayerWalkSpeedFactor      	= PlayerWalkSpeedFactor;
 	class.default.PlayerCrouchSpeedFactor       = PlayerCrouchSpeedFactor;
 	class.default.PlayerAnimationGroundSpeed	= PlayerAnimationGroundSpeed;
@@ -322,6 +338,7 @@ simulated final function BindDefaults()
 	class.default.bEnableSprint					= true;
 	class.default.StaminaChargeRate				= StaminaChargeRate;
 	class.default.StaminaDrainRate				= StaminaDrainRate;
+	class.default.StaminaRechargeDelay			= StaminaRechargeDelay;
     class.default.SprintSpeedFactor				= SprintSpeedFactor;
 	class.default.JumpDrain				= JumpDrain;
 

@@ -13,6 +13,7 @@ var	  bool		bStockLocked;
 var   name		StockOpenAnim;
 var   name		StockCloseAnim;
 var   bool		bStockOpen, bStockOpenRotated;
+var   bool		bPendingStockOpen;    // Set on slave when master has started stock-open; slave switches after being raised
 var   int 		StockChaosAimSpread;
 
 var   bool			bStriking;
@@ -36,6 +37,7 @@ replication
 	reliable if (Role == ROLE_Authority)
 		bLaserOn;
 }
+
 simulated function PostBeginPlay()
 {
 	SetBoneRotation('tip', rot(0,0,8192));
@@ -54,7 +56,28 @@ simulated function OnWeaponParamsChanged()
 	if (InStr(WeaponParams.LayoutTags, "laser") != -1)
 	{
 		bHasLaser=true;
+		SightFxClass=None;
 	}
+	else if (WeaponParams.LayoutName ~= "Bladed")
+	{
+		SightFxClass=Class'BallisticProV55.Fifty9SightLEDs_B';
+	}
+	else
+	{
+		SightFxClass=Class'BallisticProV55.Fifty9SightLEDs';
+	}
+
+	if (bHasLaser)
+	{
+		if (Laser == None && Instigator != None && PlayerController(Instigator.Controller) != None)
+			Laser = Spawn(class'LaserActor');
+	}
+	else if (Laser != None)
+	{
+		Laser.Destroy();
+		Laser = None;
+	}
+
 	if (InStr(WeaponParams.LayoutTags, "lock") != -1)
 	{
 		bStockLocked=true;
@@ -66,6 +89,13 @@ simulated function OnWeaponParamsChanged()
 		bStockOpenRotated = true;
 		AdjustStockProperties();
 	}
+}
+
+simulated function BringUp(optional Weapon PrevWeapon)
+{
+	Super.BringUp(PrevWeapon);
+	if (bHasLaser && Instigator != None && Laser == None && PlayerController(Instigator.Controller) != None)
+		Laser = Spawn(class'LaserActor');
 }
 
 simulated event WeaponTick (Float DT)
@@ -81,21 +111,6 @@ simulated function float ChargeBar()
 	return MeleeFatigue;
 }
 
-simulated function RenderSightFX(Canvas Canvas)
-{
-	local coords C;
-
-	if (SightFX != None)
-	{
-		C = GetBoneCoords(SightFXBone);
-		SightFX.SetLocation(C.Origin);
-		if (RenderedHand < 0)
-			SightFX.SetRotation( OrthoRotation(C.XAxis, -C.YAxis, C.ZAxis) - rot(0,0,8192) );
-		else
-			SightFX.SetRotation( OrthoRotation(C.XAxis, C.YAxis, C.ZAxis)  + rot(0,0,8192) );
-		Canvas.DrawActor(SightFX, false, false, DisplayFOV);
-	}
-}
 
 simulated function bool HasAmmoLoaded(byte Mode)
 {
@@ -200,7 +215,7 @@ simulated function CommonSwitchWeaponMode(byte NewMode)
 //
 // Increase accuracy by extending stock
 //======================================================================
-
+/* 
 exec simulated function WeaponSpecial(optional byte i)
 {
 
@@ -215,13 +230,69 @@ exec simulated function WeaponSpecial(optional byte i)
 	if (!bStockLocked)
 		SwitchStock(!bStockOpen);
 }
+*/
+function ServerWeaponSpecial(optional byte i)
+{
+	if (bServerReloading)
+		return;
+	if (ReloadState != RS_None)
+		return;
+	if (Clientstate != WS_ReadyToFire)
+		return;
+	if (IsInState('DualAction') || IsInState('PendingDualAction'))
+		return;
+		
+	if (bHasLaser)	
+		ServerSwitchLaser(!bLaserOn);
+	
+	//Close both together, open 1 at a time
+	if (!bStockLocked && (!IsSlave() || bStockOpen))
+	{
+		if (!bStockOpen && OtherGun != None
+			&& !OtherGun.IsInState('DualAction') && !OtherGun.IsInState('PendingDualAction'))
+			GotoState('PendingStockSwitch');
+		else
+			SwitchStock(!bStockOpen);
+	}
+}
+
+simulated state PendingStockSwitch extends PendingDualAction
+{
+	simulated function BeginState()  { OtherGun.LowerHandGun(); }
+	simulated function HandgunLowered(BallisticHandgun Other)
+	{
+		global.HandgunLowered(Other);
+		if (Other == OtherGun)
+			SwitchStock(!bStockOpen);
+	}
+	simulated event AnimEnd(int Channel)
+	{
+		if (bStockOpen && Fifty9MachinePistol(OtherGun) != None
+			&& !Fifty9MachinePistol(OtherGun).bStockLocked && !Fifty9MachinePistol(OtherGun).bStockOpen)
+			Fifty9MachinePistol(OtherGun).bPendingStockOpen = true;
+		OtherGun.RaiseHandGun();
+		global.AnimEnd(Channel);
+	}
+	function ServerStartReload(optional byte i) {}
+}
+
+simulated function HandgunRaised(BallisticHandgun Other)
+{
+	Super.HandgunRaised(Other);
+	if (Other == self && bPendingStockOpen && !bStockLocked)
+	{
+		bPendingStockOpen = false;
+		GotoState('PendingStockSwitch');
+	}
+}
+
 
 simulated function SwitchStock(bool bNewValue)
 {
 	if (bNewValue == bStockOpen)
 		return;
 
-	Log("Fifty9 SwitchStock: Stock open: "$bStockOpen);
+	//Log("Fifty9 SwitchStock: Stock open: "$bStockOpen);
 	
 	if (Role == ROLE_Authority)
 		bServerReloading = True;
@@ -264,7 +335,7 @@ simulated function ApplyStockAim()
 		RcComponent.YRandFactor			*= 0.8;
 		RcComponent.CrouchMultiplier 	*= 0.8;
 		
-		SightingTime = 0.3f; // awkward to sight
+		SightingTime = default.SightingTime * 1.5;
 		SightBobScale = 0.15f * class'BallisticGameStyles'.static.GetReplicatedStyle().default.SightBobScale;
 	}
 	else
@@ -290,6 +361,8 @@ simulated function SetStockRotation()
 
 simulated function PlayIdle()
 {
+	if (ReloadState == RS_GearSwitch)
+		return;
 	if (bStockOpen && !bStockOpenRotated)
 	{
 		SetStockRotation();
@@ -302,15 +375,6 @@ simulated function PlayIdle()
 	else
 		super.PlayIdle();
 }
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
-
 
 simulated function Notify_Fifty9Melee()
 {
@@ -452,7 +516,7 @@ simulated function DrawLaserSight ( Canvas Canvas )
 		return;
 
 	AimDir = BallisticFire(FireMode[0]).GetFireAim(Start);
-	Loc = GetBoneCoords('tip2').Origin;
+	Loc = GetBoneCoords('tip').Origin;
 
 	End = Start + Normal(Vector(AimDir))*5000;
 	Other = FireMode[0].Trace (HitLocation, HitNormal, End, Start, true);
@@ -475,7 +539,7 @@ simulated function DrawLaserSight ( Canvas Canvas )
 		Laser.SetRotation(Rotator(HitLocation - Loc));
 	else
 	{
-		AimDir = GetBoneRotation('tip2');
+		AimDir = GetBoneRotation('tip');
 		Laser.SetRotation(AimDir);
 	}
 	Scale3D.X = VSize(HitLocation-Loc)/128;
@@ -573,13 +637,11 @@ defaultproperties
 	InventoryGroup=1
 	GroupOffset=1
 	PickupClass=Class'BallisticProV55.Fifty9Pickup'
-
 	PlayerViewOffset=(X=10,Y=4,Z=-6)
 	SightOffset=(X=-10,Z=3.3)
 	SightPivot=(Pitch=128)
 	SightZoomFactor=1.2
 	SightBobScale=0.3f
-
 	AttachmentClass=Class'BallisticProV55.Fifty9Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_Fifty9'
 	IconCoords=(X2=127,Y2=31)

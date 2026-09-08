@@ -37,7 +37,7 @@ var   Emitter		LaserDot;
 replication
 {
 	reliable if(Role==ROLE_Authority)
-		CurrentRocket, Target, bLockedOn, bLaserOn;
+		CurrentRocket, Target, bLockedOn, bLaserOn, TargetTime;
 
 	reliable if(Role<ROLE_Authority)
 		ServerSetRocketTarget;
@@ -296,8 +296,15 @@ simulated function WeaponTick(float DT)
 	if (Instigator != None && Instigator.IsLocallyControlled())
 		TickLaser(DT);
 
-	if (!bScopeView || CurrentWeaponMode != 1 || Role < ROLE_Authority)
-		return;
+    if (!bScopeView || CurrentWeaponMode != 1)
+    {
+        if (Role == ROLE_Authority)
+            TargetTime = 0;
+        return;
+    }
+
+    if (Role < ROLE_Authority)
+        return;
 
 	bWasLockedOn = TargetTime >= LockOnTime;
 
@@ -671,7 +678,7 @@ simulated function CameraView()
 simulated event RenderOverlays( Canvas Canvas )
 {
 	// Do stuff for camera view
-	if ( CurrentRocket != None && PlayerController(Instigator.Controller).ViewTarget == CurrentRocket )
+	if ( CurrentRocket != None && PlayerController(Instigator.Controller) !=None && PlayerController(Instigator.Controller).ViewTarget == CurrentRocket )
     {
 		Instigator.SetViewRotation(CurrentRocket.Rotation);
 		// Noise
@@ -805,7 +812,7 @@ defaultproperties
 	AIReloadTime=4.000000
 	LaserAimSpread=(Min=0,Max=256)
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_G5'
-	BigIconCoords=(Y1=36,Y2=230)	
+	BigIconCoords=(Y1=36,Y2=230)
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Projectile=True

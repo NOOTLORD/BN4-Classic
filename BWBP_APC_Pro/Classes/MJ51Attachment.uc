@@ -135,6 +135,7 @@ defaultproperties
 	BrassClass=class'Brass_Rifle'
 	InstantMode=MU_Both
 	FlashMode=MU_Both
+	LightMode=MU_Both
 	TracerClass=class'TraceEmitter_Default'
 	WaterTracerClass=class'TraceEmitter_WaterBullet'
 	WaterTracerMode=MU_Both

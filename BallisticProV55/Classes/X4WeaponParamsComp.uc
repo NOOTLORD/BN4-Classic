@@ -8,16 +8,14 @@ defaultproperties
 	
     Begin Object Class=MeleeEffectParams Name=ArenaPrimaryEffectParams
         TraceRange=(Min=130.000000,Max=130.000000)
+        WaterTraceRange=130.000000
         Damage=70
-		Fatigue=0.060000
-		PenetrationEnergy=0
-		bPenetrate=False
         DamageType=Class'BallisticProV55.DTX4Knife'
         DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
         DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
         BotRefireRate=0.9900000
         WarnTargetPct=0.300000
-        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,bAtten=True)
+        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,batten=false)
     End Object
     
     Begin Object Class=FireParams Name=ArenaPrimaryFireParams
@@ -34,10 +32,11 @@ defaultproperties
 	
     Begin Object Class=MeleeEffectParams Name=ArenaSecondaryEffectParams
         TraceRange=(Min=130.000000,Max=130.000000)
+        WaterTraceRange=130.000000
         Damage=90
-		Fatigue=0.200000
-		PenetrationEnergy=0
-		bPenetrate=False   
+		Fatigue=0.000000
+		PenetrationEnergy=0.000000
+		bPenetrate=False
         DamageType=Class'BallisticProV55.DTX4Knife'
         DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
         DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
@@ -45,10 +44,11 @@ defaultproperties
         HookPullForce=100.000000
         BotRefireRate=0.500000
         WarnTargetPct=0.50000
-        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,bAtten=True)
+        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,batten=false)
     End Object
     
     Begin Object Class=FireParams Name=ArenaSecondaryFireParams
+        FireInterval=0.800000
         AmmoPerFire=0
         PreFireAnim="PrepMelee"
         FireAnim="Melee"
@@ -60,10 +60,10 @@ defaultproperties
 	//=================================================================
 
     Begin Object Class=RecoilParams Name=UniversalRecoilParams
-        ViewBindFactor=0.00
-        PitchFactor=0
-        YawFactor=0
-        DeclineTime=1.500000
+        ViewBindFactor=0.000000
+        PitchFactor=0.000000
+        YawFactor=0.000000
+        DeclineTime=0.000000
     End Object
 
 	//=================================================================
@@ -71,7 +71,7 @@ defaultproperties
 	//=================================================================
 
     Begin Object Class=AimParams Name=UniversalAimParams
-        ViewBindFactor=0.00
+        ViewBindFactor=0.000000
         AimSpread=(Min=0,Max=0)
         ChaosDeclineTime=0.320000
     End Object
@@ -80,12 +80,9 @@ defaultproperties
 	// BASIC PARAMS
 	//=================================================================	
 
-    Begin Object Class=WeaponParams Name=UniversalParams
-        
-        DisplaceDurationMult=0.25
+    Begin Object Class=WeaponParams Name=UniversalParams       
         MagAmmo=1
         InventorySize=1
-		//ViewOffset=(X=4.000000,Y=8.000000,Z=-10.000000)
         RecoilParams(0)=RecoilParams'UniversalRecoilParams'
         AimParams(0)=AimParams'UniversalAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'

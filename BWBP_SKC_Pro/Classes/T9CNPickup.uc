@@ -1,36 +1,8 @@
 //=============================================================================
-// T9CN Pickup class
+// T9CNPickup.
 //=============================================================================
 class T9CNPickup extends BallisticHandgunPickup
 	placeable;
-
-static function StaticPrecache(LevelInfo L)
-{
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Main');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Mag');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Slide');     
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-Stock');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-MiscSilver');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-MiscSilverSpec');
- 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.M9.M9PickupHi');
- 	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.M9.M9PickupLo');
-}
-
-simulated function UpdatePrecacheMaterials()
-{
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Main');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Mag');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.Ber-Slide');     
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-Stock');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-MiscSilver');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.T9CN.T9CN-MiscSilverSpec');
-}
-
-simulated function UpdatePrecacheStaticMeshes()
-{
- 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.M9.M9PickupHi');
- 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.M9.M9PickupLo');
-}
 
 defaultproperties
 {

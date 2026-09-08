@@ -8,15 +8,13 @@ defaultproperties
 	
 	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams
 		TraceRange=(Min=3000.000000)
-		Damage=20
+		Damage=12
         HeadMult=2.00
         LimbMult=0.75
 		DamageType=Class'BWBP_SKC_Pro.DT_PS9MDart'
 		DamageTypeHead=Class'BWBP_SKC_Pro.DT_PS9MDartHead'
 		DamageTypeArm=Class'BWBP_SKC_Pro.DT_PS9MDart'
-		PenetrateForce=135
-		PenetrationEnergy=0
-		bPenetrate=False
+		PenetrateForce=150
 		MuzzleFlashClass=Class'BWBP_SKC_Pro.VSKSilencedFlash'
 		FlashScaleFactor=0.300000
 		Recoil=64.000000
@@ -33,7 +31,7 @@ defaultproperties
 	End Object
 	
 	//Neurotoxin
-	/*Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams_Tox
+	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams_Tox
 		TraceRange=(Min=3000.000000)
 		Damage=12
         HeadMult=2.00
@@ -77,14 +75,14 @@ defaultproperties
 		AmmoPerFire=0
 		FireAnim="DartFire"	
 		FireEffectParams(0)=ProjectileEffectParams'ArenaSecondaryEffectParams'
-	End Object*/
+	End Object
 		
 	//=================================================================
 	// RECOIL
 	//=================================================================
 
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
-		ViewBindFactor=1.000000
+		ViewBindFactor=0.4
 		XCurve=(Points=(,(InVal=0.200000,OutVal=0.100000),(InVal=0.400000,OutVal=0.000000),(InVal=0.50000,OutVal=0.120000),,(InVal=0.7000,OutVal=-0.010000),(InVal=1.000000,OutVal=0.000000)))
 		YCurve=(Points=(,(InVal=0.200000,OutVal=0.200000),(InVal=0.4500000,OutVal=0.40000),(InVal=0.600000,OutVal=0.600000),(InVal=0.800000,OutVal=0.900000),(InVal=1.000000,OutVal=1.000000)))
 		XRandFactor=0.050000
@@ -113,7 +111,7 @@ defaultproperties
 		LayoutName="Poison Auto"
 		Weight=10
 		//Stats
-		MagAmmo=15
+		MagAmmo=10
 		InventorySize=1
         SightingTime=0.200000
         SightMoveSpeedFactor=0.9
@@ -126,7 +124,7 @@ defaultproperties
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
 
-    /*Begin Object Class=WeaponParams Name=ArenaParams_Tox
+    Begin Object Class=WeaponParams Name=ArenaParams_Tox
 		//Layout
 		LayoutName="Neurotoxin"
 		LayoutTags="tox"
@@ -147,10 +145,10 @@ defaultproperties
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
-    End Object */
+    End Object 
 	
     Layouts(0)=WeaponParams'ArenaParams'
-    //Layouts(1)=WeaponParams'ArenaParams_Tox'
+    Layouts(1)=WeaponParams'ArenaParams_Tox'
 	
 	//Camos =====================================
 	Begin Object Class=WeaponCamo Name=PS_Gray
@@ -159,7 +157,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=PS_Black
+	Begin Object Class=WeaponCamo Name=PS_Black
 		Index=1
 		CamoName="Black"
 		WeaponMaterialSwaps(0)=(Material=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny',Index=0,AIndex=-1,PIndex=-1)
@@ -181,10 +179,10 @@ defaultproperties
 		WeaponMaterialSwaps(0)=(Material=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny',Index=0,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.StealthCamos.Stealth-Tiger",Index=1,AIndex=0,PIndex=0)
 		Weight=3
-	End Object*/
+	End Object
 	
 	Camos(0)=WeaponCamo'PS_Gray' //Black
-	//Camos(1)=WeaponCamo'PS_Black'
-	//Camos(2)=WeaponCamo'PS_Jungle'
-	//Camos(3)=WeaponCamo'PS_RedTiger'
+	Camos(1)=WeaponCamo'PS_Black'
+	Camos(2)=WeaponCamo'PS_Jungle'
+	Camos(3)=WeaponCamo'PS_RedTiger'
 }

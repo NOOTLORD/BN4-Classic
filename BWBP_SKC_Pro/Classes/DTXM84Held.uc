@@ -24,13 +24,13 @@ defaultproperties
      MinMotionBlurDamage=1.000000
      MotionBlurDamageRange=20.000000
      MotionBlurFactor=9.000000
-     bUseMotionBlur=False
+     bUseMotionBlur=True
      WeaponClass=Class'BWBP_SKC_Pro.XM84Flashbang'
      DeathString="%k blew off %kh hand and parts of %o."
      FemaleSuicide="%o held her XM84 to the bitter end."
      MaleSuicide="%o refused to drop his XM84."
      bArmorStops=False
-     bCauseConvulsions=False
+     bCauseConvulsions=True
      bNeverSevers=True
      GibModifier=0.500000
      GibPerterbation=0.900000

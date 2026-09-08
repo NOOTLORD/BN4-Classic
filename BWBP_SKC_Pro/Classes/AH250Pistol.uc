@@ -19,9 +19,7 @@ var(AH250Pistol)   bool			bStriking;
 var(AH250Pistol) Sound			LaserOnSound;
 var(AH250Pistol) Sound			LaserOffSound;
 
-
-
-/*replication
+replication
 {
 	reliable if (Role == ROLE_Authority)
 		bLaserOn, bHasLaser;
@@ -117,7 +115,7 @@ simulated function ClientSwitchLaser()
 
 	if (!IsinState('DualAction') && !IsinState('PendingDualAction'))
 		PlayIdle();
-}*/
+}
 
 simulated function BringUp(optional Weapon PrevWeapon)
 {
@@ -139,7 +137,7 @@ simulated function BringUp(optional Weapon PrevWeapon)
 	
 	Super.BringUp(PrevWeapon);
 	
-	/*f (Instigator != None && Laser == None && PlayerController(Instigator.Controller) != None)
+	if (Instigator != None && Laser == None && PlayerController(Instigator.Controller) != None)
 		Laser = Spawn(class'LaserActor');
 	if (Instigator != None && LaserDot == None && PlayerController(Instigator.Controller) != None)
 		SpawnLaserDot();
@@ -147,10 +145,10 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		ServerSwitchLaser(FRand() > 0.5);
 
 	if ( ThirdPersonActor != None )
-		AH250Attachment(ThirdPersonActor).bLaserOn = bLaserOn;*/
+		AH250Attachment(ThirdPersonActor).bLaserOn = bLaserOn;
 }
 
-/*simulated function KillLaserDot()
+simulated function KillLaserDot()
 {
 	if (LaserDot != None)
 	{
@@ -253,7 +251,7 @@ simulated event RenderOverlays( Canvas Canvas )
 	super.RenderOverlays(Canvas);
 	if (!IsInState('Lowered'))
 		DrawLaserSight(Canvas);
-}*/
+}
 
 simulated function Notify_HideBullet()
 {
@@ -272,7 +270,9 @@ simulated event AnimEnd (int Channel)
     local float Frame, Rate;
 
     GetAnimParams(0, Anim, Frame, Rate);
-
+	
+	if (Anim != 'PrepPistolWhip' && Anim != 'OpenPrepPistolWhip')
+		bStriking = false;
 	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == 'OpenFire' || Anim == 'OpenSightFire' || Anim == CockAnim || Anim == ReloadAnim || Anim == DualReloadAnim || Anim == DualReloadEmptyAnim)
 	{
 		if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
@@ -293,16 +293,8 @@ simulated event AnimEnd (int Channel)
 	Super.AnimEnd(Channel);
 }
 
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
-
 // Secondary fire doesn't count for this weapon
-/*simulated function bool HasAmmo()
+simulated function bool HasAmmo()
 {
 	//First Check the magazine
 	if (!bNoMag && FireMode[0] != None && MagAmmo >= FireMode[0].AmmoPerFire)
@@ -311,10 +303,12 @@ simulated function PlayCocking(optional byte Type)
 	if (Ammo[0] != None && FireMode[0] != None && Ammo[0].AmmoAmount >= FireMode[0].AmmoPerFire)
 			return true;
 	return false;	//This weapon is empty
-}*/
+}
 
 // AI Interface =====
+// choose between regular or alt-fire
 function byte BestMode()	{	return 0;	}
+
 
 function float GetAIRating()
 {
@@ -362,27 +356,30 @@ defaultproperties
 	AIReloadTime=1.500000
 	BigIconMaterial=Texture'BWBP_SKC_Tex.Eagle.BigIcon_Eagle'
 	BigIconCoords=(X1=48,Y1=0,X2=455,Y2=255)
+	
 	bWT_Bullet=True
-	bWT_Sidearm=True
 	SpecialInfo(0)=(Info="140.0;12.0;0.7;70.0;0.55;0.0;-999.0")
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Pullout',Pitch=0.9,Volume=0.170000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Putaway',Pitch=0.9,Volume=0.175000)
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.Eagle.Eagle-Cock',Volume=5.100000,Radius=48.000000)
+	CockSelectSound=(Sound=Sound'BW_Core_WeaponSound.G5.G5-Lever')
 	ClipHitSound=(Sound=Sound'BWBP_SKC_Sounds.Eagle.Eagle-ClipHit',Volume=2.500000,Radius=48.000000)
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.Eagle.Eagle-ClipOut',Volume=2.500000,Radius=48.000000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.Eagle.Eagle-ClipIn',Volume=2.500000,Radius=48.000000)
 	ClipInFrame=0.650000
-	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
-	CurrentWeaponMode=0
+	WeaponModes(0)=(ModeName="Semi")
+	WeaponModes(1)=(ModeName="Mode-2",bUnavailable=True,Value=7.000000)
+	WeaponModes(2)=(bUnavailable=True)
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.G5OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M806InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=122),Color2=(B=122),StartSize1=64,StartSize2=76)
     NDCrosshairInfo=(SpreadRatios=(X1=0.750000,Y1=0.750000,X2=0.300000,Y2=0.300000))
+	CurrentWeaponMode=0
 	ScopeViewTex=Texture'BWBP_SKC_Tex.Eagle.Eagle-ScopeView'
 	ZoomInSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomIn',Volume=0.500000,Pitch=1.000000)
 	ZoomOutSound=(Sound=Sound'BW_Core_WeaponSound.R78.R78ZoomOut',Volume=0.500000,Pitch=1.000000)
 	FullZoomFOV=40.000000
 	bNoCrosshairInScope=True
 	GunLength=4.000000
-	bShouldDualInLoadout=False
+	bShouldDualInLoadout=True
 	ParamsClasses(0)=Class'AH250WeaponParamsComp'
 	ParamsClasses(1)=Class'AH250WeaponParamsClassic'
 	ParamsClasses(2)=Class'AH250WeaponParamsRealistic'
@@ -394,22 +391,24 @@ defaultproperties
 	PutDownAnimRate=1.600000
 	PutDownTime=0.500000
 	BringUpTime=0.600000
-	CockingBringUpTime=1.400000
+	CockingBringUpTime=1.300000
 	SelectForce="SwitchToAssaultRifle"
 	Description="AH-250 'Hawk' Assault Pistol||Manufacturer: Enravion Combat Solutions|Primary: Magnum Rounds|Secondary: Scope||Built as a more affordable alternative to the AH-104, the AH-250 is an alternate design chambered for .44 magnum rounds instead of the usual $100 .600 HEAP ones. It is less accurate than the AH-104 and D49, but its 8 round magazine and faster reload times let it put more rounds down range than both. Its significant weight and recoil means it requires both hands to shoot and is harder to control than its revolver and hand cannon siblings, a fact that comes into play where range is a concern. An updated version known as the AH-250M2 'Hawk' is also available, complete with a compensator, match-grade internals, and a 6x precision scope to make aiming easier. Military adoption remains low due to the heavy recoil and impracticality of carrying around such a large sidearm, yet big game hunters have taken a liking to it, plus it remains a popular weapon in every outer planet action flick."
 	Priority=96
 	HudColor=(B=200,G=200)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
 	InventoryGroup=2
-	GroupOffset=2
+	GroupOffset=13
 	PickupClass=Class'BWBP_SKC_Pro.AH250Pickup'
+
 	PlayerViewOffset=(X=5.00,Y=3.00,Z=-6.00)
 	SightOffset=(X=18.5000000,Y=0,Z=2.75)
 	SightBobScale=0.45f
+
 	AttachmentClass=Class'BWBP_SKC_Pro.AH250Attachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.Eagle.SmallIcon_Eagle'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="AH250"
+	ItemName="AH250 Assault Pistol"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=30
@@ -418,4 +417,10 @@ defaultproperties
 	LightRadius=4.000000
 	Mesh=SkeletalMesh'BWBP_SKC_Anim.AHDeagle_FPm'
 	DrawScale=0.300000
+	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'
+	Skins(1)=Shader'BWBP_SKC_Tex.Eagle.Eagle-MainShine'
+	Skins(2)=Texture'BWBP_SKC_Tex.Eagle.Eagle-Misc'
+	Skins(3)=Texture'BWBP_SKC_Tex.Eagle.Eagle-ScopeRed'
+	Skins(4)=Texture'BWBP_SKC_Tex.Eagle.Eagle-Front'
+	Skins(5)=Shader'BWBP_SKC_Tex.Eagle.Eagle-SightDotGreen'
 }

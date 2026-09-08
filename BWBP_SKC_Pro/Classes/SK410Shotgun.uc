@@ -79,9 +79,27 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+	local Vector Dir;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+
+	if (Dist > 1024 || B.Enemy.Weapon != None && B.Enemy.Weapon.bMeleeWeapon)
+		return 1;
+		
+	return 0;
+}
+
 
 function float GetAIRating()
 {
@@ -150,6 +168,7 @@ defaultproperties
     BringUpSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Pullout',Volume=0.220000)
     PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Putaway',Volume=0.260000)
     CockSound=(Sound=Sound'BWBP_SKC_Sounds.SK410.SK410-Cock',Volume=1.400000)
+    CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.SK410.SK410-Cock',Volume=1.400000)
     ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.SK410.SK410-MagOut',Volume=1.300000)
     ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.SK410.SK410-MagIn',Volume=1.300000)
     WeaponModes(0)=(ModeName="Automatic",ModeID="WM_FullAuto")
@@ -165,20 +184,20 @@ defaultproperties
     ParamsClasses(2)=Class'SK410WeaponParamsRealistic'
     ParamsClasses(3)=Class'SK410WeaponParamsTactical'
     FireModeClass(0)=Class'BWBP_SKC_Pro.SK410PrimaryFire'
-    FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+    FireModeClass(1)=Class'BWBP_SKC_Pro.SK410SecondaryFire'
     SelectAnimRate=1.600000
     PutDownAnimRate=1.600000
     PutDownTime=0.350000
     BringUpTime=0.600000
-	CockingBringUpTime=2.000000
+	CockingBringUpTime=1.800000
     AIRating=0.850000
     CurrentRating=0.850000
     Description="The SK-410 shotgun is a large-bore, compact shotgun based off the popular AK-490 design. While it is illegal on several major planets, this powerful weapon and its signature explosive shotgun shells are almost ubiquitous. A weapon originally designed for breaching use, the SK-410 is now found in the hands of civillians and terrorists throughout the worlds. It had become so prolific with outer colony terrorist groups that the UTC began the SKAS assault weapon program in an effort to find a powerful shotgun of their own."
     Priority=245
     HudColor=(G=25)
     CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+    InventoryGroup=7
+    GroupOffset=7
     PickupClass=Class'BWBP_SKC_Pro.SK410Pickup'
 
     PlayerViewOffset=(X=7.00,Y=4.50,Z=-5.00)

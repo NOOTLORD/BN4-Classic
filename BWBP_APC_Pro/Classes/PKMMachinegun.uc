@@ -110,7 +110,7 @@ simulated function ClientStartReload(optional byte i)
 		}
 		else
 		{
-			log('CommonYes');
+			//log('CommonYes');
 			CommonStartReload(i);
 		}
 	}
@@ -171,7 +171,6 @@ function AttachToPawn(Pawn P)
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -197,14 +196,6 @@ simulated function Notify_CockAfterReload()
 		CommonCockGun(2);
 	else
 		PlayAnim('ReloadFinishHold', ReloadAnimRate, 0.2);
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2 && HasAnim('ReloadEndCock'))
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 simulated function bool HasAmmo()
@@ -286,9 +277,6 @@ function GiveTo(Pawn Other, optional Pickup Pickup)
 	}
 }
 
-// AI Interface =====
-function byte BestMode()	{	return 0;	}
-
 function float GetAIRating()
 {
 	local Bot B;
@@ -343,6 +331,7 @@ defaultproperties
 	 PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M353.M353-Putaway',Volume=0.270000)
      CockAnimRate=1.250000
      CockSound=(Sound=Sound'BWBP_APC_Sounds.RPK940.RPK-Bolt',Volume=1.500000)
+	 CockSelectSound=(Sound=Sound'BWBP_APC_Sounds.RPK940.RPK-Bolt',Volume=1.500000)
      ReloadAnim="ReloadStart"
      ReloadAnimRate=1.000000
      ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.M353.M353-ShellOut')
@@ -358,11 +347,11 @@ defaultproperties
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M353OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M353InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=0,G=39,R=137,A=255),Color2=(B=148,G=145,R=149,A=255),StartSize1=96,StartSize2=96)
 	 NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)
      FireModeClass(0)=Class'BWBP_APC_Pro.PKMPrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_APC_Pro.PKMSecondaryFire'
      SelectAnimRate=1.000000
      PutDownTime=0.550000
      BringUpTime=0.500000
-	 CockingBringUpTime=2.000000
+	 CockingBringUpTime=1.600000
      SelectForce="SwitchToAssaultRifle"
      AIRating=0.7500000
      CurrentRating=0.7500000
@@ -370,8 +359,7 @@ defaultproperties
      Priority=43
      HudColor=(G=150,R=100)
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=6
      PickupClass=Class'BWBP_APC_Pro.PKMPickup'
      PlayerViewOffset=(X=0.000000,Y=5.000000,Z=-11.000000)
 	 SightOffset=(X=5.000000,Y=-1.1150000,Z=14.10000)

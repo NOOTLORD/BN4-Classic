@@ -8,7 +8,7 @@
 //=============================================================================
 class MRDRAttachment extends HandgunAttachment;
 
-/*simulated function InstantFireEffects(byte Mode)
+simulated function InstantFireEffects(byte Mode)
 {
 	if (FiringMode != 0)
 		MeleeFireEffects();
@@ -44,11 +44,11 @@ simulated function MeleeFireEffects()
 		return;
 //	if (ImpactManager != None)
 		class'IM_GunHit'.static.StartSpawn(HitLocation, mHitNormal, mHitSurf, instigator);
-}*/
+}
 
 defaultproperties
 {
-	 WeaponClass=class'MRDRMachinePistol'
+	WeaponClass=class'MRDRMachinePistol'
      MuzzleFlashClass=Class'BWBP_SKC_Pro.MRDRFlashEmitter'
      ImpactManager=class'IM_Bullet'
      FlashScale=0.800000

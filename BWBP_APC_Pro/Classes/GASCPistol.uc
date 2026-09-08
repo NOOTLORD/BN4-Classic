@@ -9,9 +9,7 @@
 // uses code by Nolan "Dark Carnivour" Richert.
 // Copyright� 2011 RuneStorm. All Rights Reserved.
 //=============================================================================
-class GASCPistol extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class GASCPistol extends BallisticWeapon;
 
 var   bool			bLaserOn;
 var   bool			bStriking;

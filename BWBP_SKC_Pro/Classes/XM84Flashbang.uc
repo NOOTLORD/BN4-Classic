@@ -62,11 +62,11 @@ simulated function CheckNoGrenades()
 
 // Hurt radius that uses delayed damage and makes sure if instigator is hit, he'll go last
 // Spawns an actor corrupter here
-/*simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation )
+simulated function SpecialHurtRadius( float DamageAmount, float DamageRadius, class<DamageType> DamageType, float Momentum, vector HitLocation )
 {
 	local actor Victims;
 	local float damageScale, dist;
-	local vector dir;
+	local vector dir, dummy;
 	local bool bHitInstigator;
 	local XM84ActorCorrupt PF;
 
@@ -107,8 +107,8 @@ simulated function CheckNoGrenades()
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			/*if (Victims != None)
-				ApplySlowdown(Pawn(Victims), DamageAmount/4);*/
+			if (Pawn(Victims) != None && Level.Game.ReduceDamage(DamageAmount, xPawn(Victims), Instigator, Victims.Location, Dummy, DamageType) > 0)
+				ApplySlowdown(Pawn(Victims), DamageAmount/4);
 		}
 	}
 	if (bHitInstigator)
@@ -136,19 +136,43 @@ simulated function CheckNoGrenades()
 				PF.InstigatorController = Instigator.Controller;
 			PF.Initialize(Victims);
 			
-			/*if (Victims != None)
-				ApplySlowdown(Pawn(Victims), DamageAmount/4);*/
+			if (Pawn(Victims) != None && Level.Game.ReduceDamage(DamageAmount, xPawn(Victims), Instigator, Victims.Location, Dummy, DamageType) > 0)
+				ApplySlowdown(Pawn(Victims), DamageAmount/4);
 	}
 	bHurtEntry = false;
-}*/
+}
 
-/*function ApplySlowdown(Pawn P, float Duration)
+function ApplySlowdown(Pawn P, float Duration)
 {
 	class'BCSprintControl'.static.AddSlowTo(P, 0.6, Duration);
-}*/
+}
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist, Height, result;
+	local Vector Dir;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+	Height = B.Enemy.Location.Z - Instigator.Location.Z;
+	result = 0.5;
+
+	if (Dist > 500)
+		result -= 0.4;
+	else
+		result += 0.4;
+	if (Abs(Height) > 32)
+		result -= Height / Dist;
+	if (result > 0.5)
+		return 1;
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -196,11 +220,12 @@ defaultproperties
      HeldMomentum=75000
      HeldDamageType=Class'BWBP_SKC_Pro.DTXM84Held'
      GrenadeSmokeClass=Class'BWBP_SKC_Pro.XM84Trail'
-     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.500000,Radius=24.000000,Pitch=1.000000,bAtten=True)
-     PinPullSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-PinOut',Volume=0.100000,Radius=24.000000,Pitch=1.000000,bAtten=True)
+     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.500000,Radius=24.000000,Pitch=1.000000,batten=false)
+     PinPullSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-PinOut',Volume=0.100000,Radius=24.000000,Pitch=1.000000,batten=false)
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
      BigIconMaterial=Texture'BWBP_SKC_Tex.XM84.BigIcon_XM84'
      BigIconCoords=(Y1=12,Y2=255)
+     
      bWT_Hazardous=True
      bWT_Splash=True
      bWT_Grenade=True
@@ -210,9 +235,11 @@ defaultproperties
      SpecialInfo(0)=(Info="60.0;5.0;0.25;30.0;0.0;0.0;0.4")
      BringUpSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Pullout',Volume=0.112000)
      PutDownSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-Putaway',Volume=0.111000)
-	 WeaponModes(1)=(ModeName="",ModeID="WM_None",Value=1.000000)
 	 CurrentWeaponMode=0
 	 ParamsClasses(0)=Class'XM84WeaponParamsComp'
+	 ParamsClasses(1)=Class'XM84WeaponParamsClassic'
+	 ParamsClasses(2)=Class'XM84WeaponParamsRealistic'
+     ParamsClasses(3)=Class'XM84WeaponParamsTactical'
      FireModeClass(0)=Class'BWBP_SKC_Pro.XM84PrimaryFire'
      FireModeClass(1)=Class'BWBP_SKC_Pro.XM84SecondaryFire'
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.NRP57OutA',pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=7,G=255,R=255,A=166),Color2=(B=255,G=26,R=12,A=229),StartSize1=112,StartSize2=210)
@@ -228,15 +255,14 @@ defaultproperties
      Priority=142
      HudColor=(B=255,G=150,R=100)
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=4
-	 GroupOffset=4
+     InventoryGroup=0
      PickupClass=Class'BWBP_SKC_Pro.XM84Pickup'
      PlayerViewOffset=(X=6.000000,Y=7.500000,Z=-9.000000)
      PlayerViewPivot=(Pitch=1024,Yaw=-1024)
      AttachmentClass=Class'BWBP_SKC_Pro.XM84Attachment'
      IconMaterial=Texture'BWBP_SKC_Tex.XM84.SmallIcon_XM84'
      IconCoords=(X2=127,Y2=31)
-     ItemName="XM84"
+     ItemName="XM84 Heavy Tech Grenade"
      Mesh=SkeletalMesh'BWBP_SKC_Anim.XM84_FPm'
      DrawScale=0.300000
      Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'

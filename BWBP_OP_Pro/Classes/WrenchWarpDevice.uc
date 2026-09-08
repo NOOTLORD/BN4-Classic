@@ -1,6 +1,4 @@
-class WrenchWarpDevice extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
+class WrenchWarpDevice extends BallisticMeleeWeapon;
 
 const DEPLOYABLE_COUNT = 7;
 
@@ -488,6 +486,7 @@ function Notify_BarrierDeploy()
 	local Actor HitActor;
 	local Vector Start, End, HitNorm, HitLoc;
 	local WrenchPreconstructor WP;
+	local PlayerController PC;
 	
 	local Rotator SlopeInputYaw, SlopeRotation;
 
@@ -508,25 +507,30 @@ function Notify_BarrierDeploy()
 		return;
 	}
 	
+	PC = PlayerController(Instigator.Controller);
+
 	//Safety for mode switch during attack
 	if (AltDeployable.AmmoReq > Ammo[0].AmmoAmount)
 	{
 		Instigator.ClientMessage("Not enough charge to warp in"@WeaponModes[0].ModeName$".");
-		PlayerController(Instigator.Controller).ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
+		if (PC != None)
+			PC.ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
 		return;
 	}
 		
 	if (HitActor == None || !HitActor.bWorldGeometry)
 	{
 		Instigator.ClientMessage("Must target an unoccupied surface.");
-		PlayerController(Instigator.Controller).ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
+		if (PC != None)
+			PC.ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
 		return;
 	}
 	
 	if (HitLoc == vect(0,0,0))
 	{
 		Instigator.ClientMessage("Out of range.");
-		PlayerController(Instigator.Controller).ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
+		if (PC != None)
+			PC.ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
 		return;
 	}
 	
@@ -539,7 +543,8 @@ function Notify_BarrierDeploy()
 	if (!SpaceToDeploy(HitLoc, HitNorm, SlopeRotation, AltDeployable.dClass.default.CollisionHeight, AltDeployable.dClass.default.CollisionRadius))
 	{
 		Instigator.ClientMessage("Insufficient space for construction.");
-		PlayerController(Instigator.Controller).ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
+		if (PC != None)
+			PC.ClientPlaySound(Sound'BWBP_OP_Sounds.Wrench.EnergyStationError', ,1);
 		return;
 	}
 	
@@ -547,6 +552,9 @@ function Notify_BarrierDeploy()
 		
 	WP = Spawn(class'WrenchPreconstructor', Instigator, , Start + HitNorm * AltDeployable.dClass.default.CollisionRadius, SlopeRotation);
 	
+	if (WP == None)
+		return;
+
 	WP.GroundPoint = Start + (HitNorm * (AltDeployable.SpawnOffset + AltDeployable.dClass.default.CollisionRadius));
 
 	WP.Instigator = Instigator;
@@ -695,9 +703,9 @@ defaultproperties
 	 ParamsClasses(3)=Class'WrenchWeaponParamsTactical'
      FireModeClass(0)=Class'WrenchPrimaryFire'
      FireModeClass(1)=Class'WrenchSecondaryFire'
-	 PutDownTime=1.750000
+	 PutDownTime=1.000000
 	 PutDownAnimRate=0.650000
-	 BringUpTime=1.750000
+	 BringUpTime=1.250000
 	 SelectAnimRate=0.750000	 
      SelectForce="SwitchToAssaultRifle"
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M763InA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Misc8',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=255,G=0,R=0,A=198),Color2=(B=85,G=246,R=250,A=255),StartSize1=141,StartSize2=38)

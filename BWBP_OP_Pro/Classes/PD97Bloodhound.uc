@@ -15,9 +15,7 @@
 //
 // Coded by a bunch of people.
 //===========================================================================
-class PD97Bloodhound extends BallisticHandgun
-	HideDropDown
-	CacheExempt;
+class PD97Bloodhound extends BallisticHandgun;
 
 var(PD97) PD97TazerEffect 		TazerEffect;
 var(PD97) array<PD97DartControl> StruckTargets;
@@ -411,11 +409,11 @@ simulated function WeaponTick (float DT)
 		TazerEffect.SetLocation(BallisticAttachment(ThirdPersonActor).GetModeTipLocation());
 	}
 	
-	if (LockedTarget != None )
+	if (LockedTarget != None && LockedTarget.Health > 0)
 	{
 		ServerSetRocketTarget(LockedTarget.Location);
 	}
-	else if (LockedTarget == None && bLockedOn)
+	else if (bLockedOn)
 	{
 		BreakLock();
 	}

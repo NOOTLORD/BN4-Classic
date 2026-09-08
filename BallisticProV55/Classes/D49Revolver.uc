@@ -255,8 +255,8 @@ simulated function bool PutDown()
 {
 	if (super.PutDown())
 	{
-		/*bLaserOn=false;
-		KillLaserDot();*/
+		bLaserOn=false;
+		//KillLaserDot();
 		if (Instigator.IsLocallyControlled())
 		{
 			bRevCocked=false;
@@ -483,7 +483,7 @@ defaultproperties
 	PlayerViewOffset=(X=10.00,Y=7.00,Z=-16.5)
 	SightOffset=(X=-11,Y=-4.6,Z=25.5)
 	SightPivot=(Pitch=350,Yaw=-48,Roll=-500)
-	SightBobScale=1f
+	SightBobScale=1.000000
 	AttachmentClass=Class'BallisticProV55.D49Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_D49'
 	IconCoords=(X2=127,Y2=31)

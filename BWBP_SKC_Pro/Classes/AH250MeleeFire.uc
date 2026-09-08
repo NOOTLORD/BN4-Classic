@@ -20,6 +20,13 @@ simulated function bool HasAmmo()
 	return true;
 }
 
+function PlayPreFire()
+{
+	super.PlayPreFire();
+
+	AH250Pistol(Weapon).bStriking = true;
+}
+
 //Do the spread on the client side
 function PlayFiring()
 {
@@ -54,7 +61,7 @@ defaultproperties
      bReleaseFireOnDie=False
      bIgnoreReload=True
      ScopeDownOn=SDO_PreFire
-     BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,bAtten=True)
+     BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Swing',Volume=0.5,Radius=12.000000,batten=false)
      bAISilent=True
      bFireOnRelease=True
      PreFireAnim="PrepPistolWhip"

@@ -9,9 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class FlameSword extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
+class FlameSword extends BallisticMeleeWeapon;
 
 struct DeployableInfo
 {
@@ -252,7 +250,7 @@ function AdjustPlayerDamage( out int Damage, Pawn InstigatedBy, Vector HitLocati
 {
 	local class<BallisticDamageType> BDT;
 
-    if (Instigator != InstigatedBy && class<BallisticDamageType>(DamageType) != None)
+    if (class<BallisticDamageType>(DamageType) != None)
     {
         BDT = class<BallisticDamageType>(DamageType);
 
@@ -260,7 +258,7 @@ function AdjustPlayerDamage( out int Damage, Pawn InstigatedBy, Vector HitLocati
         {
             Damage = 0;
             PlaySound(ShieldHitSound, SLOT_None);
-			Momentum = vect(0,0,0);    
+			Momentum = vect(0,0,0);
         }
     }
 
@@ -275,27 +273,7 @@ function bool CanAttack(Actor Other)
 }
 
 // choose between regular or alt-fire
-function byte BestMode()
-{
-	local Bot B;
-	local float Result;
-
-	B = Bot(Instigator.Controller);
-	if ( (B == None) || (B.Enemy == None) )
-		return 0;
-
-	if (VSize(B.Enemy.Location - Instigator.Location) > FireMode[0].MaxRange()*1.5)
-		return 1;
-	Result = FRand();
-	if (vector(B.Enemy.Rotation) dot Normal(Instigator.Location - B.Enemy.Location) < 0.0)
-		Result += 0.3;
-	else
-		Result -= 0.3;
-
-	if (Result > 0.5)
-		return 1;
-	return 0;
-}
+function byte BestMode()	{	return 0;	}
 
 // tells bot whether to charge or back off while using this weapon
 function float SuggestAttackStyle()

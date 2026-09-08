@@ -8,7 +8,6 @@
 // Copyright� 2011 RuneStorm. All Rights Reserved.
 //=============================================================================
 class Ammo_M46Grenades extends BallisticAmmo;
-
 /*
 var M46AssaultRifle		DaM46;
 var Ammo_M46Clip Bullets;
@@ -84,5 +83,4 @@ defaultproperties
 	Params[1]=ClassicParams
 	Params[2]=RealismParams
 	Params[3]=TacticalParams
-}
-*/
+}*/

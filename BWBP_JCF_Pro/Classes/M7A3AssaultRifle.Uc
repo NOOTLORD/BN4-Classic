@@ -105,10 +105,18 @@ simulated function BringUp(optional Weapon PrevWeapon)
 
 simulated function PlayCocking(optional byte Type)
 {
-	if (Type == 2 && HasAnim(CockAnimPostReload))
-		SafePlayAnim(CockAnimPostReload, CockAnimRate, 0.2, , "RELOAD");
-	else
-		SafePlayAnim(CockAnim, CockAnimRate, 0.2, , "RELOAD");
+    local float AdjustedCockAnimRate;
+
+    // Adjust cock animation rate only during reloading
+    if (ReloadState != RS_None && ReloadState != RS_Cocking)
+        AdjustedCockAnimRate = CockAnimRate * class'BallisticReplicationInfo'.default.ReloadScale;
+    else
+        AdjustedCockAnimRate = CockAnimRate; // Use default rate for firing
+
+    if (Type == 2 && HasAnim(CockAnimPostReload))
+        SafePlayAnim(CockAnimPostReload, AdjustedCockAnimRate, 0.2, , "RELOAD");
+    else
+        SafePlayAnim(CockAnim, AdjustedCockAnimRate, 0.2, , "RELOAD");
 
 	if (SightingState != SS_None && Type != 1)
 		TemporaryScopeDown(0.5);
@@ -237,7 +245,7 @@ defaultproperties
 	LongGunOffset=(X=-20.000000,Y=0.000000,Z=-15.000000)
 	BobDamping=2.25
 	FireModeClass(0)=Class'BWBP_JCF_Pro.M7A3PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_JCF_Pro.M7A3SecondaryFire'
 	BringUpTime=0.500000
 	SelectForce="SwitchToAssaultRifle"
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.R78OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Cross1',USize1=256,VSize1=256,USize2=128,VSize2=128,Color1=(B=0,G=144,R=0,A=135),Color2=(B=0,G=0,R=255,A=110),StartSize1=138,StartSize2=44)
@@ -249,8 +257,7 @@ defaultproperties
 	DisplayFOV=55.000000
 	Priority=33
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=4
 	PickupClass=Class'BWBP_JCF_Pro.M7A3Pickup'
 	PlayerViewOffset=(X=5.000000,Y=3.000000,Z=-8.000000)
 	AttachmentClass=Class'BWBP_JCF_Pro.M7A3Attachment'

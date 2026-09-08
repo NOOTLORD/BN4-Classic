@@ -142,7 +142,7 @@ simulated function LoadGrenade()
 	if (Ammo[1].AmmoAmount < 1 || bLoaded)
 		return;
 	if (ReloadState == RS_None)
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.25, , 0);
 }
 
 // Notifys for greande loading sounds
@@ -183,6 +183,11 @@ simulated function IndirectLaunch()
 // HARDCODED SIGHTING TIME
 simulated function TickSighting (float DT)
 {
+	// In 3rd person, RenderOverlays is not called so PositionSights
+	// must run here to manage ZT_Irons FOV changes (#230).
+	if (!Instigator.IsFirstPerson() && SightingState != SS_None)
+		PositionSights();
+
 	if (SightingState == SS_None || SightingState == SS_Active)
 		return;
 
@@ -235,9 +240,25 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	if (B.Skill > Rand(6))
+	{
+		if (AimComponent.GetChaos() < 0.1 || AimComponent.GetChaos() < 0.5 && VSize(B.Enemy.Location - Instigator.Location) > 500)
+			return 1;
+	}
+	else if (FRand() > 0.75)
+		return 1;
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -296,7 +317,7 @@ defaultproperties
      ReloadAnimRate=0.850000
      GunLength=50.000000
      FireModeClass(0)=Class'BWBP_APC_Pro.SRKSmgPrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_APC_Pro.SRKSmgSecondaryFire'
      IdleAnimRate=0.200000
      PutDownTime=0.700000
      BringUpTime=0.900000
@@ -308,8 +329,7 @@ defaultproperties
      Description="Primary: 10mm Burst Fire||Secondary: Load/Fire Radioactive Chaff Grenade||With projected success rates for the SRK-650 reaching the minimum requirements, NDTR Industries had already gotten the green light to work on their sister project that originally was supposed to coincide with the SRK-650. The SRK-205 is an SMG version of the 650, chambered in the 10mm Super Auto cartridge to get maximum damage within close quarters confinements. Like it's older brother, the 205 has the same red dot and ammo counter, along with a threaded barrel.  Unlike the 650, the 205 doesn't have any AMP modules made for it, but it does come with radioactive chaff grenades to fry Cryon units and irradiated fleshy targets alike."
      Priority=41
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=3
      PickupClass=Class'BWBP_APC_Pro.SRKSmgPickup'
      PlayerViewOffset=(X=-6.000000,Y=6.000000,Z=-14.000000)
      BobDamping=2.250000

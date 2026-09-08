@@ -18,7 +18,7 @@ var   float     LonghornTimer;
 
 var() Name	Shells[4];
 
-/*simulated function AltFire(float F)	{	FirePressed(F);	}*/
+simulated function AltFire(float F)	{	FirePressed(F);	}
 
 simulated function OnScopeViewChanged()
 {
@@ -50,7 +50,7 @@ simulated function CommonStartReload (optional byte i)
 	bNeedReload=false;
 }
 
-/*simulated function PlayReload()
+simulated function PlayReload()
 {
 	if (SightingState != SS_None)
 		TemporaryScopeDown(0.5);
@@ -70,14 +70,22 @@ simulated function CommonStartReload (optional byte i)
     }
 	
 	SafePlayAnim(StartShovelAnim, ReloadAnimRate, , 0, "RELOAD");
-}*/
+}
 
 simulated function PlayCocking(optional byte Type)
 {
+	local float AdjustedCockAnimRate;
+
+    // Adjust cock animation rate only during reloading
+    if (ReloadState != RS_None && ReloadState != RS_Cocking)
+        AdjustedCockAnimRate = CockAnimRate * class'BallisticReplicationInfo'.default.ReloadScale;
+    else
+        AdjustedCockAnimRate = CockAnimRate; // Use default rate for firing
+
 	if (Type == 2 && HasAnim(CockAnimPostReload))
-		SafePlayAnim(CockAnimPostReload, CockAnimRate, 0.2, , "RELOAD");
+		SafePlayAnim(CockAnimPostReload, AdjustedCockAnimRate, 0.2, , "RELOAD");
 	else
-		SafePlayAnim(CockAnim, CockAnimRate, 0.2, , "RELOAD");
+		SafePlayAnim(CockAnim, AdjustedCockAnimRate, 0.2, , "RELOAD");
 
 	if (SightingState != SS_None && SightingState != SS_Active)
 		TemporaryScopeDown(0.5);
@@ -323,7 +331,25 @@ simulated function UpdateBones()
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	Dist = VSize(B.Enemy.Location - Instigator.Location);
+
+	if (Dist < 2048)
+		return 1;
+		
+	if (Dist < 3072 && FRand() > 0.5)
+		return 1;
+
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -365,6 +391,7 @@ defaultproperties
 	ManualLines(0)="Fires a grenade which inflicts massive damage on direct impact.||If the Fire key is held down, the grenade will enter manual detonation mode. Fire can then be released to cause the grenade to explode with moderate damage and split into clusters. These clusters inflict moderate damage.||If detonated high above the ground, the clusters will project downwards instead of randomly, and will inflict heavier damage with a wider radius."
 	ManualLines(1)="Fires the grenade as its component clusters. Essentially an explosive projectile shotgun attack."
 	ManualLines(2)="Effective at close and medium range and as a bombardment and indirect fire weapon."
+
 	Shells(0)="GrenadeA"
 	Shells(1)="GrenadeB"
 	Shells(2)="GrenadeC"
@@ -372,6 +399,7 @@ defaultproperties
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BWBP_SKC_Tex.Longhorn.BigIcon_LHorn'
 	BigIconCoords=(Y1=30)
+	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Grenade=True
@@ -390,17 +418,24 @@ defaultproperties
 	bShovelLoad=True
 	StartShovelAnim="ReloadStart"
 	EndShovelAnim="ReloadEnd"
-	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
+	WeaponModes(0)=(ModeName="Single Fire")
+	WeaponModes(1)=(bUnavailable=True)
+	WeaponModes(2)=(bUnavailable=True)
 	CurrentWeaponMode=0
 	FullZoomFOV=70.000000
 	bNoCrosshairInScope=True
+
 	PlayerViewOffset=(X=5.00,Y=4.00,Z=-5.00)
 	SightPivot=(Pitch=150)
 	SightOffset=(X=-3.00,Y=0.00,Z=2.30)
 	SightZoomFactor=1.2
+	
 	ParamsClasses(0)=Class'LonghornWeaponParamsComp'
+	ParamsClasses(1)=Class'LonghornWeaponParamsClassic'
+	ParamsClasses(2)=Class'LonghornWeaponParamsRealistic'
+    ParamsClasses(3)=Class'LonghornWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.LonghornPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.LonghornSecondaryFire'
 	SelectAnimRate=1.100000
 	PutDownAnimRate=1.500000
 	PutDownTime=0.500000
@@ -408,18 +443,17 @@ defaultproperties
 	SelectForce="SwitchToAssaultRifle"
 	AIRating=0.750000
 	CurrentRating=0.750000
-	bShowChargingBar=False
+	bShowChargingBar=True
 	Description="Longhorn Lever-Action Repeater|Manufacturer: Redwood Firearms|Primary: Cluster Round|Secondary: Split Cluster Round|| The Longhorn is a large caliber lever-action rifle capable of firing everything from solid slugs to fragmentation grenades. This heavy duty hunting rifle first entered combat with the UTC Silver Ranger Division based in New Arizona. Outnumbered and outgunned, they had lost the battle of Phoenix Dam to the rebelling separatist groups. As the hostiles marched towards the colony's atmospheric stabilizer, they were continually dogged by the Rangers who had armed themselves with Longhorns filled with explosives and shrapnel. The lever-action launcher was easy to use and reliable and the rangers inflicted heavy casualties on the separatists before the stabilizer was lost and the colony compromised. Today, it is still in use with the Silver Rangers and is often loaded with powerful X2 SMRT Tandem-Cluster Grenades."
 	HudColor=(G=200,R=225)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=4
-	GroupOffset=4
+	InventoryGroup=8
 	PickupClass=Class'BWBP_SKC_Pro.LonghornPickup'
 	SightBobScale=0.15f
 	AttachmentClass=Class'BWBP_SKC_Pro.LonghornAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.Longhorn.SmallIcon_LHorn'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="Longhorn"
+	ItemName="Longhorn Repeater"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=30

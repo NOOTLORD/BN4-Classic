@@ -23,7 +23,7 @@ function bool DoTazerBlurEffect(Actor Victim)
 	local int i;
 	local MRS138ViewMesser VM;
 
-	if (Pawn(Victim) == None || Pawn(Victim).Health < 1 || Pawn(Victim).LastPainTime != Victim.level.TimeSeconds)
+	if (Pawn(Victim) == None || Pawn(Victim).Health < 1 || (Instigator.GetTeamNum() != 255 && Pawn(Victim).GetTeamNum() == Instigator.GetTeamNum()))
 		return false;
 	if (PlayerController(Pawn(Victim).Controller) != None)
 	{
@@ -70,7 +70,7 @@ defaultproperties
      bReleaseFireOnDie=False
      bIgnoreReload=True
      ScopeDownOn=SDO_PreFire
-     BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.MRS38.RSS-ElectroSwing',Radius=64.000000,bAtten=True)
+     BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.MRS38.RSS-ElectroSwing',Radius=64.000000,batten=false)
      bAISilent=True
      bFireOnRelease=True
      PreFireAnim="PrepAttack"

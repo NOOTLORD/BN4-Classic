@@ -4,9 +4,10 @@
 // Transferred from JunkWars to add some shielding into BW.
 //================================================
 class JWJunkShieldWeapon extends BallisticMeleeWeapon
+	transient
 	HideDropDown
 	CacheExempt;
-	
+
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 
 var float AimDisplacementBlockThreshold; //Blocking melee will displace the shield. The duration of the displacement is based on how close the damage is to the threshold.
@@ -232,6 +233,9 @@ defaultproperties
 	bNoMag=True
 	GunLength=0.000000
 	ParamsClasses(0)=Class'BallisticShieldWeaponParamsComp'
+	ParamsClasses(1)=Class'BallisticShieldWeaponParamsComp'
+	ParamsClasses(2)=Class'BallisticShieldWeaponParamsComp'
+	ParamsClasses(3)=Class'BallisticShieldWeaponParamsComp'
 	FireModeClass(0)=Class'BWBP_OP_Pro.BallisticShieldPrimaryFire'
 	FireModeClass(1)=Class'BWBP_OP_Pro.BallisticShieldSecondaryFire'
 	PutDownTime=0.500000

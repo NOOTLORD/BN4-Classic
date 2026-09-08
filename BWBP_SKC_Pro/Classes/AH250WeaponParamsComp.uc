@@ -7,7 +7,7 @@ defaultproperties
     //=================================================================	
 	
 	//.44 comp
-	/*Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams
+	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams
 		TraceRange=(Min=8000.000000,Max=9000.000000)
         DecayRange=(Min=1575,Max=3675)
 		PenetrationEnergy=48
@@ -35,7 +35,7 @@ defaultproperties
 		FireEndAnim=
 		AimedFireAnim='SightFire'	
 		FireEffectParams(0)=InstantEffectParams'ArenaPrimaryEffectParams'
-	End Object*/
+	End Object
 
 	//.44
 	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams_208
@@ -69,7 +69,7 @@ defaultproperties
 	End Object
 
 	//.50
-	/*Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams_50
+	Begin Object Class=InstantEffectParams Name=ArenaPrimaryEffectParams_50
 		TraceRange=(Min=7500.000000,Max=7500.000000)
         DecayRange=(Min=1050,Max=2100)
 		PenetrationEnergy=48
@@ -97,15 +97,15 @@ defaultproperties
 		FireEndAnim=
 		AimedFireAnim='SightFire'	
 		FireEffectParams(0)=InstantEffectParams'ArenaPrimaryEffectParams_50'
-	End Object*/
+	End Object
 
 	//=================================================================
 	// RECOIL
 	//=================================================================
 
-	/*Begin Object Class=RecoilParams Name=ArenaRecoilParams
+	Begin Object Class=RecoilParams Name=ArenaRecoilParams
 		XCurve=(Points=((InVal=0.0,OutVal=0.0),(InVal=0.15,OutVal=0.1),(InVal=0.35,OutVal=-0.05),(InVal=0.5,OutVal=0.02),(InVal=0.7,OutVal=-0.06),(InVal=1.0,OutVal=0.0)))
-		ViewBindFactor=1.000000
+		ViewBindFactor=0.5
 		XRandFactor=0.150000
 		YRandFactor=0.150000
 		MaxRecoil=8192.000000
@@ -114,11 +114,11 @@ defaultproperties
         DeclineTime=0.75
 		CrouchMultiplier=1
 		HipMultiplier=1.25
-	End Object*/
+	End Object
 	
     Begin Object Class=RecoilParams Name=ArenaRecoilParams_208
         XCurve=(Points=((InVal=0.0,OutVal=0.0),(InVal=0.15,OutVal=0.03),(InVal=0.35,OutVal=-0.05),(InVal=0.5,OutVal=0.00),(InVal=0.7,OutVal=0.03),(InVal=1.0,OutVal=0.00)))
-        ViewBindFactor=1.000000
+        ViewBindFactor=0.5
         XRandFactor=0.100000
         YRandFactor=0.100000
         MaxRecoil=8192.000000
@@ -133,11 +133,11 @@ defaultproperties
 	// AIM
 	//=================================================================
 
-	/*Begin Object Class=AimParams Name=ArenaAimParams
+	Begin Object Class=AimParams Name=ArenaAimParams
 		ADSMultiplier=1
 		AimSpread=(Min=16,Max=256)
 		ChaosDeclineTime=0.60000
-	End Object*/
+	End Object
 	
 	Begin Object Class=AimParams Name=ArenaAimParams_208
         ADSMultiplier=1
@@ -149,7 +149,7 @@ defaultproperties
 	// BASIC PARAMS
 	//=================================================================	
 
-	/*Begin Object Class=WeaponParams Name=ArenaParams_Scope
+	Begin Object Class=WeaponParams Name=ArenaParams_Scope
 		//Layout core
 		LayoutName=".44 Marksman"
 		Weight=10
@@ -210,17 +210,17 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams_208'
         AimParams(0)=AimParams'ArenaAimParams_208'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams_208'
-    End Object*/
+    End Object 
 	
 	Begin Object Class=WeaponParams Name=ArenaParams_Laser
 		//Layout core
-		LayoutName=".44"
+		LayoutName=".44 Laser"
 		LayoutTags="laser"
 		Weight=30
 		
 		//Attachments
 		WeaponBoneScales(0)=(BoneName="RedDotSight",Slot=54,Scale=0f)
-		WeaponBoneScales(1)=(BoneName="LAM",Slot=55,Scale=0f)
+		WeaponBoneScales(1)=(BoneName="LAM",Slot=55,Scale=1f)
 		WeaponBoneScales(2)=(BoneName="Compensator",Slot=56,Scale=0f)
 		WeaponBoneScales(3)=(BoneName="Scope",Slot=57,Scale=0f)
 		SightOffset=(X=-11,Y=0,Z=1.39)
@@ -241,7 +241,7 @@ defaultproperties
 		FireParams(0)=FireParams'ArenaPrimaryFireParams_208'
     End Object 
 	
-	/*Begin Object Class=WeaponParams Name=ArenaParams_50
+	Begin Object Class=WeaponParams Name=ArenaParams_50
 		//Layout core
 		LayoutName=".50"
 		Weight=10
@@ -267,12 +267,12 @@ defaultproperties
         RecoilParams(0)=RecoilParams'ArenaRecoilParams_208'
         AimParams(0)=AimParams'ArenaAimParams_208'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams_50'
-    End Object */
+    End Object 
 
     Layouts(0)=WeaponParams'ArenaParams_Laser'
-    //Layouts(1)=WeaponParams'ArenaParams_RDS'
-    //Layouts(2)=WeaponParams'ArenaParams_Scope'
-    //Layouts(3)=WeaponParams'ArenaParams_50'
+    Layouts(1)=WeaponParams'ArenaParams_RDS'
+    Layouts(2)=WeaponParams'ArenaParams_Scope'
+    Layouts(3)=WeaponParams'ArenaParams_50'
 	
 	//Camos ====================================
 	Begin Object Class=WeaponCamo Name=Eagle_Silver
@@ -287,7 +287,7 @@ defaultproperties
 		WeaponMaterialSwaps(5)=(Material=Shader'BWBP_SKC_Tex.Eagle.Eagle-SightDot',Index=5,AIndex=5,PIndex=-1)
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=Eagle_Black
+	Begin Object Class=WeaponCamo Name=Eagle_Black
 		Index=1
 		CamoName="Black"
 		Weight=30
@@ -333,11 +333,11 @@ defaultproperties
 		WeaponMaterialSwaps(3)=(MaterialName="BWBP_Camos_Tex.EagleCamos.Eagle-ScopeGold",Index=3,AIndex=3,PIndex=2)
 		WeaponMaterialSwaps(4)=(MaterialName="BWBP_Camos_Tex.EagleCamos.Eagle-FrontGold-Shine",Index=4,AIndex=4,PIndex=1)
 		WeaponMaterialSwaps(5)=(Material=Shader'BWBP_SKC_Tex.Eagle.Eagle-SightDotGreen',Index=5,AIndex=5,PIndex=-1)
-	End Object*/
+	End Object
 
 	Camos(0)=WeaponCamo'Eagle_Silver' //Silver
-	//Camos(1)=WeaponCamo'Eagle_Black' //Black
-	//Camos(2)=WeaponCamo'Eagle_TwoTone' //Two-Tone
-	//Camos(3)=WeaponCamo'Eagle_Chromed' //Silver Fancy
-	//Camos(4)=WeaponCamo'Eagle_Gold' //Gold'
+	Camos(1)=WeaponCamo'Eagle_Black' //Black
+	Camos(2)=WeaponCamo'Eagle_TwoTone' //Two-Tone
+	Camos(3)=WeaponCamo'Eagle_Chromed' //Silver Fancy
+	Camos(4)=WeaponCamo'Eagle_Gold' //Gold'
 }

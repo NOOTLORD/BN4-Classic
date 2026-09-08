@@ -5,7 +5,7 @@
 //
 // by Logan "BlackEagle" Richert.
 // uses code by Nolan "Dark Carnivour" Richert.
-// Copyrightï¿½ 2011 RuneStorm. All Rights Reserved.
+// Copyright© 2011 RuneStorm. All Rights Reserved.
 //=============================================================================
 class DTGASCPistolHead extends DT_BWBullet;
 
@@ -17,7 +17,7 @@ static function IncrementKills(Controller Killer)
 	if ( PlayerController(Killer) == None )
 		return;
 
-	PlayerController(Killer).ReceiveLocalizedMessage( Class'BN4Core.BN4SpecialKillMessage', 0, Killer.PlayerReplicationInfo, None, None );
+	PlayerController(Killer).ReceiveLocalizedMessage( Class'XGame.SpecialKillMessage', 0, Killer.PlayerReplicationInfo, None, None );
 	xPRI = xPlayerReplicationInfo(Killer.PlayerReplicationInfo);
 	if ( xPRI != None )
 	{

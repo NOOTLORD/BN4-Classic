@@ -86,18 +86,21 @@ function FireModeStats GetStats()
 defaultproperties
 {
     TraceRange=(Min=5000.000000,Max=5000.000000)
-    WaterTraceRange=128f
-    RangeAtten=1f
-
-    Damage=1
-    HeadMult=2.0f
-    LimbMult=0.75f
-
+    WaterTraceRange=128.000000
+    DecayRange=(Min=0.000000,Max=0.000000)
+    RangeAtten=1.000000
+    Damage=1.000000
+    HeadMult=1.500000
+    LimbMult=1.000000
     UseRunningDamage=False
-    RunningSpeedThreshold=300
-
+    RunningSpeedThreshold=300.000000
+    PenetrationEnergy=0.000000
+    PenetrateForce=0.000000
+	bPenetrate=False
+    PDamageFactor=0.000000
+    WallPDamageFactor=0.000000
+    MomentumTransfer=0.000000
+    HookStopFactor=0.000000
+    HookPullForce=0.000000
     ShotTypeString="shots"
-
-    PDamageFactor=0.75f
-    WallPDamageFactor=0.95f
 }

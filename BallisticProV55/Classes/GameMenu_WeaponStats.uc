@@ -773,7 +773,7 @@ defaultproperties
      pb_Displacement=GUIProgressBar'BallisticProV55.GameMenu_WeaponStats.myPB'
 
      pb_DPM=GUIProgressBar'BallisticProV55.GameMenu_WeaponStats.myPB'
-
+	 
      //Headings(0)=""
      Headings(0)="Primary"
      Headings(1)="Secondary"
@@ -789,5 +789,5 @@ defaultproperties
      OnClose=GameMenu_WeaponStats.InternalOnClose
      OnKeyEvent=GameMenu_WeaponStats.InternalOnKeyEvent
 
-    BaselineClass=class'M50AssaultRifle'
+     BaselineClass=class'M50AssaultRifle'
 }

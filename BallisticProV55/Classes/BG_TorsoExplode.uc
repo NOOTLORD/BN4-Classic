@@ -11,7 +11,6 @@ defaultproperties
 {
      DisableDGV(4)=1
      Begin Object Class=SpriteEmitter Name=SpriteEmitter2
-         Disabled=True
          UseCollision=True
          FadeOut=True
          RespawnDeadParticles=False
@@ -44,7 +43,6 @@ defaultproperties
      Emitters(0)=SpriteEmitter'BallisticProV55.BG_TorsoExplode.SpriteEmitter2'
 
      Begin Object Class=SpriteEmitter Name=SpriteEmitter3
-         Disabled=True
          UseCollision=True
          FadeOut=True
          RespawnDeadParticles=False

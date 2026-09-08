@@ -78,9 +78,9 @@ simulated function SendFireEffect(Actor Other, vector HitLocation, vector HitNor
 
 function ServerPlayFiring()
 {
-	/*if (RS8Pistol(Weapon) != None && RS8Pistol(Weapon).bSilenced && SilencedFireSound.Sound != None)
-		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,SilencedFireSound.bNoOverride,SilencedFireSound.Radius,SilencedFireSound.Pitch,SilencedFireSound.bAtten);*/
-	if (BallisticFireSound.Sound != None)
+	if (RS8Pistol(Weapon) != None && RS8Pistol(Weapon).bSilenced && SilencedFireSound.Sound != None)
+		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,SilencedFireSound.bNoOverride,SilencedFireSound.Radius,SilencedFireSound.Pitch,SilencedFireSound.bAtten);
+	else if (BallisticFireSound.Sound != None)
 		Weapon.PlayOwnedSound(BallisticFireSound.Sound,BallisticFireSound.Slot,BallisticFireSound.Volume,BallisticFireSound.bNoOverride,BallisticFireSound.Radius,BallisticFireSound.Pitch,BallisticFireSound.bAtten);
 
 	CheckClipFinished();
@@ -122,9 +122,9 @@ function PlayFiring()
     FireCount++;
 	// End code from normal PlayFiring()
 	
-	/*if (RS8Pistol(Weapon) != None && RS8Pistol(Weapon).bSilenced && SilencedFireSound.Sound != None)
-		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,,SilencedFireSound.Radius,,true);*/
-	if (BallisticFireSound.Sound != None)
+	if (RS8Pistol(Weapon) != None && RS8Pistol(Weapon).bSilenced && SilencedFireSound.Sound != None)
+		Weapon.PlayOwnedSound(SilencedFireSound.Sound,SilencedFireSound.Slot,SilencedFireSound.Volume,,SilencedFireSound.Radius,,false);
+	else if (BallisticFireSound.Sound != None)
 		Weapon.PlayOwnedSound(BallisticFireSound.Sound,BallisticFireSound.Slot,BallisticFireSound.Volume,,BallisticFireSound.Radius);
 
 	CheckClipFinished();
@@ -148,7 +148,7 @@ defaultproperties
 	FireChaos=0.250000
 	XInaccuracy=96.000000
 	YInaccuracy=96.000000
-	SilencedFireSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-SilenceFire',Volume=0.700000,Radius=48.000000,bAtten=True)
+	SilencedFireSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-SilenceFire',Volume=0.700000,Radius=48.000000,batten=false)
 	BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.Pistol.RSP-Fire',Volume=1.100000)
 	bPawnRapidFireAnim=True
 	FireEndAnim=
@@ -156,13 +156,11 @@ defaultproperties
 	AimedFireAnim='SightFire'
 	FireRate=0.20000
 	AmmoClass=Class'BallisticProV55.Ammo_RS8Bullets'
-
 	ShakeRotMag=(X=48.000000)
 	ShakeRotRate=(X=640.000000)
 	ShakeRotTime=2.000000
 	ShakeOffsetMag=(X=-3.00)
 	ShakeOffsetRate=(X=-60.000000)
 	ShakeOffsetTime=2.000000
-
 	BotRefireRate=0.750000
 }

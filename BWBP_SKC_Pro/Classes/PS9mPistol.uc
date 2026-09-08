@@ -23,14 +23,8 @@ var() sound			PartialReloadSound;	// Silencer stuck on sound
 var() name			HealAnim;		// Anim for murdering Simon
 var() sound			HealSound;		// The sound of a thousand dying orphans
 
-simulated event PostBeginPlay()
-{
-	super.PostBeginPlay();
-	SetBoneScale (0, 0.0, GrenBone);
-	SetBoneScale (1, 0.0, GrenBoneBase);
-}
 
-/*simulated function OnWeaponParamsChanged()
+simulated function OnWeaponParamsChanged()
 {
     super.OnWeaponParamsChanged();
 		
@@ -66,15 +60,15 @@ simulated state PendingLoadGrenade extends PendingDualAction
 		Othergun.RaiseHandGun();
 		global.AnimEnd(Channel);
 	}
-}*/
+}
 
 simulated function BringUp(optional Weapon PrevWeapon)
 {
-	/*if (!bLoaded)
+	if (!bLoaded)
 	{
 		SetBoneScale (0, 0.0, GrenBone);
 		SetBoneScale (1, 0.0, GrenBoneBase);
-	}*/
+	}
 
 	if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
 	{
@@ -90,7 +84,7 @@ simulated function BringUp(optional Weapon PrevWeapon)
 	super.BringUp(PrevWeapon);
 }
 
-/*function ServerWeaponSpecial(optional byte i)
+function ServerWeaponSpecial(optional byte i)
 {
 	if (bLoaded)
 	{
@@ -157,7 +151,7 @@ simulated function LoadGrenade()
 	if (Ammo[1].AmmoAmount < 1 || bLoaded)
 		return;
 	if (ReloadState == RS_None)
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.1, , 0);
 	if (Othergun != None)
 	{
 		if (Othergun.Clientstate != WS_ReadyToFire)
@@ -190,7 +184,7 @@ simulated function Notify_GrenLaunch()
 	PS9mAttachment(ThirdPersonActor).bGrenadier=false;	
 }
 
-simulated function Notify_GrenInvisible()	{ SetBoneScale (1, 0.0, GrenBoneBase);	}*/
+simulated function Notify_GrenInvisible()	{ SetBoneScale (1, 0.0, GrenBoneBase);	}
 
 /*simulated function PlayReload()
 {
@@ -236,7 +230,7 @@ simulated event AnimEnd (int Channel)
 }
 
 
-/*imulated function bool CanAlternate(int Mode)
+simulated function bool CanAlternate(int Mode)
 {
 	if (Mode != 0)
 		return false;
@@ -296,18 +290,14 @@ simulated function ApplyDualModeRecoilModifiers()
 	RcComponent.XRandFactor			*= 1.2f;
 	RcComponent.YRandFactor			*= 1.2f;
 	RcComponent.DeclineTime			*= 1.2f;
-}*/
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -337,7 +327,6 @@ function float SuggestAttackStyle()	{	return 0.8;	}
 function float SuggestDefenseStyle()	{	return -0.8;	}
 // End AI Stuff =================================
 
-// =============================================
 
 defaultproperties
 {
@@ -352,14 +341,15 @@ defaultproperties
 	PartialReloadSound=Sound'BWBP_SKC_Sounds.Stealth.Stealth-MagInS2'
 	HealAnim="Heal"
 	HealSound=Sound'BWBP_SKC_Sounds.Stealth.Stealth-Heal'
-	bShouldDualInLoadout=False
+	bShouldDualInLoadout=True
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Cross4',pic2=Texture'BW_Core_WeaponTex.Crosshairs.A73OutA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=25,G=122,R=11,A=255),Color2=(B=255,G=255,R=255,A=255),StartSize1=22,StartSize2=59)
     TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	AIReloadTime=1.000000
 	BigIconMaterial=Texture'BWBP_SKC_Tex.Stealth.BigIcon_PS9M'
 	BigIconCoords=(X1=96,Y1=16,X2=418,Y2=255)
+	
 	bWT_Bullet=True
-	bWT_Sidearm=True
+	bWT_Heal=True
 	SpecialInfo(0)=(Info="320.0;15.0;1.0;110.0;2.0;0.1;0.1")
 	BringUpSound=(Sound=Sound'BWBP_SKC_Sounds.Stealth.Stealth-Pickup',Volume=0.155000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Putaway',Volume=0.155000)
@@ -368,12 +358,16 @@ defaultproperties
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.Stealth.Stealth-MagOut',Volume=1.100000,Radius=32.000000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.Stealth.Stealth-MagIn',Volume=1.100000,Radius=32.000000)
 	ClipInFrame=0.650000
-	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
-	CurrentWeaponMode=0
+	WeaponModes(0)=(ModeName="Semi-Automatic")
+	WeaponModes(1)=(bUnavailable=True)
+	WeaponModes(2)=(ModeName="Repeating")
 	bNoCrosshairInScope=True
 	ParamsClasses(0)=Class'PS9mWeaponParamsComp'
+	ParamsClasses(1)=Class'PS9mWeaponParamsClassic'
+	ParamsClasses(2)=Class'PS9mWeaponParamsRealistic'
+    ParamsClasses(3)=Class'PS9mWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.PS9mPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.PS9mSecondaryFire'
 	PutDownTime=0.700000
 	SelectForce="SwitchToAssaultRifle"
 	AIRating=0.600000
@@ -382,16 +376,17 @@ defaultproperties
 	Priority=65
 	HudColor=(B=130,G=100,R=100)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=2
-	GroupOffset=2
+	InventoryGroup=3
 	PickupClass=Class'BWBP_SKC_Pro.PS9mPickup'
+
 	PlayerViewOffset=(X=5.00,Y=2.50,Z=-5.00)
 	SightOffset=(X=-10.00,Y=0.00,Z=1.15)
 	SightAnimScale=0.35
+
 	AttachmentClass=Class'BWBP_SKC_Pro.PS9mAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.Stealth.SmallIcon_PS9M'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="PS-9M"
+	ItemName="PS-9m Stealth Pistol"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=30

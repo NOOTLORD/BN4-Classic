@@ -32,21 +32,29 @@ function ServeCustomers()
 {
 	local int i,j,k;
 	local array<Actor> Served;
+	local Pawn T;
 	
 	for(i=0;i<Clouds.length;i++)
-		for(j=0;j<Clouds[i].Touching.length;j++)
+	{
+		if (Clouds[i] == None)
+			continue;
+		for(j=Clouds[i].Touching.length-1;j>=0;j--)
 		{
-			if (Clouds[i].Touching[j] == None || Pawn(Clouds[i].Touching[j]) == None)
+			if (j >= Clouds[i].Touching.length)
+				continue;
+			T = Pawn(Clouds[i].Touching[j]);
+			if (T == None)
 				continue;
 			for(k=0;k<Served.length;k++)
-				if (Served[k] == Clouds[i].Touching[j])
+				if (Served[k] == T)
 					break;
 			if (k >= Served.length)	{
-				class'BallisticDamageType'.static.GenericHurt(Clouds[i].Touching[j], Clouds[i].Density*Damage, Instigator, Clouds[i].Touching[j].Location, vect(0,0,0), DamageType);
-				if (Pawn(Clouds[i].Touching[j]) != None)
-					class'BCSprintControl'.static.AddSlowTo(Pawn(Clouds[i].Touching[j]), 0.7, 0.1);
-				Served[Served.length] = Clouds[i].Touching[j];	}
+				Served[Served.length] = T;
+				class'BallisticDamageType'.static.GenericHurt(T, Clouds[i].Density*Damage, Instigator, T.Location, vect(0,0,0), DamageType);
+				if (T.Health > 0)
+					class'BCSprintControl'.static.AddSlowTo(T, 0.7, 0.1);	}
 		}
+	}
 }
 
 simulated function Tick(float DT)

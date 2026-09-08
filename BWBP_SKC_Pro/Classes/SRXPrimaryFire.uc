@@ -168,7 +168,10 @@ simulated function SetSilenced(bool bSilenced)
 function ApplyDamage(Actor Victim, int Damage, Pawn Instigator, vector HitLocation, vector MomentumDir, class<DamageType> DamageType)
 {
 	super.ApplyDamage (Victim, Damage, Instigator, HitLocation, MomentumDir, DamageType);
-	
+
+	if (Victim == None || Weapon == None)
+		return;
+
 	if (Victim.bProjTarget && BallisticShield(Victim) == None && SRXRifle(Weapon).CurrentWeaponMode == 1)
 		BW.TargetedHurtRadius(Damage, 384, class'DTSRXRifle_Incendiary', 200, HitLocation, Pawn(Victim));
 }
@@ -215,7 +218,7 @@ defaultproperties
 	DamageTypeArm=Class'BWBP_SKC_Pro.DTSRXRifle'
 	PenetrateForce=120
 	bPenetrate=True
-	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-1',Volume=0.800000,Radius=48.000000,bAtten=True)
+	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.Misc.ClipEnd-1',Volume=0.800000,Radius=48.000000,batten=false)
 	bCockAfterEmpty=True
 	MuzzleFlashClass=Class'BWBP_SKC_Pro.SRXFlashEmitter'
 	FlashScaleFactor=0.4000000
@@ -224,8 +227,8 @@ defaultproperties
 	AimedFireAnim="SightFire"
 	FireRecoil=192.000000
 	FireChaos=0.300000
-	SilencedFireSound=(Sound=Sound'BWBP_SKC_Sounds.SRSM2.SRSM2-Fire2',Volume=1.500000,Radius=256.000000,bAtten=True)
-	BallisticFireSound=(Sound=Sound'BWBP_SKC_Sounds.SRSM2.SRSM2-Fire',Volume=1.200000,Slot=SLOT_Interact,bNoOverride=False,bAtten=True)
+	SilencedFireSound=(Sound=Sound'BWBP_SKC_Sounds.SRSM2.SRSM2-Fire2',Volume=1.500000,Radius=256.000000,batten=false)
+	BallisticFireSound=(Sound=Sound'BWBP_SKC_Sounds.SRSM2.SRSM2-Fire',Volume=1.200000,Slot=SLOT_Interact,bNoOverride=False,batten=false)
 	bPawnRapidFireAnim=True
 	FireEndAnim=
 	FireRate=0.185000

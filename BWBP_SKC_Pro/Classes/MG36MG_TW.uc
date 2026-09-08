@@ -15,7 +15,6 @@ var() sound		MountFireSound;
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -209,14 +208,6 @@ simulated function Notify_CockAfterReload()
 //		PlayAnim('ReloadFinishHandle', ReloadAnimRate, 0.2);
 }
 
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2 && HasAnim('Cock'))
-		PlayAnim('Cock', CockAnimRate, 0.2);
-	else
-		PlayAnim('Cock', CockAnimRate, 0.2);
-}
-
 simulated function bool HasAmmo()
 {
 	//First Check the magazine
@@ -242,6 +233,7 @@ defaultproperties
 	ParamsClasses(2)=Class'MG36TW_WeaponParamsRealistic'
     ParamsClasses(3)=Class'MG36TW_WeaponParamsTactical'
 	SelectAnim="Deploy"
+	CockAnimPostReload="Cock"
 	//IdleAnim="PoseLib"
     BringUpTime=1.600000
 	bCanThrow=False

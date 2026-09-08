@@ -7,9 +7,7 @@
 // uses code written by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class A49SkrithBlaster extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class A49SkrithBlaster extends BallisticWeapon;
 
 var	bool		bVariableHeatProps; //Gun heat changes accuracy and RoF
 var bool		bCharging; 			//lets draw some cool charging effects

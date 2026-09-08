@@ -9,7 +9,7 @@
 class RS04PrimaryFire extends BallisticProInstantFire;
 
 
-/*simulated function OnEffectParamsChanged(int EffectIndex)
+simulated function OnEffectParamsChanged(int EffectIndex)
 {
 	super.OnEffectParamsChanged(EffectIndex);
 	
@@ -23,7 +23,7 @@ simulated function ApplyTacKnifeEffectParams()
 	FireChaos = 1;
     XInaccuracy	= 256;
     YInaccuracy = 256;
-}*/
+}
 
 simulated function PlayFireAnimations()
 {
@@ -77,7 +77,7 @@ defaultproperties
 	BrassClass=Class'BallisticProV55.Brass_Pistol'
 	BrassOffset=(X=-25.000000)
 	FireRecoil=215.000000
-	//SilencedFireSound=(Sound=Sound'BWBP_SKC_Sounds.M1911.M1911-FireSil',Volume=0.800000,Radius=24.000000,bAtten=True)
+	//SilencedFireSound=(Sound=Sound'BWBP_SKC_Sounds.M1911.M1911-FireSil',Volume=0.800000,Radius=24.000000,batten=false)
 	BallisticFireSound=(Sound=Sound'BWBP_SKC_Sounds.M1911.M1911-Fire',Volume=1.200000)
 	bModeExclusive=False
 	FireEndAnim=
@@ -87,6 +87,7 @@ defaultproperties
 	XInaccuracy=16.000000
 	YInaccuracy=16.000000
 	AmmoClass=Class'BallisticProV55.Ammo_45HV'
+
 	ShakeRotMag=(X=48.000000)
 	ShakeRotRate=(X=640.000000)
 	ShakeRotTime=2.000000

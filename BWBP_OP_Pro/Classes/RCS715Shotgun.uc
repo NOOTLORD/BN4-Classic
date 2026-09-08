@@ -10,9 +10,7 @@
 //
 // By Jiffy, based on code by DarkCarnivour, Sergeant_Kelly and Azarael.
 //==========================================================
-class RCS715Shotgun extends BallisticProShotgun
-	HideDropDown
-	CacheExempt;
+class RCS715Shotgun extends BallisticProShotgun;
 
 var Name					BulletBone;
 var() bool					bLoaded;
@@ -312,7 +310,7 @@ simulated function LoadGrenadeLoop()
 		return;
 	if ((ReloadState == RS_None || ReloadState == RS_StartShovel)&& Ammo[1].AmmoAmount >= 1)
 	{
-		PlayAnim(StartShovelAnim, 1.0, , 0);
+		PlayAnim(StartShovelAnim, ReloadAnimRate, , 0);
 		ReloadState = RS_StartShovel;
 	}
 }
@@ -471,17 +469,17 @@ simulated function UpdateBones()
 simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 {
 	local int i,Count;
-	local float ScaleFactor2;
+	local float ScaleFactor, ScaleFactor2;
 
-	local float		ScaleFactor, XL, YL, YL2, SprintFactor;
-	local string	Temp;
-	local int	TempNum;
+	Super.NewDrawWeaponInfo (C, YPos);
 
-	DrawCrosshairs(C);
+	if (bSkipDrawWeaponInfo)
+		return;
 	
 	//Draw grenades, they're not accounted for in alternative HUD
 	ScaleFactor = C.ClipX / 1600;
 	ScaleFactor2 = 99 * C.ClipX/3200;
+
 	C.Style = ERenderStyle.STY_Alpha;
 	C.DrawColor = class'HUD'.Default.WhiteColor;
 	Count = Min(8,Grenades);
@@ -489,55 +487,6 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
     {
 		C.SetPos(C.ClipX - (0.5*i+1) * ScaleFactor2, C.ClipY - 100 * ScaleFactor * class'HUD'.default.HudScale);
 		C.DrawTile( Texture'BWBP_SKC_Tex.M1014.M1014-SGIcon',ScaleFactor2, ScaleFactor2, 0, 0, 128, 128);
-	}
-
-	if (bSkipDrawWeaponInfo)
-		return;
-
-	// Draw the spare ammo amount
-	C.Font = GetFontSizeIndex(C, -2 + int(2 * class'HUD'.default.HudScale));
-	C.DrawColor = class'hud'.default.WhiteColor;
-	if (!bNoMag)
-	{
-		Temp = GetHUDAmmoText(0);
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 20 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 140 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-	}
-	if (Ammo[1] != None && Ammo[1] != Ammo[0])
-	{
-		
-		TempNum = Ammo[1].AmmoAmount;
-		C.TextSize(TempNum, XL, YL);
-		C.CurX = C.ClipX - 160 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 140 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(TempNum, false);
-	}
-
-	if (CurrentWeaponMode < WeaponModes.length && !WeaponModes[CurrentWeaponMode].bUnavailable && WeaponModes[CurrentWeaponMode].ModeName != "")
-	{
-		C.Font = GetFontSizeIndex(C, -3 + int(2 * class'HUD'.default.HudScale));
-		C.TextSize(WeaponModes[CurrentWeaponMode].ModeName, XL, YL2);
-		C.CurX = C.ClipX - 15 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 150 * ScaleFactor * class'HUD'.default.HudScale - YL2 - YL;
-		C.DrawText(WeaponModes[CurrentWeaponMode].ModeName, false);
-	}
-
-	// This is pretty damn disgusting, but the weapon seems to be the only way we can draw extra info on the HUD
-	// Would be nice if someone could have a HUD function called along the inventory chain
-	if (SprintControl != None && SprintControl.Stamina < SprintControl.MaxStamina)
-	{
-		SprintFactor = SprintControl.Stamina / SprintControl.MaxStamina;
-		C.CurX = C.OrgX  + 5    * ScaleFactor * class'HUD'.default.HudScale;
-		C.CurY = C.ClipY - 330  * ScaleFactor * class'HUD'.default.HudScale;
-		if (SprintFactor < 0.2)
-			C.SetDrawColor(255, 0, 0);
-		else if (SprintFactor < 0.5)
-			C.SetDrawColor(64, 128, 255);
-		else
-			C.SetDrawColor(0, 0, 255);
-		C.DrawTile(Texture'Engine.MenuWhite', 200 * ScaleFactor * class'HUD'.default.HudScale * SprintFactor, 30 * ScaleFactor * class'HUD'.default.HudScale, 0, 0, 1, 1);
 	}
 }
 
@@ -740,7 +689,7 @@ defaultproperties
 	SelectAnimRate=0.900000
 	PutDownTime=0.550000
 	BringUpTime=0.700000
-	CockingBringUpTime=1.700000
+	CockingBringUpTime=1.600000
 	AIRating=0.850000
 	CurrentRating=0.850000
 	Description="RCS-715 Assault Shotgun||Manufacturer: JAX Industrial Firm|Primary: Automatic Shotgun Blast|Secondary: Incendiary Grenade||While not as prevalent as the Skrith menace, Cryon and Krao are just as deadly if not more in some situations.  The skrith may think they're inferior, but the combined menace has wreaked some damage across the universe, such as the tragedy that was the fall of Neo Cairo. Jaeger Firearms and Axo-tek Industries saw the damage to their home, deciding to team up under a new banner. The newly JAX Industrial Firm combined their forces to create not just a potent anti-krao weapon, but an anti-cryon weapon as well. The result is the RCS-715 Tactical Buster shotgun, a low recoil, high damaging shotgun that can destroy not just the Krao or Cryon, but the Skrith as well.  Though chambered in 12 gauge buckshot, it can also fire FRAG-12 or Inciendary shells without damaging the bolt."

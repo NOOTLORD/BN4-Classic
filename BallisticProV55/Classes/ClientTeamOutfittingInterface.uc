@@ -70,28 +70,31 @@ simulated function array<string> GetGroup(byte GroupNum)
 //Returns the weapon at the specific index.
 simulated function string GetGroupItemForTeam(byte GroupNum, byte TeamNum, int ItemNum)
 {
-	if(TeamNum == 1)
-	{
-		switch (GroupNum)
-		{
-		case	0:	return BlueGroup0[ItemNum];
-		case	1:	return BlueGroup1[ItemNum];
-		case	2:	return BlueGroup2[ItemNum];
-		case	3:	return BlueGroup3[ItemNum];
-		case	4:	return BlueGroup4[ItemNum];
-		}
-	}
-    else 
+    // Safely return empty string if index is out of bounds
+    if (TeamNum == 1)
     {
         switch (GroupNum)
         {
-        case	0:	return RedGroup0[ItemNum];
-        case	1:	return RedGroup1[ItemNum];
-        case	2:	return RedGroup2[ItemNum];
-        case	3:	return RedGroup3[ItemNum];
-        case	4:	return RedGroup4[ItemNum];
+            case 0: if (ItemNum >= 0 && ItemNum < BlueGroup0.Length) return BlueGroup0[ItemNum]; break;
+            case 1: if (ItemNum >= 0 && ItemNum < BlueGroup1.Length) return BlueGroup1[ItemNum]; break;
+            case 2: if (ItemNum >= 0 && ItemNum < BlueGroup2.Length) return BlueGroup2[ItemNum]; break;
+            case 3: if (ItemNum >= 0 && ItemNum < BlueGroup3.Length) return BlueGroup3[ItemNum]; break;
+            case 4: if (ItemNum >= 0 && ItemNum < BlueGroup4.Length) return BlueGroup4[ItemNum]; break;
         }
     }
+    else
+    {
+        switch (GroupNum)
+        {
+            case 0: if (ItemNum >= 0 && ItemNum < RedGroup0.Length) return RedGroup0[ItemNum]; break;
+            case 1: if (ItemNum >= 0 && ItemNum < RedGroup1.Length) return RedGroup1[ItemNum]; break;
+            case 2: if (ItemNum >= 0 && ItemNum < RedGroup2.Length) return RedGroup2[ItemNum]; break;
+            case 3: if (ItemNum >= 0 && ItemNum < RedGroup3.Length) return RedGroup3[ItemNum]; break;
+            case 4: if (ItemNum >= 0 && ItemNum < RedGroup4.Length) return RedGroup4[ItemNum]; break;
+        }
+    }
+
+    return "";
 }
 
 //Sets the weapon at the specific index. Because of sorting and shitty reference semantics.
@@ -216,6 +219,7 @@ function bool IsInList (out array<string> List, string Test, optional out int In
 function FillWeapons()
 {
     local int team, group_index, wep_index;
+    local string candidate;
 
     for (team = 0; team < 2; ++team)
     {
@@ -223,9 +227,12 @@ function FillWeapons()
         {
             for (wep_index = 0; wep_index < Mut.GetGroup(group_index, team).Length; ++wep_index)
             {
-                PushWeaponFromMutator(Mut.GetGroupItem(group_index, wep_index, team), group_index, team);
+                candidate = Mut.GetGroupItem(group_index, wep_index, team);
+                if (candidate == "")
+                    continue;
+                PushWeaponFromMutator(candidate, group_index, team);
             }
-        }
+        } 
     }
 
     for (team = 0; team < 2; ++team)
@@ -234,7 +241,7 @@ function FillWeapons()
         {
             for (wep_index = 0; wep_index < GroupLengthForTeam(group_index, team); ++wep_index)
             {
-               Log("Group "$group_index$", team "$team$", index "$wep_index$" is "$GetGroupItemForTeam(group_index, team, wep_index));
+               //Log("Group "$group_index$", team "$team$", index "$wep_index$" is "$GetGroupItemForTeam(group_index, team, wep_index));
             }
         }
     }
@@ -245,142 +252,153 @@ function FillWeapons()
 //Uses bitwise operations on Boxes to handle weapons which exist in multiple groups at once.
 function SendWeapons ()
 {
-	local int i, j;
-	local array<string> Weaps;
-	local array<byte>	RedBoxes, BlueBoxes;
+    local int i, j;
+    local array<string> Weaps;
+    local array<byte>	RedBoxes, BlueBoxes;
 
-	//Go through the available loadout weapons, adding them to the Weaps array. Continue if there is no weapon in the slot
-	for (i=0;i<Mut.RedLoadoutGroup0.length;i++)
-	{
-		if (Mut.RedLoadoutGroup0[i] == "")
-			continue;
-		Weaps[Weaps.length] = Mut.RedLoadoutGroup0[i];
-		Redboxes[Redboxes.length] = 1;
-	}
+    //Go through the available loadout weapons, adding them to the Weaps array. Continue if there is no weapon in the slot
+    for (i=0;i<Mut.RedLoadoutGroup0.length;i++)
+    {
+        if (Mut.RedLoadoutGroup0[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.RedLoadoutGroup0[i], j))
+            Redboxes[j] += 1;
+        else
+        {
+            Weaps[Weaps.length] = Mut.RedLoadoutGroup0[i];
+            Redboxes[Redboxes.length] = 1;
+            Blueboxes[Blueboxes.length] = 0;
+        }
+    }
 
-	for (i=0;i<Mut.RedLoadoutGroup1.length;i++)
-	{
-		if (Mut.RedLoadoutGroup1[i] == "")
-			continue;
-		
-		//If the current weapon is already in the weapon list, update its Redboxes entry to indicate it's in multiple slots
-		if (IsInList(Weaps, Mut.RedLoadoutGroup1[i], j))
-			Redboxes[j] += 2;
-		else
-		{
-			//Insert weapon at end
-			Weaps[Weaps.length] = Mut.RedLoadoutGroup1[i];
-			//Insert slot info
-			Redboxes[Redboxes.length] = 2;
-		}
-	}
-	for (i=0;i<Mut.RedLoadoutGroup2.length;i++)
-	{
-		if (Mut.RedLoadoutGroup2[i] == "")
-			continue;
-		//Third bit
-		if (IsInList(Weaps, Mut.RedLoadoutGroup2[i], j))
-			Redboxes[j] += 4;
-		else
-		{
-			Weaps[Weaps.length] = Mut.RedLoadoutGroup2[i];
-			Redboxes[Redboxes.length] = 4;
-		}
-	}
-	for (i=0;i<Mut.RedLoadoutGroup3.length;i++)
-	{
-		if (Mut.RedLoadoutGroup3[i] == "")
-			continue;
-		//Fourth bit
-		if (IsInList(Weaps, Mut.RedLoadoutGroup3[i], j))
-			Redboxes[j] += 8;
-		else
-		{
-			Weaps[Weaps.length] = Mut.RedLoadoutGroup3[i];
-			Redboxes[Redboxes.length] = 8;
-		}
-	}
-	for (i=0;i<Mut.RedLoadoutGroup4.length;i++)
-	{
-		if (Mut.RedLoadoutGroup4[i] == "")
-			continue;
-		if (IsInList(Weaps, Mut.RedLoadoutGroup4[i], j))
-			Redboxes[j] += 16;
-		else
-		{
-			Weaps[Weaps.length] = Mut.RedLoadoutGroup4[i];
-			Redboxes[Redboxes.length] = 16;
-		}
-	}
-	
-	//Now again for the Blue team...
-	for (i=0;i<Mut.BlueLoadoutGroup0.length;i++)
-	{
-		if (Mut.BlueLoadoutGroup0[i] == "")
-			continue;
-		Weaps[Weaps.length] = Mut.BlueLoadoutGroup0[i];
-		Blueboxes[Blueboxes.length] = 1;
-	}
+    for (i=0;i<Mut.RedLoadoutGroup1.length;i++)
+    {
+        if (Mut.RedLoadoutGroup1[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.RedLoadoutGroup1[i], j))
+            Redboxes[j] += 2;
+        else
+        {
+            Weaps[Weaps.length] = Mut.RedLoadoutGroup1[i];
+            Redboxes[Redboxes.length] = 2;
+            Blueboxes[Blueboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.RedLoadoutGroup2.length;i++)
+    {
+        if (Mut.RedLoadoutGroup2[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.RedLoadoutGroup2[i], j))
+            Redboxes[j] += 4;
+        else
+        {
+            Weaps[Weaps.length] = Mut.RedLoadoutGroup2[i];
+            Redboxes[Redboxes.length] = 4;
+            Blueboxes[Blueboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.RedLoadoutGroup3.length;i++)
+    {
+        if (Mut.RedLoadoutGroup3[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.RedLoadoutGroup3[i], j))
+            Redboxes[j] += 8;
+        else
+        {
+            Weaps[Weaps.length] = Mut.RedLoadoutGroup3[i];
+            Redboxes[Redboxes.length] = 8;
+            Blueboxes[Blueboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.RedLoadoutGroup4.length;i++)
+    {
+        if (Mut.RedLoadoutGroup4[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.RedLoadoutGroup4[i], j))
+            Redboxes[j] += 16;
+        else
+        {
+            Weaps[Weaps.length] = Mut.RedLoadoutGroup4[i];
+            Redboxes[Redboxes.length] = 16;
+            Blueboxes[Blueboxes.length] = 0;
+        }
+    }
+    
+    //Now again for the Blue team...
+    for (i=0;i<Mut.BlueLoadoutGroup0.length;i++)
+    {
+        if (Mut.BlueLoadoutGroup0[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.BlueLoadoutGroup0[i], j))
+            Blueboxes[j] += 1;
+        else
+        {
+            Weaps[Weaps.length] = Mut.BlueLoadoutGroup0[i];
+            Blueboxes[Blueboxes.length] = 1;
+            Redboxes[Redboxes.length] = 0;
+        }
+    }
 
-	for (i=0;i<Mut.BlueLoadoutGroup1.length;i++)
-	{
-		if (Mut.BlueLoadoutGroup1[i] == "")
-			continue;
-		
-		//If the current weapon is already in the weapon list, update its Blueboxes entry to indicate it's in multiple slots
-		if (IsInList(Weaps, Mut.BlueLoadoutGroup1[i], j))
-			Blueboxes[j] += 2;
-		else
-		{
-			//Insert weapon at end
-			Weaps[Weaps.length] = Mut.BlueLoadoutGroup1[i];
-			//Insert slot info
-			Blueboxes[Blueboxes.length] = 2;
-		}
-	}
-	for (i=0;i<Mut.BlueLoadoutGroup2.length;i++)
-	{
-		if (Mut.BlueLoadoutGroup2[i] == "")
-			continue;
-		//Third bit
-		if (IsInList(Weaps, Mut.BlueLoadoutGroup2[i], j))
-			Blueboxes[j] += 4;
-		else
-		{
-			Weaps[Weaps.length] = Mut.BlueLoadoutGroup2[i];
-			Blueboxes[Blueboxes.length] = 4;
-		}
-	}
-	for (i=0;i<Mut.BlueLoadoutGroup3.length;i++)
-	{
-		if (Mut.BlueLoadoutGroup3[i] == "")
-			continue;
-		//Fourth bit
-		if (IsInList(Weaps, Mut.BlueLoadoutGroup3[i], j))
-			Blueboxes[j] += 8;
-		else
-		{
-			Weaps[Weaps.length] = Mut.BlueLoadoutGroup3[i];
-			Blueboxes[Blueboxes.length] = 8;
-		}
-	}
-	for (i=0;i<Mut.BlueLoadoutGroup4.length;i++)
-	{
-		if (Mut.BlueLoadoutGroup4[i] == "")
-			continue;
-		if (IsInList(Weaps, Mut.BlueLoadoutGroup4[i], j))
-			Blueboxes[j] += 16;
-		else
-		{
-			Weaps[Weaps.length] = Mut.BlueLoadoutGroup4[i];
-			Blueboxes[Blueboxes.length] = 16;
-		}
-	}
-	
-	for (i=0;i<Weaps.length-1;i++)
-		ReceiveWeapon(Weaps[i], RedBoxes[i], BlueBoxes[i]);
-	//Last weapon, terminate
-	ReceiveWeapon(Weaps[Weaps.length-1], RedBoxes[Weaps.length-1], BlueBoxes[Weaps.length-1], True);
+    for (i=0;i<Mut.BlueLoadoutGroup1.length;i++)
+    {
+        if (Mut.BlueLoadoutGroup1[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.BlueLoadoutGroup1[i], j))
+            Blueboxes[j] += 2;
+        else
+        {
+            Weaps[Weaps.length] = Mut.BlueLoadoutGroup1[i];
+            Blueboxes[Blueboxes.length] = 2;
+            Redboxes[Redboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.BlueLoadoutGroup2.length;i++)
+    {
+        if (Mut.BlueLoadoutGroup2[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.BlueLoadoutGroup2[i], j))
+            Blueboxes[j] += 4;
+        else
+        {
+            Weaps[Weaps.length] = Mut.BlueLoadoutGroup2[i];
+            Blueboxes[Blueboxes.length] = 4;
+            Redboxes[Redboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.BlueLoadoutGroup3.length;i++)
+    {
+        if (Mut.BlueLoadoutGroup3[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.BlueLoadoutGroup3[i], j))
+            Blueboxes[j] += 8;
+        else
+        {
+            Weaps[Weaps.length] = Mut.BlueLoadoutGroup3[i];
+            Blueboxes[Blueboxes.length] = 8;
+            Redboxes[Redboxes.length] = 0;
+        }
+    }
+    for (i=0;i<Mut.BlueLoadoutGroup4.length;i++)
+    {
+        if (Mut.BlueLoadoutGroup4[i] == "")
+            continue;
+        if (IsInList(Weaps, Mut.BlueLoadoutGroup4[i], j))
+            Blueboxes[j] += 16;
+        else
+        {
+            Weaps[Weaps.length] = Mut.BlueLoadoutGroup4[i];
+            Blueboxes[Blueboxes.length] = 16;
+            Redboxes[Redboxes.length] = 0;
+        }
+    }
+
+    if (Weaps.length == 0)
+        return;
+
+    for (i=0;i<Weaps.length-1;i++)
+        ReceiveWeapon(Weaps[i], RedBoxes[i], BlueBoxes[i]);
+    //Last weapon, terminate
+    ReceiveWeapon(Weaps[Weaps.length-1], RedBoxes[Weaps.length-1], BlueBoxes[Weaps.length-1], True);
 }
 
 //Uses "Boxes" to determine which groups a weapon to be added to
@@ -415,29 +433,27 @@ simulated function ReceiveWeapon (string WeaponName, byte RedBoxes, byte BlueBox
 	if (bTerminate)
     {
         SortLists();
-
 		bWeaponsReady = true;
     }
 }
 
 // Get Name, BigIconMaterial and classname of weapon at index? in group?
-function bool LoadWIFromCache(string ClassStr, out BC_WeaponInfoCache.WeaponInfo WepInfo)
+simulated function bool LoadWIFromCache(string ClassStr, out BC_WeaponInfoCache.WeaponInfo WepInfo)
 {
 	local int i;
 
+	if (ClassStr == "")
+		return false;
+
 	WepInfo = class'BC_WeaponInfoCache'.static.AutoWeaponInfo(ClassStr, i);
 	if (i==-1)
-	{
-		log("Error loading item for Conflict: "$ClassStr, 'Warning');
 		return false;
-	}
 	return true;
 }
 
 simulated function SortLists()
 {
     local int team, group_index;
-
     for (team = 0; team < 2; ++team)
     {
         for (group_index = 0; group_index < 5; ++group_index)
@@ -501,9 +517,8 @@ simulated function SortList(byte group_index, byte team)
             }
 
 		}
-
-        else 
-            Log("ClientTeamOutfittingInterface: Failed to load "$ GetGroupItemForTeam(group_index, team, i) $" from cache");
+        //else 
+        //    Log("ClientTeamOutfittingInterface: Failed to load "$ GetGroupItemForTeam(group_index, team, i) $" from cache");
 	}
 	
 	for (i = 0; i < SortedWIs.Length; ++i)
@@ -518,14 +533,9 @@ function Initialize(Mut_TeamOutfitting MO, PlayerController P)
 	PC = P;
 
 	bWeaponsReady=true;
-
-	if (level.NetMode != NM_StandAlone)
-    {   
-        if (Viewport(P.Player) == None)
-		    SendWeapons();
-    }
-
-    else 
+    if (level.NetMode != NM_StandAlone && Viewport(P.Player) == None)
+        SendWeapons();
+    else
     {
         FillWeapons();
         SortLists();
@@ -538,7 +548,7 @@ function Initialize(Mut_TeamOutfitting MO, PlayerController P)
 
 simulated function ClientOpenLoadoutMenu()
 {
-	if (PC ==None || PC.Player == None)
+	if (PC ==None || PC.Player == None || (PC.IsSpectating() && !PC.IsInState('PlayerWaiting')))
 		return;
 	PC.ClientOpenMenu ("BallisticProV55.BallisticTeamOutfittingMenu");
 	if (PC.Player.GUIController != None)

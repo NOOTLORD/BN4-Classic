@@ -7,9 +7,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
-class HVPCMk5PlasmaCannon extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class HVPCMk5PlasmaCannon extends BallisticWeapon;
 
 var float		HeatLevel;			// Current Heat level, duh...
 var bool		bMilSpec;			// Variant that reloads and has no heat issues

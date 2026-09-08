@@ -9,7 +9,7 @@
 //=============================================================================
 class PS9mSecondaryFire extends BallisticProProjectileFire;
 
-/*Do the spread on the client side
+//Do the spread on the client side
 function PlayFiring()
 {
 	if (BW.MagAmmo - ConsumedLoad < 2)
@@ -81,4 +81,4 @@ defaultproperties
      ProjectileClass=Class'BWBP_SKC_Pro.PS9mMedDart'
      BotRefireRate=0.300000
      WarnTargetPct=0.300000
-}*/
+}

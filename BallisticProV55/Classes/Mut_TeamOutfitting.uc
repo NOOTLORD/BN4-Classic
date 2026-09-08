@@ -201,7 +201,12 @@ function ModifyPlayer(Pawn Other)
 	if (Other.Controller != None && Bot(Other.Controller) != None)
 	{
 		for (i=0;i<5;i++)
-			Stuff[i] = GetGroup(i,Other.GetTeamNum())[Rand(GetGroup(i,Other.GetTeamNum()).length)];
+		{
+			if (GetGroup(i,Other.GetTeamNum()).length > 0)
+				Stuff[i] = GetGroup(i,Other.GetTeamNum())[Rand(GetGroup(i,Other.GetTeamNum()).length)];
+			else
+				Stuff[i] = "";
+		}
 		ChangeLoadout(Other, Stuff);
 		for (i=2;i<5;i+=0)
 		{
@@ -216,7 +221,12 @@ function ModifyPlayer(Pawn Other)
 				continue;
 			}
 			if (Right(Stuff[i], 5) ~= "Dummy")
-				Stuff[i] = GetGroup(i, Other.GetTeamNum())[0];
+			{
+				if (GetGroup(i, Other.GetTeamNum()).length > 0)
+					Stuff[i] = GetGroup(i, Other.GetTeamNum())[0];
+				else
+					Stuff[i] = "";
+			}
 			W = class<weapon>(DynamicLoadObject(Stuff[i],class'Class'));
 			if (W == None)
 			{
@@ -315,6 +325,12 @@ function OutfitPlayer(Pawn Other, string Stuff[5], optional string OldStuff[5], 
 	// Make sure everything is legit
 	for (i=0;i<5;i++)
 	{
+		if (GetGroup(i, Other.GetTeamNum()).length == 0)
+		{
+			Stuff[i] = "";
+			continue;
+		}
+
 		// Random weapon handling
 		// Tries ten times to pick a weapon which isn't a dummy
 		// (i.e. itself) and doesn't match any previous weapon
@@ -503,7 +519,8 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 	// No ammo pickups
 	else if (Ammo(Other) != None && IP_AmmoPack(Other) == None)
 	{
-		Pickup(Other).myMarker.bBlocked = True;
+		if(Pickup(Other).myMarker != None)
+			Pickup(Other).myMarker.bBlocked = True;
 		return false;
 	}
 	// Lockers replaced with ammo packs
@@ -511,7 +528,8 @@ function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
 	{
 		if (!SpawnNewItem(-1, Other, class'IP_AmmoPack'))
 		{
-			WeaponLocker(Other).myMarker.bBlocked = True;
+			if(WeaponLocker(Other).myMarker != None)
+				WeaponLocker(Other).myMarker.bBlocked = True;
 			Other.GotoState('Disabled');
 			return false;
 		}

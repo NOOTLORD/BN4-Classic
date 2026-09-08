@@ -9,8 +9,8 @@
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
 class AM67SecondaryLaserFire extends BallisticInstantFire;
-
-/*var() sound		FireSoundLoop;
+/*
+var() sound		FireSoundLoop;
 var   bool		bLaserFiring;
 var   float		StopFireTime;
 var()   float     LaserAmmoPerFire;
@@ -48,8 +48,8 @@ simulated function bool CheckWeaponMode()
 
 function DoFireEffect()
 {
-	AM67Pistol(Weapon).LaserAmmo -= LaserAmmoPerFire;
-	AM67Pistol(Weapon).ServerSwitchLaser(true);
+	//AM67Pistol(Weapon).LaserAmmo -= LaserAmmoPerFire;
+	//AM67Pistol(Weapon).ServerSwitchLaser(true);
 	bLaserFiring=true;
 	super.DoFireEffect();
 }
@@ -78,7 +78,7 @@ function StopFiring()
 {
     bLaserFiring=false;
 	Weapon.AmbientSound = None;
-	AM67Pistol(Weapon).ServerSwitchLaser(false);
+	//AM67Pistol(Weapon).ServerSwitchLaser(false);
 	StopFireTime = level.TimeSeconds;
 }
 
@@ -89,7 +89,7 @@ simulated event ModeDoFire()
 	else
 		BallisticFireSound.Sound = None;
      //Laser eats up more ammo at first, then slows down.  This prevents cherry-tapping.
-     LaserAmmoPerFire = default.LaserAmmoPerFire * (1 + 5*FMax(0, AM67Pistol(Weapon).LaserAmmo - 0.5));
+     //LaserAmmoPerFire = default.LaserAmmoPerFire * (1 + 5*FMax(0, AM67Pistol(Weapon).LaserAmmo - 0.5));
 
 	super.ModeDoFire();
 }
@@ -108,14 +108,14 @@ function ApplyDamage(Actor Victim, int Damage, Pawn Instigator, vector HitLocati
 	{
 		BW.TargetedHurtRadius(3 * (1 + 5*FMax(0, AM67Pistol(Weapon).LaserAmmo - 0.5)), 10, class'DTAM67Laser', 0, HitLocation, Pawn(Victim));
 	}
-}
+}*/
 
 
 
 defaultproperties
 {
-     LaserAmmoPerFire=0.050000
-     FireSoundLoop=Sound'BW_Core_WeaponSound.Glock.Glk-LaserBurn'
+     //LaserAmmoPerFire=0.050000
+     //FireSoundLoop=Sound'BW_Core_WeaponSound.Glock.Glk-LaserBurn'
      Damage=(Min=8.000000,Max=9.000000)
      RangeAtten=0.10000
      DamageType=Class'BallisticProV55.DTAM67Laser'
@@ -138,4 +138,4 @@ defaultproperties
      BotRefireRate=0.999000
      WarnTargetPct=0.010000
      aimerror=400.000000
-}*/
+}

@@ -8,13 +8,13 @@
 //=============================================================================
 class MGLauncher extends BallisticWeapon;
 
-//var() Material	MatDef;
-//var() Material	MatArmed;
+var() Material	MatDef;
+var() Material	MatArmed;
 var() Rotator	DrumRot;
 
-//var bool bRemoteGrenadeOut;
+var bool bRemoteGrenadeOut;
 
-/*replication
+replication
 {
 	unreliable if (Role == ROLE_Authority)
 		ClientUpdateGrenadeStatus;
@@ -25,7 +25,7 @@ function ServerSwitchWeaponMode (byte NewMode)
 	if (CurrentWeaponMode > 0 && FireMode[0].IsFiring())
 		return;
 	super.ServerSwitchWeaponMode (NewMode);
-}*/
+}
 
 simulated function AnimEnded (int Channel, name anim, float frame, float rate)
 {
@@ -111,7 +111,7 @@ simulated function AnimEnded (int Channel, name anim, float frame, float rate)
 		ReloadState = RS_None;
 }
 
-/*function UpdateGrenadeStatus(bool bDetonatable)
+function UpdateGrenadeStatus(bool bDetonatable)
 {
 	bRemoteGrenadeOut = bDetonatable;
 	
@@ -138,7 +138,7 @@ simulated function bool HasAmmo()
 	if (bRemoteGrenadeOut)
 		return true;
 	return Super.HasAmmo();
-}*/
+}
 
 simulated function float RateSelf()
 {
@@ -148,9 +148,12 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -194,17 +197,16 @@ simulated function Notify_BrassOut()
 
 defaultproperties
 {
-	//MatDef=Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase'
-	//MatArmed=Texture'BWBP_SKC_Tex.MGL.MGL-Screen'
+	MatDef=Texture'BWBP_SKC_Tex.MGL.MGL-ScreenBase'
+	MatArmed=Texture'BWBP_SKC_Tex.MGL.MGL-Screen'
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	TeamSkins(1)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BWBP_SKC_Tex.MGL.BigIcon_MGL'
 	IdleTweenTime=0.000000
+	
 	bWT_Hazardous=True
 	bWT_Splash=True
 	bWT_Projectile=True
-	bWT_Grenade=True
-	bWT_Spam=True
 	bWT_Super=True
 	ManualLines(0)="Launches a grenade. Fire rate, damage and explosive radius are good. These grenades have an arming delay and if striking a surface when unarmed will ricochet. Direct impacts will always result in explosion."
 	ManualLines(1)="Employs a manually controlled grenade. Pressing altfire again detonates the grenade."
@@ -218,14 +220,20 @@ defaultproperties
 	ClipInFrame=0.325000
 	StartShovelAnim="ReloadStart"
 	EndShovelAnim="ReloadEnd"
-	WeaponModes(0)=(ModeName="",ModeID="WM_FullAuto")
+	WeaponModes(0)=(ModeName="Impact",ModeID="WM_FullAuto")
+	WeaponModes(1)=(ModeName="Timed",bUnavailable=True,ModeID="WM_FullAuto")
+	WeaponModes(2)=(ModeName="4-Round Burst",bUnavailable=True)
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.G5InA',pic2=Texture'BW_Core_WeaponTex.Crosshairs.NRP57InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=255,G=255,R=255,A=127),Color2=(B=0,G=255,R=255,A=192),StartSize1=113,StartSize2=244)
     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),SizeFactors=(X1=0.750000,X2=0.750000),MaxScale=8.000000)
 	CurrentWeaponMode=0
+	bNoCrosshairInScope=True
 	GunLength=48.000000
 	ParamsClasses(0)=Class'MGLWeaponParamsComp'
+	ParamsClasses(1)=Class'MGLWeaponParamsClassic'
+	ParamsClasses(2)=Class'MGLWeaponParamsRealistic'
+    ParamsClasses(3)=Class'MGLWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.MGLPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.MGLSecondaryFire'
 	SelectAnimRate=1.500000
 	PutDownAnimRate=2.000000
 	PutDownTime=0.660000
@@ -235,19 +243,18 @@ defaultproperties
 	Description="The big, bad Conqueror' is an alias to the VDML-6 Multiple Grenade Launcher, designed as a heavier, tactical version of the old world M32, and a more direct way of punting grenades down range, unlike the PUMA's Airburst grenades or the Longhorn's smart cluster. Black and Wood designed this weapon to bring down explosives over the Skrith's plasma barriers with haste, the user can fire timed grenades to flush out any hiders, or impact to wreck enemies without bouncing off of them (note, when fired at a short range, the impact fuse will not engage). But when tactics are needed, the 'Conqueror' can also fire remote detonated grenades for traps. So far, the Conqueror has already conquered 2 services and will be seeing more as they come."
 	Priority=245
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=4
-	GroupOffset=4
+	InventoryGroup=8
 	PickupClass=Class'BWBP_SKC_Pro.MGLPickup'
 	bNonCocking=True
-	bNoCrosshairInScope=True
 	PlayerViewOffset=(X=16.00,Y=10.00,Z=-12.00)
 	SightOffset=(X=-1.00,Y=0.00,Z=18.10)
 	SightPivot=(Pitch=512)
 	SightBobScale=1
+
 	AttachmentClass=Class'BWBP_SKC_Pro.MGLAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.MGL.SmallIcon_MGL'
 	IconCoords=(X2=127,Y2=35)
-	ItemName="MGL"
+	ItemName="Conqueror MGL"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=25

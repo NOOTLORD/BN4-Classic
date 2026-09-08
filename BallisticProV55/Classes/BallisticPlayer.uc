@@ -54,17 +54,22 @@ var float                               DesiredFlashScale;
 var Vector                              DesiredFlashFog;
 var bool								bOverrideDmgFlash;
 
-var() globalconfig bool bUseNewEyeHeightAlgorithm;
-
 // Fractional Parts of Pitch/Yaw Input
 var transient float PitchFraction, YawFraction;
+
+var array<Actor> PendingScreenBlood;
+
+var() float FlySpeedMulti;
+var bool bWantsSprint;
+var float ForwardDodgeInputTime;
+
 
 replication
 {
 	reliable if (Role == ROLE_Authority)
 		LastLoadoutClasses;
 	reliable if (Role < ROLE_Authority)
-		ServerCamDist, ServerReloaded, ServerSetEyeHeightAlgorithm;
+		ServerCamDist, ServerReloaded, ServerSetSprint;
     unreliable if( Role==ROLE_Authority )
         ClientDmgFlash;
 }
@@ -90,6 +95,18 @@ simulated event PostBeginPlay()
     }
     FillCameraList();
     LastKillTime = -5.0;
+}
+
+// Clear lingering screen effects (flash, fog) on respawn (#134)
+function ClientRestart(Pawn NewPawn)
+{
+	FlashScale = default.FlashScale;
+	FlashFog = vect(0,0,0);
+	DesiredFlashScale = 0;
+	DesiredFlashFog = vect(0,0,0);
+	bOverrideDmgFlash = false;
+
+	Super.ClientRestart(NewPawn);
 }
 
 exec simulated function ChangeCamDist(float F)
@@ -139,6 +156,42 @@ simulated function RenderOverlays(Canvas C)
 	super.RenderOverlays(C);
 	if (bIsInWeaponUI)
 		DrawWeaponUI(C);
+    DrawPendingScreenBlood(C);
+}
+
+//YoYoBatty:
+//Draw any pending screen blood effects, essentially calls canvas drawactor, the same way inventory/weapons are drawn, so screen blood isn't in front of the weapon...
+simulated function DrawPendingScreenBlood(Canvas C)
+{
+    local int i;
+
+    if (PendingScreenBlood.Length == 0)
+        return;
+
+    for (i = PendingScreenBlood.Length - 1; i >= 0; i--)
+    {
+        if (PendingScreenBlood[i] == None || PendingScreenBlood[i].bDeleteMe)
+        {
+            PendingScreenBlood.Remove(i, 1);
+            continue;
+        }
+        C.DrawActor(PendingScreenBlood[i], false, false);
+    }
+}
+//This is called by BloodMan_Bullet when a hit is detected that should spawn screen blood
+simulated function DrawCanvasScreenBlood(class<Actor> SpawnClass, optional actor SpawnOwner, optional vector SpawnLocation, optional rotator SpawnRotation)
+{
+    local Actor E;
+
+    if (Level.NetMode == NM_DedicatedServer || SpawnClass == None)
+        return;
+
+    E = Spawn(SpawnClass, SpawnOwner, , SpawnLocation, SpawnRotation);
+    if (E != None)
+    {
+        E.bHidden = false;
+        PendingScreenBlood[PendingScreenBlood.Length] = E; // We add the screen blood actor to a list so we can draw it later
+    }
 }
 
 // Draw Weapon selection UI
@@ -763,6 +816,16 @@ final function ServerReloaded(optional int Group)
 			Weapon(Inv).SuperMaxOutAmmo();
 }
 
+simulated event PlayerCalcView(out actor ViewActor, out vector CameraLocation, out rotator CameraRotation)
+{
+    local Pawn DeadTarget;
+
+    DeadTarget = Pawn(ViewTarget);
+    if (Pawn == None && DeadTarget != None && !DeadTarget.bDeleteMe && DeadTarget.Health <= 0)
+        SetLocation(DeadTarget.Location);
+
+    Super.PlayerCalcView(ViewActor, CameraLocation, CameraRotation);
+}
 
 //===========================================================================
 // Behind View support
@@ -876,6 +939,8 @@ function rotator AdjustAim(FireProperties FiredAmmunition, vector projStart, int
     }
     else
     {
+        if (Level.Game == None)
+            return GetViewRotation();
         // adjust aim based on FOV
         bestAim = 0.90;
         if ( (Level.NetMode == NM_Standalone) && bAimingHelp )
@@ -994,6 +1059,38 @@ function bool AutoTaunt()
 	return false;
 }
 
+exec function Mutate(string MutateString)
+{
+    if (MutateString ~= "BStartSprint")
+    {
+        bWantsSprint = true;
+        ServerSetSprint(true);
+    }
+    else if (MutateString ~= "BStopSprint")
+    {
+        bWantsSprint = false;
+        ServerSetSprint(false);
+    }
+    Super.Mutate(MutateString);
+}
+
+function ServerSetSprint(bool bSprint)
+{
+    bWantsSprint = bSprint;
+    if (bSprint)
+    {
+        if (Pawn != None)
+            Pawn.AirSpeed = Pawn.default.AirSpeed * FlySpeedMulti;
+        SetSpectateSpeed(default.SpectateSpeed * FlySpeedMulti);
+    }
+    else
+    {
+        if (Pawn != None)
+            Pawn.AirSpeed = Pawn.default.AirSpeed;
+        SetSpectateSpeed(default.SpectateSpeed);
+    }
+}
+
 //Prevent rolling view bug caused by taking massive damage.
 function DamageShake(int damage)
 {
@@ -1026,10 +1123,25 @@ state PlayerWalking
     {
         local vector OldAccel;
         local bool OldCrouch;
+        local BallisticPawn BPawn;
 		
 		if ( Pawn == None )
 			return;
-		if ( (DoubleClickMove == DCLICK_Active) && (Pawn.Physics == PHYS_Falling) )
+        BPawn = BallisticPawn(Pawn);
+        if (bPressedJump)
+            ForwardDodgeInputTime = Level.TimeSeconds;
+        if (BPawn != None && (bPressedJump || Level.TimeSeconds - ForwardDodgeInputTime < 0.25)
+            && (bDuck > 0 || Pawn.bWantsToCrouch) && BPawn.TryForwardDodge())
+        {
+            bPressedJump = false;
+            ForwardDodgeInputTime = 0;
+        }
+        else if (BPawn != None && bPressedJump && BPawn.TryWallJump())
+            bPressedJump = false;
+
+        if (DoubleClickMove == DCLICK_Back || Pawn.Physics == PHYS_Falling)
+            DoubleClickMove = DCLICK_None;
+        if ( (DoubleClickMove == DCLICK_Active) && (Pawn.Physics == PHYS_Falling) )
 			DoubleClickDir = DCLICK_Active;
 		else if ( (DoubleClickMove != DCLICK_None) && (DoubleClickMove < DCLICK_Active) )
 		{
@@ -1128,6 +1240,9 @@ ignores SeePlayer, HearNoise, Bump, ServerSpectate;
 		
         if ( VSize(NewAccel) < 1.0 )
             NewAccel = vect(0,0,0);
+		if ( bCheatFlying && (Pawn.Acceleration == vect(0,0,0)) )
+            Pawn.Velocity = vect(0,0,0);
+		Pawn.AccelRate = 4096.0;
 
         // Update rotation.
         oldRotation = Rotation;
@@ -1137,6 +1252,40 @@ ignores SeePlayer, HearNoise, Bump, ServerSpectate;
             ReplicateMove(DeltaTime, NewAccel, DCLICK_None, OldRotation - Rotation);
         else
             ProcessMove(DeltaTime, NewAccel, DCLICK_None, OldRotation - Rotation);
+    }
+}
+
+//Allows fast moving in sprint
+state Spectating
+{
+	ignores SwitchWeapon, RestartLevel, ClientRestart, Suicide,
+	ThrowWeapon, NotifyPhysicsVolumeChange, NotifyHeadVolumeChange;
+
+    function PlayerMove(float DeltaTime)
+    {
+        local vector X,Y,Z, NewAccel;
+
+		if ( (Pawn(ViewTarget) != None) && (Level.NetMode == NM_Client) )
+		{
+			if ( Pawn(ViewTarget).bSimulateGravity )
+				TargetViewRotation.Roll = 0;
+			BlendedTargetViewRotation.Pitch = BlendRot(DeltaTime, BlendedTargetViewRotation.Pitch, TargetViewRotation.Pitch & 65535);
+			BlendedTargetViewRotation.Yaw = BlendRot(DeltaTime, BlendedTargetViewRotation.Yaw, TargetViewRotation.Yaw & 65535);
+			BlendedTargetViewRotation.Roll = BlendRot(DeltaTime, BlendedTargetViewRotation.Roll, TargetViewRotation.Roll & 65535);
+		}
+        GetAxes(Rotation,X,Y,Z);
+
+        NewAccel = aForward*X + aStrafe*Y + aUp*vect(0,0,1);
+		
+        if ( VSize(NewAccel) < 1.0 )
+            NewAccel = vect(0,0,0); 
+
+        UpdateRotation(DeltaTime, 1);
+
+        if ( Role < ROLE_Authority ) // then save this move and replicate it
+            ReplicateMove(DeltaTime, NewAccel, DCLICK_None, rot(0,0,0));
+        else
+            ProcessMove(DeltaTime, NewAccel, DCLICK_None, rot(0,0,0));
     }
 }
 
@@ -1276,6 +1425,9 @@ function ViewFlash(float DeltaTime)
 
 function ClientDmgFlash( float scale, vector fog )
 {
+    if (bGodMode)
+		return;
+
 	DesiredFlashScale = scale;
 	DesiredFlashFog = 0.001 * fog;
 }
@@ -1283,6 +1435,9 @@ function ClientDmgFlash( float scale, vector fog )
 // disallow scaling flash
 function ClientFlash( float scale, vector fog )
 {
+    if (bGodMode)
+		return;
+
     FlashScale = scale * vect(1,1,1);
     flashfog = 0.001 * fog;
 	bOverrideDmgFlash = true;
@@ -1361,6 +1516,8 @@ simulated function DisplayDebug(Canvas Canvas, out float YL, out float YPos)
 {
 	Super.DisplayDebug(Canvas, YL, YPos);
 
+    if(Pawn == None)
+        return;
 	Canvas.SetDrawColor(255, 255, 255);
 	Canvas.DrawText("Rotation:"@Rotation@"Pawn Rotation:"@Pawn.Rotation@"Smooth View Yaw:"@Pawn.SmoothViewYaw@"Aim rotator:"@BehindViewAimRotator);
 	YPos += YL;
@@ -1485,27 +1642,8 @@ exec function ShowVoteMenu()
 	Player.GUIController.OpenMenu(s);
 }
 
-function ServerSetEyeHeightAlgorithm(bool B) {
-    bUseNewEyeHeightAlgorithm = B;
-}
-
-function SetEyeHeightAlgorithm(bool B) {
-    bUseNewEyeHeightAlgorithm = B;
-    ServerSetEyeHeightAlgorithm(B);
-}
-
-function bool WantsSmoothedView()
-{
-    if (Pawn == none) return false;
-
-    return
-        (((Pawn.Physics == PHYS_Walking) || (Pawn.Physics == PHYS_Spider)) && Pawn.bJustLanded == false) ||
-        (Pawn.Physics == PHYS_Falling && BallisticPawn(Pawn).OldPhysics2 == PHYS_Walking);
-}
-
 defaultproperties
 {
-    bUseNewEyeHeightAlgorithm=True
     WeapUIEnter=Sound'MenuSounds.selectDshort'
     WeapUIExit=Sound'MenuSounds.selectK'
     WeapUIFail=Sound'MenuSounds.denied1'
@@ -1522,4 +1660,5 @@ defaultproperties
     ComboNameList(3)="BallisticProV55.Ballistic_ComboMiniMe"
     AnnouncerLevel=1
     PawnClass=Class'BallisticProV55.BallisticPawn'
+    FlySpeedMulti=3.000000
 }

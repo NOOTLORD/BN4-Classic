@@ -91,7 +91,6 @@ defaultproperties
     TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
     BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_M290'
     BigIconCoords=(Y1=40,X2=490,Y2=225)
-    
     bWT_Shotgun=True
     ManualLines(0)="Fires both barrels at once. Deals extreme damage at close to medium range. Spread is tight, recoil is high and fire rate is moderate."
     ManualLines(1)="Fires one barrel at a time. Deals high damage with tighter spread than primary. The interval between two successive shots is short, but the weapon must cock after the second shot, or it may be manually cocked."
@@ -101,7 +100,6 @@ defaultproperties
     PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M290.M290Putaway',Volume=0.218000)
     CockSound=(Sound=Sound'BW_Core_WeaponSound.M290.M290Cock')
     ReloadAnim="ReloadLoop"
-
     ClipInSound=(Sound=Sound'BW_Core_WeaponSound.M290.M290LoadShell')
     bCockOnEmpty=True
     bCanSkipReload=True
@@ -114,15 +112,11 @@ defaultproperties
     WeaponModes(0)=(ModeName="Single Fire")
     WeaponModes(1)=(bUnavailable=True)
     WeaponModes(2)=(bUnavailable=True)
-	
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M763OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M763OutA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(R=0,A=192),Color2=(A=223),StartSize1=186,StartSize2=152)
     NDCrosshairInfo=(SpreadRatios=(X1=0.250000,Y1=0.375000,X2=1.000000,Y2=1.000000),MaxScale=3.000000)
     NDCrosshairChaosFactor=0.600000
-	
     CurrentWeaponMode=0
     bNoCrosshairInScope=True
-
-
     ParamsClasses(0)=Class'M290WeaponParamsComp'
     ParamsClasses(1)=Class'M290WeaponParamsClassic'
     ParamsClasses(2)=Class'M290WeaponParamsRealistic'

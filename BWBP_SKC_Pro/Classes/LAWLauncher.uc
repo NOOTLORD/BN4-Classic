@@ -8,9 +8,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class LAWLauncher extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class LAWLauncher extends BallisticWeapon;
 
 #EXEC OBJ LOAD FILE=BWBP_SKC_Tex.utx
 
@@ -68,6 +66,11 @@ simulated function OutOfAmmo()
 	GetAnimParams(channel, anim, frame, rate);
 	
 	if (bPreventReload)
+		return;
+
+	// In unlimited ammo modes (GunGame, Arena), don't auto-switch;
+	// the game mode timer will replenish ammo shortly
+	if (class'BallisticReplicationInfo'.default.bNoReloading)
 		return;
 	
     DoAutoSwitch();

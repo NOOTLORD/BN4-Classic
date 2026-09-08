@@ -16,7 +16,6 @@ class M925Machinegun extends BallisticMachinegun;
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -50,7 +49,11 @@ function Notify_Deploy()
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 
 		if (T == None)
 			HitLoc = End;
@@ -63,7 +66,11 @@ function Notify_Deploy()
 			break;
 
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -206,7 +213,6 @@ function GiveTo(Pawn Other, optional Pickup Pickup)
 
 // AI Interface =====
 function byte BestMode()	{	return 0;	}
-
 function float GetAIRating()
 {
 	local Bot B;
@@ -275,8 +281,7 @@ defaultproperties
 	ParamsClasses(2)=Class'M925WeaponParamsRealistic' //todo: turret
     ParamsClasses(3)=Class'M925WeaponParamsTactical'
 	FireModeClass(0)=Class'BallisticProV55.M925PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
-	
+	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'	
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M353OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M353InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=128),StartSize1=94)
     NDCrosshairInfo=(SpreadRatios=(Y2=1.000000))
 	MeleeFireClass=Class'BallisticProV55.M925MeleeFire'
@@ -291,13 +296,11 @@ defaultproperties
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
 	InventoryGroup=1
 	GroupOffset=1
-	
 	PickupClass=Class'BallisticProV55.M925Pickup'
 	PlayerViewOffset=(X=5.00,Y=6.00,Z=-8.00)
 	SightOffset=(X=-4.00,Y=0.00,Z=3.4)
 	SightAnimScale=0.75
 	SightBobScale=2
-
 	AttachmentClass=Class'BallisticProV55.M925Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_M925'
 	IconCoords=(X2=127,Y2=31)

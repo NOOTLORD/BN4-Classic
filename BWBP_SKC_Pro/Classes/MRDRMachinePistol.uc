@@ -12,7 +12,7 @@ class MRDRMachinePistol extends BallisticHandgun;
 var() Sound		SlideReleaseSound;
 var() Sound		ClipOutSound2;
 
-/*simulated event PostNetBeginPlay()
+simulated event PostNetBeginPlay()
 {
 	super.PostNetBeginPlay();
 	bUseSights=True;
@@ -75,7 +75,7 @@ simulated function Notify_MRDRMelee()
 		BFireMode[1].BallisticFireSound.Radius,
 		BFireMode[1].BallisticFireSound.Pitch,
 		BFireMode[1].BallisticFireSound.bAtten);
-}*/
+}
 
 simulated function Notify_ClipOut2()
 {
@@ -87,56 +87,30 @@ simulated function Notify_SlideRelease()
 	PlaySound(SlideReleaseSound,,0.8);
 }
 
-simulated function BringUp(optional Weapon PrevWeapon)
-{
-	Super.BringUp(PrevWeapon);
-
-	if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
-	{
-		IdleAnim = 'OpenIdle';
-		ReloadAnim = 'OpenReload';
-	}
-	else
-	{
-		IdleAnim = 'Idle';
-		ReloadAnim = 'Reload';
-	}
-
-}
-
-simulated event AnimEnd (int Channel)
-{
-    local name Anim;
-    local float Frame, Rate;
-
-    GetAnimParams(0, Anim, Frame, Rate);
-
-	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == CockAnim || Anim == ReloadAnim)
-	{
-		if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
-		{
-			IdleAnim = 'OpenIdle';
-			ReloadAnim = 'OpenReload';
-		}
-		else
-		{
-			IdleAnim = 'Idle';
-			ReloadAnim = 'Reload';
-		}
-	}
-	Super.AnimEnd(Channel);
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+	local Vector Dir;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	if (!HasAmmoLoaded(0))
+		return 1;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+
+	if (Dist > 200)
+		return 0;
+	if (Dist < FireMode[1].MaxRange())
+		return 1;
+	return Rand(2);
+}
 
 function float GetAIRating()
 {
@@ -166,6 +140,49 @@ function float SuggestAttackStyle()	{	return 0.8;	}
 function float SuggestDefenseStyle()	{	return -0.8;	}
 // End AI Stuff =================================
 
+
+simulated function BringUp(optional Weapon PrevWeapon)
+{
+	Super.BringUp(PrevWeapon);
+
+	if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
+	{
+		IdleAnim = 'OpenIdle';
+		ReloadAnim = 'OpenReload';
+	}
+	else
+	{
+		IdleAnim = 'Idle';
+		ReloadAnim = 'Reload';
+	}
+
+}
+
+simulated event AnimEnd (int Channel)
+{
+    local name Anim;
+    local float Frame, Rate;
+
+    GetAnimParams(0, Anim, Frame, Rate);
+
+	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == CockAnim || Anim == ReloadAnim || Anim == DualReloadAnim || Anim == DualReloadEmptyAnim)
+	{
+		if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
+		{
+			IdleAnim = 'OpenIdle';
+			ReloadAnim = 'OpenReload';
+		}
+		else
+		{
+			IdleAnim = 'Idle';
+			ReloadAnim = 'Reload';
+		}
+	}
+	Super.AnimEnd(Channel);
+}
+
+// =============================================
+
 defaultproperties
 {
 	bShouldDualInLoadout=False
@@ -175,6 +192,7 @@ defaultproperties
 	BigIconMaterial=Texture'BWBP_SKC_Tex.MRDR.BigIcon_MRDR'
 	BigIconCoords=(X1=64,Y1=0,Y2=255)
     SupportHandBone="Root 01"
+	
 	bWT_Bullet=True
 	bWT_Machinegun=True
 	ManualLines(0)="Automatic pistol fire. Good strength and low recoil."
@@ -192,8 +210,9 @@ defaultproperties
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc1',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.A73OutA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=255,G=255,R=134,A=71),Color2=(B=99,G=228,R=255,A=161),StartSize1=99,StartSize2=33)
     NDCrosshairInfo=(SpreadRatios=(Y1=0.800000,Y2=1.000000),MaxScale=6.000000)
     NDCrosshairChaosFactor=0.300000
-	WeaponModes(0)=(ModeName="",ModeID="WM_FullAuto")
-	CurrentWeaponMode=0
+	WeaponModes(0)=(bUnavailable=True)
+	WeaponModes(1)=(ModeName="Small Burst",Value=5.000000)
+	bUseSights=False
 	GunLength=0.100000
 	AIRating=0.6
 	CurrentRating=0.6
@@ -202,7 +221,7 @@ defaultproperties
 	ParamsClasses(2)=Class'MRDRWeaponParamsRealistic'
     ParamsClasses(3)=Class'MRDRWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.MRDRPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.MRDRSecondaryFire'
 	PutDownTime=0.400000
 	BringUpTime=0.500000
 	SelectForce="SwitchToAssaultRifle"
@@ -211,16 +230,18 @@ defaultproperties
 	Priority=143
 	HudColor=(B=150,G=150,R=150)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=2
-	GroupOffset=2
+	InventoryGroup=3
+	GroupOffset=5
 	PickupClass=Class'BWBP_SKC_Pro.MRDRPickup'
+
 	PlayerViewOffset=(X=5.00,Y=7.00,Z=-4.00)
 	SightOffset=(X=-5.00,Y=-0.6,Z=7.10)
 	SightPivot=(Pitch=900,Roll=-800)
+
 	AttachmentClass=Class'BWBP_SKC_Pro.MRDRAttachment'
 	IconMaterial=Texture'BWBP_SKC_Tex.MRDR.SmallIcon_MRDR'
 	IconCoords=(X2=127,Y2=31)
-	ItemName="MR-DR88"
+	ItemName="MR-DR88 Machine Pistol"
 	LightType=LT_Pulse
 	LightEffect=LE_NonIncidence
 	LightHue=30

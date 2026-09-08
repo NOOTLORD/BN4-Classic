@@ -9,9 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class DragonsToothSword extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
+class DragonsToothSword extends BallisticMeleeWeapon;
 
 var Actor	BladeGlow;				// Nano replicators
 var Sound	LoopAmbientSound;
@@ -178,8 +176,8 @@ function float SuggestDefenseStyle()
 
 defaultproperties
 {
-	ToothUpSound=(Sound=Sound'BWBP_SKC_Sounds.DTS.DragonsTooth-Up',Volume=1.190000,Radius=24.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
-	ToothDownSound=(Sound=Sound'BWBP_SKC_Sounds.DTS.DragonsTooth-Down',Volume=1.213000,Radius=24.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
+	ToothUpSound=(Sound=Sound'BWBP_SKC_Sounds.DTS.DragonsTooth-Up',Volume=1.190000,Radius=24.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
+	ToothDownSound=(Sound=Sound'BWBP_SKC_Sounds.DTS.DragonsTooth-Down',Volume=1.213000,Radius=24.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
 	LoopAmbientSound=Sound'BWBP_SKC_Sounds.DTS.DragonsTooth-Loop'
 	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	BigIconMaterial=Texture'BWBP_SKC_Tex.DragonToothSword.BigIcon_DTS'

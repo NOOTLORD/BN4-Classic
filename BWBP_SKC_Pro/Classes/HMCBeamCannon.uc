@@ -7,9 +7,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
-class HMCBeamCannon extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class HMCBeamCannon extends BallisticWeapon;
 
 var() 	bool 			bGravitron; 	//firemodes affect player speed, knockback
 var()   bool			bRedTeam;		//Owned by red team?
@@ -437,7 +435,7 @@ simulated function AddHeat(float Amount)
 	if (Heat > 1.0 && Heat < 1.2)
 	{
 		Heat = 1.4;
-		PlaySound(OverHeatSound,,6.7,,64);
+		PlaySound(OverHeatSound,,6.7,,64,,false);
 	}
 }
 

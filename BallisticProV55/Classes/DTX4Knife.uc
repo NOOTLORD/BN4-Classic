@@ -11,15 +11,7 @@ class DTX4Knife extends DT_BWBlade;
 
 defaultproperties
 {
-     DeathStrings(0)="%k cut up %o like a paper-shredder with %kh X4 knife."
-     DeathStrings(1)="%o pounced onto %k's X4, and disembowelled %vs."
-     DeathStrings(2)="%k jammed %kh X4 knife into %o's staggering body."
-     DeathStrings(3)="%o was stabbed to death by %k's X4."
-     DamageIdent="Melee"
-	BlockFatiguePenalty=0.1
-     AimDisplacementDamageThreshold=40
-     AimDisplacementDuration=0.50
-     DamageDescription=",Slash,Stab,"
+     DeathStrings(0)=""
      WeaponClass=Class'BallisticProV55.X4Knife'
      DeathString="%k cut up %o like a paper-shredder with %kh X4 knife."
      FemaleSuicide="%o fell on her X4 knife."

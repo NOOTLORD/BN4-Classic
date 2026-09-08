@@ -20,11 +20,12 @@ defaultproperties
      bCanBeBlocked=True
      ShieldDamage=50
      bMetallic=True
-     DamageDescription=",Slash,"
+     DamageIdent="Melee"
+     DamageDescription=",Slash,Stab,"
      bInstantHit=True
      PawnDamageSounds(0)=SoundGroup'BW_Core_WeaponSound.Knife.KnifeFlesh'
-	InvasionDamageScaling=3
-     VehicleDamageScaling=0.000000
+	InvasionDamageScaling=3.000000
+     VehicleDamageScaling=0.250000
      VehicleMomentumScaling=0.000000
-     TransientSoundVolume=1
+     TransientSoundVolume=1.000000
 }

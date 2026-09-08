@@ -9,9 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class R9000ERifle extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class R9000ERifle extends BallisticWeapon;
 
 //===========================================================================
 // Roll switch
@@ -114,7 +112,7 @@ simulated function bool PutDown()
 
 simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 {
-	local float		ScaleFactor, XL, YL, YL2, SprintFactor;
+	local float		ScaleFactor, XL, YL, YL2;
 	local string	Temp;
 	local int i;
 	local byte StartMode;
@@ -183,22 +181,6 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 			}
 		}
 	}
-	
-	// This is pretty damn disgusting, but the weapon seems to be the only way we can draw extra info on the HUD
-	// Would be nice if someone could have a HUD function called along the inventory chain
-	if (SprintControl != None && SprintControl.Stamina < SprintControl.MaxStamina)
-	{
-		SprintFactor = SprintControl.Stamina / SprintControl.MaxStamina;
-		C.CurX = C.OrgX  + 5    * ScaleFactor * class'HUD'.default.HudScale;
-		C.CurY = C.ClipY - 330  * ScaleFactor * class'HUD'.default.HudScale;
-		if (SprintFactor < 0.2)
-			C.SetDrawColor(255, 0, 0);
-		else if (SprintFactor < 0.5)
-			C.SetDrawColor(64, 128, 255);
-		else
-			C.SetDrawColor(0, 0, 255);
-		C.DrawTile(Texture'Engine.MenuWhite', 200 * ScaleFactor * class'HUD'.default.HudScale * SprintFactor, 30 * ScaleFactor * class'HUD'.default.HudScale, 0, 0, 1, 1);
-	}
 }
 
 //===========================================================================
@@ -207,10 +189,18 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 
 simulated function PlayCocking(optional byte Type)
 {
-	if (Type == 2 && HasAnim(CockAnimPostReload))
-		SafePlayAnim(CockAnimPostReload, CockAnimRate, 0.2, , "RELOAD");
-	else
-		SafePlayAnim(CockAnim, CockAnimRate, 0.2, , "RELOAD");
+    local float AdjustedCockAnimRate;
+
+    // Adjust cock animation rate only during reloading
+    if (ReloadState != RS_None && ReloadState != RS_Cocking)
+        AdjustedCockAnimRate = CockAnimRate * class'BallisticReplicationInfo'.default.ReloadScale;
+    else
+        AdjustedCockAnimRate = CockAnimRate; // Use default rate for firing
+
+    if (Type == 2 && HasAnim(CockAnimPostReload))
+        SafePlayAnim(CockAnimPostReload, AdjustedCockAnimRate, 0.2, , "RELOAD");
+    else
+        SafePlayAnim(CockAnim, AdjustedCockAnimRate, 0.2, , "RELOAD");
 
 	if (SightingState != SS_None && Type != 1)
 		TemporaryScopeDown(0.5);
@@ -281,10 +271,12 @@ defaultproperties
 	 PutDownTime=0.5
      CockAnim="Cock"
 	 CockSound=(Sound=Sound'BWBP_APC_Sounds.R9000E.R9000E-Cock')
+	 CockSelectSound=(Sound=Sound'BWBP_APC_Sounds.R9000E.R9000E-Cock')
      ReloadAnimRate=1.250000
      ClipHitSound=(Sound=Sound'BWBP_APC_Sounds.R9000E.R9000E-ClipHit')
      ClipOutSound=(Sound=Sound'BWBP_APC_Sounds.R9000E.R9000E-ClipOut')
      ClipInSound=(Sound=Sound'BWBP_APC_Sounds.R9000E.R9000E-ClipIn')
+	 CockingBringUpTime=2.400000
      ClipInFrame=0.650000
      bCockOnEmpty=True
      WeaponModes(0)=(ModeName="Ammo: FMJ")
@@ -310,7 +302,6 @@ defaultproperties
      FireModeClass(0)=Class'BWBP_APC_Pro.R9000EPrimaryFire'
      FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
      BringUpTime=0.500000
-     CockingBringUpTime=1.500000
      SelectForce="SwitchToAssaultRifle"
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc6',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M50InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=109,G=108,R=108,A=95),Color2=(B=255,G=134,R=0,A=151),StartSize1=96,StartSize2=96)
 	 NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)

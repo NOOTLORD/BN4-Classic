@@ -132,14 +132,6 @@ simulated function WeaponTick(float DT)
 	}
 }
 
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
-
 function ServerSwitchSilencer(bool bNewValue)
 {
 	if (bNewValue == bSilenced)
@@ -311,7 +303,11 @@ simulated function bool HasAmmo()
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -373,9 +369,11 @@ defaultproperties
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.205000)
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.205000)
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Cock')
+	CockSelectSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Cock')
 	ClipHitSound=(Sound=Sound'BWBP_SKC_Sounds.MARS.MARS-MagFiddle')
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-ClipOut')
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-ClipIn')
+	CockingBringUpTime=1.500000
 	ClipInFrame=0.650000
 	WeaponModes(0)=(bUnavailable=True)
 	WeaponModes(1)=(ModeName="Burst of Three")
@@ -393,13 +391,13 @@ defaultproperties
 	ParamsClasses(2)=Class'MDKWeaponParamsRealistic'
 	ParamsClasses(3)=Class'MDKWeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SWC_Pro.MDKPrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SWC_Pro.MDKSecondaryFire'
 	SelectForce="SwitchToAssaultRifle"
 	Description="Primary: 9mm Fire||Alt Add/Remove Scope/Silencer||The MDK Modular SMG was created to fill a variety of roles, featuring different rates of fire and varying degrees of accuracy and power to go with them. Though it is fairly compact compared to larger guns, it is quite heavy and cannot be dual-wielded. Black & Wood saw particularly high sales among soldiers and law enforcement officers on fringe colonies that had previously been attacked by the Skrith, as it fills a variety of roles that would normally require multiple weapons."
 	Priority=32
 	HudColor=(B=200,G=150,R=50)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
+	InventoryGroup=3
 	GroupOffset=1
 	PickupClass=Class'BWBP_SWC_Pro.MDKPickup'
 	SightOffset=(X=10.000000,Y=-0.050000,Z=41.000000)

@@ -14,9 +14,8 @@ defaultproperties
 		DamageType=Class'BWBP_SKC_Pro.DTRS04Pistol'
 		DamageTypeHead=Class'BWBP_SKC_Pro.DTRS04PistolHead'
 		DamageTypeArm=Class'BWBP_SKC_Pro.DTRS04Pistol'
-		PenetrateForce=135
-		PenetrationEnergy=0
-		bPenetrate=False
+		PenetrateForce=150
+		bPenetrate=True
 		MuzzleFlashClass=Class'BallisticProV55.XK2FlashEmitter'
 		FireSound=(Sound=Sound'BWBP_SKC_Sounds.M1911.M1911-Fire',Volume=1.200000)
 		Recoil=300.000000
@@ -28,11 +27,11 @@ defaultproperties
 	Begin Object Class=FireParams Name=ArenaPrimaryFireParams
 		FireInterval=0.070000
 		FireEndAnim=
-		FireAnimRate=1.75
+		FireAnimRate=1.75	
 	FireEffectParams(0)=InstantEffectParams'ArenaPrimaryEffectParams'
 	End Object
 	
-	/*Begin Object Class=InstantEffectParams Name=ArenaPrimaryBurstEffectParams
+	Begin Object Class=InstantEffectParams Name=ArenaPrimaryBurstEffectParams
 		TraceRange=(Max=5500.000000)
 		RangeAtten=0.900000
 		Damage=25
@@ -57,14 +56,14 @@ defaultproperties
 		FireEndAnim=
 		FireAnimRate=1.75	
 	FireEffectParams(0)=InstantEffectParams'ArenaPrimaryBurstEffectParams'
-	End Object*/
+	End Object
 		
 	//=================================================================
 	// SECONDARY FIRE
 	//=================================================================	
 	
 	//Light
-	/*Begin Object Class=FireEffectParams Name=ArenaSecondaryEffectParams
+	Begin Object Class=FireEffectParams Name=ArenaSecondaryEffectParams
 		SpreadMode=None
 		MuzzleFlashClass=None
 		FlashScaleFactor=None
@@ -142,7 +141,7 @@ defaultproperties
 		HookStopFactor=1.700000
 		HookPullForce=100.000000
 		SpreadMode=FSM_Rectangle
-		FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Radius=32.000000,bAtten=True)
+		FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Radius=32.000000,batten=false)
 		Recoil=0.0
 		Chaos=-1.0
 		BotRefireRate=0.800000
@@ -166,14 +165,14 @@ defaultproperties
 		FireInterval=0.200000
 		AmmoPerFire=0
 		FireEffectParams(0)=FireEffectParams'ArenaSecondaryEffectParams_Scope'
-	End Object*/
+	End Object	
 		
 	//=================================================================
 	// RECOIL
 	//=================================================================
 
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
-		ViewBindFactor=1.000000
+		ViewBindFactor=0.7
 		XCurve=(Points=((InVal=0.0,OutVal=0.0),(InVal=0.15,OutVal=0.1),(InVal=0.35,OutVal=-0.05),(InVal=0.5,OutVal=0.12),(InVal=0.7,OutVal=0.2),(InVal=1.0,OutVal=0.3)))
 		XRandFactor=0.15000
 		YRandFactor=0.15000
@@ -201,6 +200,7 @@ defaultproperties
 		Weight=30
 		LayoutName="Tac Light"
 		LayoutTags="flash,light"
+		//ADS
 		SightOffset=(X=-3.50,Y=0.2,Z=1.07)
 		SightPivot=(Roll=-256)
 		SightingTime=0.200000
@@ -214,11 +214,11 @@ defaultproperties
 		RecoilParams(0)=RecoilParams'ArenaRecoilParams'
 		AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
-		//FireParams(1)=FireParams'ArenaPrimaryFireParams'
-		//AltFireParams(0)=FireParams'ArenaSecondaryFireParams_Blind'
+		FireParams(1)=FireParams'ArenaPrimaryFireParams'
+		AltFireParams(0)=FireParams'ArenaSecondaryFireParams_Blind'
 	End Object
 	
-	/*Begin Object Class=WeaponParams Name=ArenaParams_Sensor
+	Begin Object Class=WeaponParams Name=ArenaParams_Sensor
 		//Layout core
 		Weight=10
 		LayoutName="Sensor"
@@ -293,12 +293,12 @@ defaultproperties
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
 		FireParams(1)=FireParams'ArenaPrimaryFireParams'
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams_TacKnife'
-	End Object*/
+	End Object
 	
 	Layouts(0)=WeaponParams'ArenaParams'
-	//Layouts(1)=WeaponParams'ArenaParams_TacKnife'
-	//Layouts(2)=WeaponParams'ArenaParams_RDS'
-	//Layouts(3)=WeaponParams'ArenaParams_Sensor'
+	Layouts(1)=WeaponParams'ArenaParams_TacKnife'
+	Layouts(2)=WeaponParams'ArenaParams_RDS'
+	Layouts(3)=WeaponParams'ArenaParams_Sensor'
 	
 	//Camos =====================================
 	Begin Object Class=WeaponCamo Name=RS04_Tan
@@ -307,7 +307,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=RS04_Black
+	Begin Object Class=WeaponCamo Name=RS04_Black
 		Index=1
 		CamoName="Black"
 		WeaponMaterialSwaps(0)=(MaterialName="BW_Core_WeaponTex.Hands.Hands-Shiny",Index=0,AIndex=-1,PIndex=-1)
@@ -353,14 +353,14 @@ defaultproperties
 		WeaponMaterialSwaps(0)=(MaterialName="BW_Core_WeaponTex.Hands.Hands-Shiny",Index=0,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.RS04Camos.RS04-X-CamoTiger",Index=1,AIndex=0,PIndex=0)
 		Weight=1
-	End Object*/
+	End Object
 	
 	Camos(0)=WeaponCamo'RS04_Tan'
-	//Camos(1)=WeaponCamo'RS04_Black'
-	//Camos(2)=WeaponCamo'RS04_TwoTone'
-	//Camos(3)=WeaponCamo'RS04_Jungle'
-	//Camos(4)=WeaponCamo'RS04_Hunter'
-	//Camos(5)=WeaponCamo'RS04_Autumn'
-	//Camos(6)=WeaponCamo'RS04_RedTiger'
+	Camos(1)=WeaponCamo'RS04_Black'
+	Camos(2)=WeaponCamo'RS04_TwoTone'
+	Camos(3)=WeaponCamo'RS04_Jungle'
+	Camos(4)=WeaponCamo'RS04_Hunter'
+	Camos(5)=WeaponCamo'RS04_Autumn'
+	Camos(6)=WeaponCamo'RS04_RedTiger'
 	//Camos(7)=WeaponCamo'RS04_Gold'
 }

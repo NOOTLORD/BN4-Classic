@@ -790,13 +790,17 @@ simulated function bool AllowFire()
 		return false;
 	else if (BW.bNeedCock)
 		return false;		// Is gun cocked
+
+	if (BW.bNeedCock)		// Need this again outside the chain above 
+		return false;
+
     return true;
 }
 
 defaultproperties
 {
-     ClipFinishSound=(Volume=0.500000,Radius=24.000000,Pitch=1.000000)
-     DryFireSound=(Volume=0.500000,Radius=24.000000,Pitch=1.000000)
+     ClipFinishSound=(Volume=0.500000,Radius=24.000000,Pitch=1.000000,batten=false)
+     DryFireSound=(Volume=0.500000,Radius=24.000000,Pitch=1.000000,batten=false)
      bUseWeaponMag=True
      FlashBone="tip"
      FlashScaleFactor=1.000000
@@ -806,10 +810,10 @@ defaultproperties
      FireChaosCurve=(Points=((InVal=0.000000,OutVal=1.000000),(InVal=1.000000,OutVal=1.000000)))
      FireSpreadMode=FSM_Circle
      UnjamMethod=UJM_Cock
-     JamSound=(Volume=0.800000,Radius=24.000000,Pitch=1.000000,bAtten=True)
-     bJamWastesAmmo=True
-     SilencedFireSound=(Volume=0.7,Radius=48.000000,Pitch=1.000000,bNoOverride=True)
-     BallisticFireSound=(Volume=1.000000,Radius=512.000000,Pitch=1.000000,bNoOverride=True)
+     JamSound=(Volume=0.800000,Radius=24.000000,Pitch=1.000000,batten=false)
+     bJamWastesAmmo=False
+     SilencedFireSound=(Volume=0.7,Radius=48.000000,Pitch=1.000000,bNoOverride=True,batten=false)
+     BallisticFireSound=(Volume=1.000000,Radius=512.000000,Pitch=1.000000,bNoOverride=True,batten=false)
      TransientSoundVolume=1.000000
      TweenTime=0.000000
      AmmoPerFire=1

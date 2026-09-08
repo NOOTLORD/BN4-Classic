@@ -1,9 +1,7 @@
 //=============================================================================
 // Stimpack. Grants health over time.
 //=============================================================================
-class ICISStimpack extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class ICISStimpack extends BallisticWeapon;
 
 var() sound		HealSound;
 var float       LastRegenTick;

@@ -6,9 +6,7 @@
 //
 // by SK
 //=============================================================================
-class FC01SmartGun extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class FC01SmartGun extends BallisticWeapon;
 
 #exec OBJ LOAD File=BWBP_OP_Tex.utx
 
@@ -60,7 +58,7 @@ var float StealthRating, StealthImps;
 replication
 {
 	reliable if(Role==ROLE_Authority)
-		Target, bLockedOn, bLaserOn;
+		Target, bLockedOn, bLaserOn, TargetTime;
 
 	reliable if(Role<ROLE_Authority)
 		ServerSwitchSilencer;
@@ -77,7 +75,8 @@ simulated function OnWeaponParamsChanged()
 		
 	assert(WeaponParams != None);
 	bADSTrack=false;
-	IronsViewBindFactor = RcComponent.Params.ADSViewBindFactor;
+	if (RcComponent != None && RcComponent.Params != None)
+		IronsViewBindFactor = RcComponent.Params.ADSViewBindFactor;
 	if (InStr(WeaponParams.LayoutTags, "TargetScope") != -1)
 	{
 		bADSTrack=true;
@@ -115,11 +114,15 @@ simulated function WeaponTick(float DT)
 	//if (Instigator != None && Instigator.IsLocallyControlled())
 	//	TickLaser(DT);
 
-	if (!bScopeView || !bADSTrack || Role < ROLE_Authority)
-	{
-		TargetTime = 0;
-		return;
-	}
+    if (!bScopeView || !bADSTrack)
+    {
+        if (Role == ROLE_Authority)
+            TargetTime = 0;
+        return;
+    }
+
+    if (Role < ROLE_Authority)
+        return;
 
 	bWasLockedOn = TargetTime >= LockOnTime;
 
@@ -806,7 +809,7 @@ simulated function ScopeViewTwo()
 			SightPivot = ScopeSightPivot;
 			SightOffset = ScopeSightOffset;
 			ZoomType = ZT_Fixed;
-			SightingTime = 0.4;
+			//SightingTime = 0.4;
 		}
 	}
 	

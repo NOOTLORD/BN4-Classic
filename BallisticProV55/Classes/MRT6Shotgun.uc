@@ -161,7 +161,6 @@ simulated function PlayReload()
 		SetBoneScale (0, 0.0, 'Shell');
 	super.PlayReload();
 }
-
 /*
 simulated function PlayCocking(optional byte Type)
 {
@@ -184,7 +183,7 @@ simulated function Notify_CockAfterFire()
 	bPreventReload=false;
 //	if ((!bRightLoaded || (bRightLoaded && bLeftLoaded)) && bNeedCock && MagAmmo > 0 &&
 //		(OtherGun == None || !CanAlternate(0) || OtherGun.bNeedCock) )
-	if (bNeedCock && MagAmmo > 0 )
+//	if ((!bRightLoaded || (bRightLoaded && bLeftLoaded)) && bNeedCock && MagAmmo > 0 )
 		CommonCockGun();
 }
 
@@ -201,7 +200,26 @@ simulated function Notify_ClipOutOfSight()
 }*/
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+	local Vector Dir;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+
+	if (Dist > 700)
+		return 1;
+	else if (Dist < 300)
+		return 0;
+	return Rand(2);
+}
 
 function float GetAIRating()
 {
@@ -271,6 +289,7 @@ defaultproperties
     ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.MRT6.MRT6ClipHit')
     ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.MRT6.MRT6ClipOut')
     ClipInSound=(Sound=Sound'BW_Core_WeaponSound.MRT6.MRT6ClipIn')
+	CockingBringUpTime=1.000000
     bCockOnEmpty=True
 	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
     CurrentWeaponMode=0
@@ -290,9 +309,9 @@ defaultproperties
     PlayerViewOffset=(X=1.000000,Y=3.000000,Z=-5.500000)
 	SightPivot=(Pitch=768)
     SightOffset=(X=-10.000000,Z=6.500000)
-    SightZoomFactor=1.2
-	SightAnimScale=0.5
-	SightBobScale=0.7f
+    SightZoomFactor=1.200000
+	SightAnimScale=0.500000
+	SightBobScale=0.700000
     AttachmentClass=Class'BallisticProV55.MRT6Attachment'
     IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_MRT6'
     IconCoords=(X2=127,Y2=31)

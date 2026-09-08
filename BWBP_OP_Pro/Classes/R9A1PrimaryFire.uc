@@ -131,7 +131,7 @@ defaultproperties
 	DamageTypeArm=Class'BWBP_OP_Pro.DTR9A1Rifle'
 	PenetrateForce=150
 	bPenetrate=True
-	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.800000,Radius=48.000000,Pitch=1.250000,bAtten=True)
+	ClipFinishSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.800000,Radius=48.000000,Pitch=1.250000,batten=false)
 	DryFireSound=(Sound=Sound'BW_Core_WeaponSound.Misc.DryRifle',Volume=0.700000)
 	bCockAfterEmpty=True
 	MuzzleFlashClass=Class'BallisticProV55.R9FlashEmitter'
@@ -144,7 +144,7 @@ defaultproperties
 	BallisticFireSound=(Sound=Sound'BW_Core_WeaponSound.USSR.USSR-Fire',Volume=0.800000)
 	FireEndAnim=
 	FireRate=0.225000
-	AmmoClass=Class'BWBP_OP_Pro.Ammo_R9A1'
+	AmmoClass=Class'BWBP_OP_Pro.Ammo_R9A1Rifle'
 	
 	ShakeRotMag=(X=48.000000)
 	ShakeRotRate=(X=640.000000)

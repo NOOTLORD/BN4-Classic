@@ -32,7 +32,6 @@ event InitComponent(GUIController MyController, GUIComponent MyOwner)
 
     i_BG3.ManageComponent(fl_Sensitivity);
     i_BG3.ManageComponent(fl_MenuSensitivity);
-    i_BG3.ManageComponent(fl_SmoothingStrength);
     i_BG3.ManageComponent(fl_MouseAccel);
     i_BG3.ManageComponent(fl_DodgeTime);
 }
@@ -84,11 +83,6 @@ function InternalOnLoadINI(GUIComponent Sender, string s)
 	case fl_MouseAccel:
 		fAccel = class'PlayerInput'.Default.MouseAccelThreshold;
 		fl_MouseAccel.SetComponentValue(fAccel,true);
-		break;
-
-	case fl_SmoothingStrength:
-		fSmoothing = class'PlayerInput'.Default.MouseSmoothingStrength;
-		fl_SmoothingStrength.SetComponentValue(fSmoothing,true);
 		break;
 
 	case fl_DodgeTime:
@@ -163,12 +157,6 @@ function SaveSettings()
 	if ( class'PlayerInput'.default.MouseAccelThreshold != FMax(0.0, fAccel) )
 	{
 		PC.SetMouseAccel(fAccel);
-		bInputSave = False;
-	}
-
-	if ( class'PlayerInput'.default.MouseSmoothingStrength != FMax(0.0, fSmoothing) )
-	{
-		PC.ConsoleCommand("SetSmoothingStrength"@fSmoothing);
 		bInputSave = False;
 	}
 

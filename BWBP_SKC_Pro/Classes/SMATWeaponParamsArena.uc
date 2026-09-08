@@ -31,7 +31,7 @@ defaultproperties
 	End Object
 	
 	//Ice
-	/*Begin Object Class=ProjectileEffectParams Name=ArenaPrimaryEffectParams_Ice
+	Begin Object Class=ProjectileEffectParams Name=ArenaPrimaryEffectParams_Ice
 		ProjectileClass=Class'BWBP_SKC_Pro.SMATRocketIce'
 		SpawnOffset=(X=10.000000,Y=10.000000,Z=-3.000000)
 		Speed=2000.000000
@@ -53,7 +53,7 @@ defaultproperties
 		bCockAfterFire=False
 		FireEndAnim=	
 		FireEffectParams(0)=ProjectileEffectParams'ArenaPrimaryEffectParams_Ice'
-	End Object*/
+	End Object
 		
     //=================================================================
     // SECONDARY FIRE
@@ -88,7 +88,6 @@ defaultproperties
 	//=================================================================
 
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
-		ViewBindFactor=1.000000
      	YawFactor=0.000000
      	DeclineTime=1.000000
 	End Object
@@ -113,6 +112,7 @@ defaultproperties
     Begin Object Class=WeaponParams Name=ArenaParams
 		LayoutName="HEDP Warhead"
 		Weight=30
+		
 	    CockAnimRate=1.250000
 		ReloadAnimRate=1.250000
 		//SightOffset=(X=-3.000000,Y=-6.000000,Z=4.500000)
@@ -130,7 +130,7 @@ defaultproperties
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
 
-    /*Begin Object Class=WeaponParams Name=ArenaParams_Ice
+    Begin Object Class=WeaponParams Name=ArenaParams_Ice
 		LayoutName="CRYO Warhead"
 		Weight=10
 		
@@ -149,10 +149,10 @@ defaultproperties
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams_Ice'
 		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
-    End Object */
+    End Object 
 	
     Layouts(0)=WeaponParams'ArenaParams'
-    //Layouts(1)=WeaponParams'ArenaParams_Ice'
+    Layouts(1)=WeaponParams'ArenaParams_Ice'
 	
 	//Camos ====================================
 	Begin Object Class=WeaponCamo Name=SMAT_Green
@@ -161,7 +161,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=SMAT_Urban
+	Begin Object Class=WeaponCamo Name=SMAT_Urban
 		Index=1
 		CamoName="Urban"
 		WeaponMaterialSwaps(0)=(MaterialName="BW_Core_WeaponTex.Hands.Hands-Shiny",Index=0,AIndex=-1,PIndex=-1)
@@ -186,10 +186,10 @@ defaultproperties
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.SMATCamos.SMAT-MainOrange",Index=1,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(2)=(MaterialName="BWBP_Camos_Tex.SMATCamos.SMAT-MiscOrange",Index=2,AIndex=-1,PIndex=-1)
 		Weight=10
-	End Object*/
+	End Object
 	
 	Camos(0)=WeaponCamo'SMAT_Green'
-	//Camos(1)=WeaponCamo'SMAT_Urban'
-	//Camos(2)=WeaponCamo'SMAT_Ocean'
-	//Camos(3)=WeaponCamo'SMAT_Orange'
+	Camos(1)=WeaponCamo'SMAT_Urban'
+	Camos(2)=WeaponCamo'SMAT_Ocean'
+	Camos(3)=WeaponCamo'SMAT_Orange'
 }

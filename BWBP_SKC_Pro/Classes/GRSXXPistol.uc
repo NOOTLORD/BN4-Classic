@@ -9,9 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
-class GRSXXPistol extends BallisticHandgun
-	HideDropDown
-	CacheExempt;
+class GRSXXPistol extends BallisticHandgun;
 
 // Laser Vars
 var(GRSXX)	bool		bHasCombatLaser;
@@ -276,6 +274,8 @@ simulated function DrawLaserSight ( Canvas Canvas )
 	}
 
 	// Draw beam from bone on gun to point on wall(This is tricky cause they are drawn with different FOVs)
+	if (Laser == None)
+		return;
 	Laser.SetLocation(Loc);
 	HitLocation = ConvertFOVs(End, Instigator.Controller.FovAngle, DisplayFOV, 400);
 	if (bAimAligned)
@@ -345,14 +345,6 @@ simulated function OnScopeViewChanged()
 
 	if (Hand < 0)
 		SightOffset.Y = default.SightOffset.Y * -1;
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 simulated function BringUp(optional Weapon PrevWeapon)
@@ -445,7 +437,7 @@ simulated event AnimEnd (int Channel)
 
     GetAnimParams(0, Anim, Frame, Rate);
 
-	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == CockAnim || Anim == ReloadAnim)
+	if (Anim == 'OpenFire' || Anim == 'Fire' || Anim == CockAnim || Anim == ReloadAnim || Anim == DualReloadAnim || Anim == DualReloadEmptyAnim)
 	{
 		if (MagAmmo - BFireMode[0].ConsumedLoad < 1)
 		{

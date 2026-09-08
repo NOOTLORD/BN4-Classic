@@ -466,7 +466,6 @@ defaultproperties
 	FireModeClass(0)=Class'BallisticProV55.MRS138SecondaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'	
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.M806OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M353OutA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=255,G=255,A=183),Color2=(B=8,G=67,R=29),StartSize1=108,StartSize2=109)
-
 	EndShovelAnimRate=1.600000
 	EndShovelAnim="EndReload"
 	DrawScale=0.300000
@@ -480,7 +479,6 @@ defaultproperties
     BringUpSound=(Sound=Sound'BW_Core_WeaponSound.M763.M763Pullout',Volume=0.220000)
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_MRS138'
 	BigIconCoords=(Y1=36,Y2=230)
-	
 	AttachmentClass=Class'BallisticProV55.MRS138Attachment'
 	AIRating=0.800000
 	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'

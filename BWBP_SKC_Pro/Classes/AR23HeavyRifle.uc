@@ -98,7 +98,7 @@ simulated function LoadGrenade()
 		return;
 	}
 	if (ReloadState == RS_None)
-		PlayAnim(GrenadeLoadAnim, 1.1, , 0);
+		PlayAnim(GrenadeLoadAnim, ReloadAnimRate+0.1, , 0);
 }
 
 function ServerStartReload (optional byte i)
@@ -174,9 +174,56 @@ simulated function float RateSelf()
 		return Super.RateSelf();
 	return CurrentRating;
 }
-
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Result, Height, Dist, VDot;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	if (AmmoAmount(1) < 1 || !IsGrenadeLoaded())
+		return 0;
+	else if (MagAmmo < 1)
+		return 1;
+
+	Dist = VSize(B.Enemy.Location - Instigator.Location);
+	Height = B.Enemy.Location.Z - Instigator.Location.Z;
+	VDot = Normal(B.Enemy.Velocity) Dot Normal(Instigator.Location - B.Enemy.Location);
+
+	Result = FRand()-0.3;
+	// Too far for grenade
+	if (Dist > 800)
+		Result -= (Dist-800) / 2000;
+	// Too close for grenade
+	if (Dist < 500 &&  VDot > 0.3)
+		result -= (500-Dist) / 1000;
+	if (VSize(B.Enemy.Velocity) > 50)
+	{
+		// Straight lines
+		if (Abs(VDot) > 0.8)
+			Result += 0.1;
+		// Enemy running away
+		if (VDot < 0)
+			Result -= 0.2;
+		else
+			Result += 0.2;
+	}
+	// Higher than enemy
+//	if (Height < 0)
+//		Result += 0.1;
+	// Improve grenade acording to height, but temper using horizontal distance (bots really like grenades when right above you)
+	Dist = VSize(B.Enemy.Location*vect(1,1,0) - Instigator.Location*vect(1,1,0));
+	if (Height < -100)
+		Result += Abs((Height/2) / Dist);
+
+	if (Result > 0.5)
+		return 1;
+	return 0;
+}
 
 simulated function bool IsReloadingGrenade()
 {
@@ -259,6 +306,7 @@ defaultproperties
      MagAmmo=18
      bCockOnEmpty=False
      CockSound=(Sound=Sound'BW_Core_WeaponSound.OA-AR.OA-AR_Cock',Volume=1.100000)
+	 CockSelectSound=(Sound=Sound'BW_Core_WeaponSound.OA-AR.OA-AR_Cock',Volume=1.100000)
      ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.OA-AR.OA-AR_ClipHit',Volume=1.000000)
      ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.OA-AR.OA-AR_ClipOut',Volume=1.000000)
      ClipInSound=(Sound=Sound'BW_Core_WeaponSound.OA-AR.OA-AR_ClipIn',Volume=1.000000)
@@ -273,9 +321,9 @@ defaultproperties
      FullZoomFOV=55.000000
      bNoCrosshairInScope=True
      FireModeClass(0)=Class'BWBP_SKC_Pro.AR23PrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_SKC_Pro.AR23SecondaryFire'
      PutDownTime=0.700000
-	 CockingBringUpTime=1.500000
+	 CockingBringUpTime=1.600000
      SelectForce="SwitchToAssaultRifle"
 	 NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.R78InA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Misc4',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(B=0,G=116,R=144,A=255),Color2=(B=42,G=44,R=40,A=116),StartSize1=115,StartSize2=116)
 	 NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000,CurrentScale=0.000000)
@@ -285,8 +333,7 @@ defaultproperties
      Description="Originally designed for boar hunting, the .50 Beowulf Cartridge is a novel yet powerful round that big game hunters across the several galaxies used to take down the biggest of beasties.  Wot Ya Packing was inspired by this big bullet and managed to make an automatic rifle out of it; the AR23 ''Punisher'' Heavy Rifle.  Chambered in the titular .50 Beowulf Cartridge, the AR23 can fire several of these rounds at a rate of fire around 500RPM, not the fastest but more than makes up for it in accuracy.  The AR23 also comes with a customized underslung grenade launcher that specializes in launching 40mm Canister Grenades that can flush bad guys out of their hiding holes like the boars.  When it was released, the AR23 was compared to the Hawk; not a practical weapon for military use and only a niche weapon for paramilitary forces or gun enthusiasts wanting to add to their collection, yet actually became useful for shattering Cryons like a bull in a china shop."
      Priority=62
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=6
      PickupClass=Class'BWBP_SKC_Pro.AR23Pickup'
 
      PlayerViewOffset=(X=8.000000,Y=5.00000,Z=-6.500000)

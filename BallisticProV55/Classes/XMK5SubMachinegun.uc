@@ -236,7 +236,7 @@ defaultproperties
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M50.M50Putaway',Volume=0.220000)
 	AIRating=0.8
 	CurrentRating=0.8
-	CockAnimPostReload="ReloadEndCock"
+	//CockAnimPostReload="ReloadEndCock"
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.OA-SMG.OA-SMG_Cock',Volume=1.350000)
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.OA-SMG.OA-SMG_ClipOut',Volume=1.150000)
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.OA-SMG.OA-SMG_ClipIn',Volume=1.150000)
@@ -262,13 +262,11 @@ defaultproperties
 	InventoryGroup=1
 	GroupOffset=1
 	PickupClass=Class'BallisticProV55.XMK5Pickup'
-
 	PlayerViewOffset=(X=4.00,Y=3.50,Z=-1.50)
 	SightOffset=(X=1.000000,Y=0.01,Z=1.80000)
 	SightBobScale=0.15f
 	SightAnimScale=0.5f
 	SightZoomFactor=1.2
-
 	AttachmentClass=Class'BallisticProV55.XMK5Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.OA-SMG.SmallIcon_OASMG'
 	IconCoords=(X2=127,Y2=31)

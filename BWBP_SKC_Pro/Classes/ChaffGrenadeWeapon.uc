@@ -5,9 +5,7 @@
 //
 // Handheld smoke grenade.
 //=============================================================================
-class ChaffGrenadeWeapon extends BallisticHandGrenade
-	HideDropDown
-	CacheExempt;
+class ChaffGrenadeWeapon extends BallisticHandGrenade;
 
 var bool bPrimed; //Did we twist the HELL OUT OF THAT CAP?!!?!?
 var() name				PutdownAltAnim;	//Anim to play when grenade is unprimed on putaway
@@ -315,8 +313,8 @@ defaultproperties
      bPrimed=False
      HeldDamageType=Class'BWBP_SKC_Pro.DTChaffGrenade_H'
      GrenadeSmokeClass=Class'BWBP_SKC_Pro.ChaffTrail'
-     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOn',Volume=0.500000,Radius=24.000000,Pitch=1.700000,bAtten=True)
-     PinPullSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-PinOut',Volume=0.100000,Radius=24.000000,Pitch=1.000000,bAtten=True)
+     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOn',Volume=0.500000,Radius=24.000000,Pitch=1.700000,batten=false)
+     PinPullSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-PinOut',Volume=0.100000,Radius=24.000000,Pitch=1.000000,batten=false)
 	 GrenadeBone="MOAC"
      GrenadeBone2="MOACTop"
      TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')

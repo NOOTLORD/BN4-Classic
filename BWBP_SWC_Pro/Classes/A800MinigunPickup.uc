@@ -1,5 +1,5 @@
 //=============================================================================
-// XMV850Pickup.
+// A800MinigunPickup
 //=============================================================================
 class A800MinigunPickup extends BallisticWeaponPickup
 	placeable;
@@ -35,7 +35,7 @@ defaultproperties
 {
      bOnSide=False
      LowPolyStaticMesh=StaticMesh'BWBP_SWC_Static.SkrithHyperBlaster.SkrithHyperBlasterPickupLo'
-     PickupDrawScale=0.400000
+     PickupDrawScale=0.380000
      InventoryType=Class'BWBP_SWC_Pro.A800SkrithMinigun'
      RespawnTime=20.000000
      PickupMessage="You picked up the A800 Skrith HyperBlaster"
@@ -44,6 +44,5 @@ defaultproperties
      bOrientOnSlope=True
      Physics=PHYS_None
      DrawScale=0.300000
-     PrePivot=(Z=35.000000)
      CollisionHeight=8.000000
 }

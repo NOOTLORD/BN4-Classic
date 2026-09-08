@@ -1,6 +1,4 @@
-class SRXRifle extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class SRXRifle extends BallisticWeapon;
 
 var(SRX)   bool		bSilenced;				// Silencer on. Silenced
 var(SRX) name		SilencerBone;			// Bone to use for hiding silencer
@@ -36,7 +34,7 @@ var(SRX)	Array<Pawn>			PawnList;		// A list of all the potential pawns to view i
 var(SRX)	material			WallVisionSkin;	// Texture to assign to players when theyare viewed with Thermal mode
 var(SRX)	bool				bThermal;		// Is thermal mode active?
 var(SRX)	bool				bUpdatePawns;	// Should viewable pawn list be updated
-var(SRX)	Pawn				UpdatedPawns[16];// List of pawns to view in thermal scope
+var(SRX)	Pawn				UpdatedPawns[128];// List of pawns to view in thermal scope
 var(SRX)	material			Flaretex;		// Texture to use to obscure vision when viewing enemies directly through the thermal scope
 var(SRX)	float				ThermalRange;	// Maximum range at which it is possible to see enemies through walls
 var(SRX)	ColorModifier		ColorMod;
@@ -477,6 +475,12 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		SetBoneScale (0, 1.0, SilencerBone);
 	else
 		SetBoneScale (0, 0.0, SilencerBone);
+
+	if (ThirdPersonActor != None)
+	{
+		SRXAttachment(ThirdPersonActor).bSilenced = bSilenced;
+		SRXAttachment(ThirdPersonActor).bAmped = bAmped;
+	}
 	
 	if (ColorMod != None)
 		return;
@@ -607,6 +611,8 @@ simulated function UpdatePawnList()
 	PawnList.Length=0;
 	ForEach DynamicActors( class 'Pawn', P)
 	{
+		if (P.PlayerReplicationInfo != None && P.PlayerReplicationInfo.Team != None && P.PlayerReplicationInfo.Team.TeamIndex == Instigator.PlayerReplicationInfo.Team.TeamIndex)
+			continue;
 		PawnList[PawnList.length] = P;
 		Dist = VSize(P.Location - Instigator.Location);
 		if (Dist <= ThermalRange &&
@@ -629,7 +635,6 @@ simulated function UpdatePawnList()
 simulated event DrawThermalMode (Canvas C)
 {
 	local Pawn P;
-	local M58Cloud Other;
 	local int i, j;
 	local float Dist, DotP;//, OtherRatio;
 	local Array<Material>	OldSkins;
@@ -639,8 +644,6 @@ simulated event DrawThermalMode (Canvas C)
 	local Array<Material>	AttOldSkins0;
 	local Array<Material>	AttOldSkins1;
 	
-	local Vector					HitLocation, HitNormal;
-
 	C.Style = ERenderStyle.STY_Modulated;
 	
 	// Draw Spinning Sweeper thing

@@ -79,7 +79,7 @@ function LoadList()
 	local array<CacheManager.WeaponRecord> Recs;
 	local string s;
 	local int Index[12];
-	local bool OtherLoaded, MiscLoaded;
+	//local bool OtherLoaded, MiscLoaded;
 	local BC_WeaponInfoCache.WeaponInfo WI;
 
 	lb_NewWeapons.CheckList.Add(Headings[0],,"Melee",true);

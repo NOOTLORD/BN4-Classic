@@ -109,7 +109,7 @@ defaultproperties
 	//=================================================================
 
 	Begin Object Class=AimParams Name=ClassicAimParams
-		AimSpread=(Min=398,Max=3072)
+		AimSpread=(Min=8,Max=2048)
 		CrouchMultiplier=1.000000
 		ADSMultiplier=0.700000
 		ViewBindFactor=0.000000
@@ -120,7 +120,7 @@ defaultproperties
 	End Object
 
 	Begin Object Class=AimParams Name=ClassicControlledAimParams
-		AimSpread=(Min=256,Max=3072)
+		AimSpread=(Min=8,Max=2048)
 		CrouchMultiplier=1.000000
 		ADSMultiplier=0.4
 		ViewBindFactor=0.000000
@@ -139,44 +139,33 @@ defaultproperties
 		PlayerSpeedFactor=0.825000
 		InventorySize=12
 		SightMoveSpeedFactor=0.500000
-		MagAmmo=50
-		//ViewOffset=(X=4.000000,Y=-10.000000,Z=-15.000000)
-		//SightOffset=(X=-5.000000,Y=25.000000,Z=10.300000)
+		MagAmmo=40
 		SightPivot=(Pitch=32)
-		//ReloadAnimRate=0.900000
-		//CockAnimRate=1.000000
 		WeaponName="Mounted FG-50 Heavy Machinegun"
 		RecoilParams(0)=RecoilParams'ClassicRecoilParams'
 		AimParams(0)=AimParams'ClassicAimParams'
 		AimParams(1)=AimParams'ClassicControlledAimParams'
 		FireParams(0)=FireParams'ClassicPriControlledFireParams'
-		FireParams(2)=FireParams'ClassicPrimaryFireParams'
+		FireParams(1)=FireParams'ClassicPrimaryFireParams'
 		AltFireParams(0)=FireParams'ClassicSecondaryFireParams'
-		AltFireParams(2)=FireParams'ClassicSecondaryFireParams'
+		AltFireParams(1)=FireParams'ClassicSecondaryFireParams'
 	End Object
 	
 	Begin Object Class=WeaponParams Name=ClassicParams_Bipod
 		PlayerSpeedFactor=0.825000
 		InventorySize=12
 		SightMoveSpeedFactor=0.500000
-		MagAmmo=50
+		MagAmmo=40
 		WeaponBoneScales(0)=(BoneName="Holosight",Slot=51,Scale=0f)
-		//ViewOffset=(X=4.000000,Y=-10.000000,Z=-15.000000)
-		//SightOffset=(X=-5.000000,Y=25.000000,Z=10.300000)
 		SightPivot=(Pitch=32)
-		//ReloadAnimRate=0.900000
-		//CockAnimRate=1.000000
-		WeaponModes(0)=(ModeName="Controlled",AimParamsIndex=1)
-		WeaponModes(1)=(bUnavailable=True)
-		InitialWeaponMode=2
 		WeaponName="Mounted FG-50 Heavy Machinegun"
 		RecoilParams(0)=RecoilParams'ClassicRecoilParams'
 		AimParams(0)=AimParams'ClassicAimParams'
 		AimParams(1)=AimParams'ClassicControlledAimParams'
 		FireParams(0)=FireParams'ClassicPriControlledFireParams'
-		FireParams(2)=FireParams'ClassicPrimaryFireParams'
+		FireParams(1)=FireParams'ClassicPrimaryFireParams'
 		AltFireParams(0)=FireParams'ClassicSecondaryFireParams'
-		AltFireParams(2)=FireParams'ClassicSecondaryFireParams'
+		AltFireParams(1)=FireParams'ClassicSecondaryFireParams'
 	End Object
 	
 	Layouts(0)=WeaponParams'ClassicParams_Holo'

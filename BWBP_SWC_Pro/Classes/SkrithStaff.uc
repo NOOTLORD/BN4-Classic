@@ -8,6 +8,7 @@
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
 class SkrithStaff extends BallisticWeapon
+	transient
 	HideDropDown
 	CacheExempt;
 

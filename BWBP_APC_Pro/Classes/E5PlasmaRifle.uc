@@ -7,9 +7,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
-class E5PlasmaRifle extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class E5PlasmaRifle extends BallisticWeapon;
 
 var   bool			bLaserOn;
 var   LaserActor	Laser;

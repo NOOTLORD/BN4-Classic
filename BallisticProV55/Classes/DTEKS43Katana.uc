@@ -22,6 +22,6 @@ defaultproperties
      FemaleSuicide="%o tried her hand at sepukku."
      MaleSuicide="%o tried his hand at sepukku."
      bNeverSevers=True
-	BlockFatiguePenalty=0.2
+	 BlockFatiguePenalty=0.200000
      KDamageImpulse=1000.000000
 }

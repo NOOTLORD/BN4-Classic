@@ -9,18 +9,8 @@
 //=============================================================================
 class PS9mAttachment extends HandgunAttachment;
 
-simulated function PostBeginPlay()
-{
-	Super.PostBeginPlay();
-	SetBoneScale (0, 1.0, 'Dart');
-	SetBoneScale (1, 1.0, 'FartAssist');
-}
-
-/*var bool		bGrenadier;
+var bool		bGrenadier;
 var bool		bOldGrenadier;
-
-			SetBoneScale (0, 1.0, 'Dart');
-			SetBoneScale (1, 1.0, 'FartAssist');
 
 replication
 {
@@ -201,11 +191,11 @@ simulated function SpawnTracer(byte Mode, Vector V)
 		if (Tracer != None)
 			Tracer.Initialize(VSize(WLoc - TipLoc));
 	}
-}*/
+}
 
 defaultproperties
 {
-	 WeaponClass=class'PS9mPistol'
+	WeaponClass=class'PS9mPistol'
      MuzzleFlashClass=Class'BWBP_SKC_Pro.VSKSilencedFlash'
      ImpactManager=Class'BWBP_SKC_Pro.IM_Tranq'
 	 TracerChance=0

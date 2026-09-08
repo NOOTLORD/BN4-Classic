@@ -12,9 +12,7 @@
 // Modified by Marc 'Sergeant Kelly'
 // Scope code by Kaboodles
 //=============================================================================
-class XM20Carbine extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class XM20Carbine extends BallisticWeapon;
 
 var() bool		bIsPrototype;
 var() Sound		DoubleVentSound;	//Sound for double fire's vent
@@ -248,7 +246,7 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		if (!Instigator.IsLocallyControlled())
 			ClientScreenStart();
 	}
-	if (bShieldEquipped && XM20ShieldEffect == None)
+	if (bShieldEquipped && XM20ShieldEffect == None && Level.Game != None)
 	{
 		XM20ShieldEffect = Spawn(class'XM20ShieldEffect', instigator);
 		if (Level.Game.bTeamGame && Instigator.GetTeamNum() == 0)
@@ -903,7 +901,7 @@ defaultproperties
 	BringUpSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-Deploy',Volume=0.880000)
 	PutDownSound=(Sound=Sound'BWBP_SKC_Sounds.LS14.Gauss-Deselect',Volume=0.8200)
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-CockQuick')
-	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-Cock')
+	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-CockQuick')
 	ClipHitSound=(Sound=Sound'BW_Core_WeaponSound.USSR.USSR-ClipHit')
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-MagClose',Volume=1.4200)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.XM20.XM20-MagOpen',Volume=1.4200)

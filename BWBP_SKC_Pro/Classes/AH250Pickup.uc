@@ -1,31 +1,32 @@
 //=============================================================================
-// AH250 Pickup class
+// AH250Pickup. DE pickup.
 //=============================================================================
 class AH250Pickup extends BallisticHandgunPickup
 	placeable;
 
+#exec OBJ LOAD FILE=BWBP_SKC_Tex.utx
+#exec OBJ LOAD FILE=BWBP_SKC_Static.usx
+
+//===========================================================================
+// StaticPrecache
+//
+// Explicitly called by some gametypes upon the pickup class to preload it.
+// A gametype needing to do this won't spawn any pickups. Don't preload them or their assets here.
+//===========================================================================
 static function StaticPrecache(LevelInfo L)
 {
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Main');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.NoScope.Rifle-Spec');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Misc');
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-ScopeRed');     
-	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Front');   
-	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.DesertEagle.DeaglePickupHi');
-	L.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.DesertEagle.DeaglePickupLo');
+	L.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-SightReticleGreen');
+	
+	L.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.M925.M925MuzzleFlash');
 }
 
 simulated function UpdatePrecacheMaterials()
 {
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Main');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.NoScope.Rifle-Spec');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Misc');
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-ScopeRed');     
-	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-Front');   
+	Level.AddPrecacheMaterial(Texture'BWBP_SKC_Tex.Eagle.Eagle-SightReticleGreen');
 }
-
 simulated function UpdatePrecacheStaticMeshes()
 {
+	Level.AddPrecacheStaticMesh(StaticMesh'BW_Core_WeaponStatic.M925.M925MuzzleFlash');
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.DesertEagle.DeaglePickupHi');
 	Level.AddPrecacheStaticMesh(StaticMesh'BWBP_SKC_Static.DesertEagle.DeaglePickupLo');
 }

@@ -9,9 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class MAG78LongSword extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
+class MAG78LongSword extends BallisticMeleeWeapon;
 
 var float		BladeAlpha;
 var float		DesiredBladeAlpha;
@@ -46,7 +44,7 @@ simulated event Tick (float DT)
 
 	if (NextAmmoTickTime < level.TimeSeconds)
 	{
-		if (Ammo[0].AmmoAmount < Ammo[0].MaxAmmo)
+		if (Ammo[0] != None && Ammo[0].AmmoAmount < Ammo[0].MaxAmmo)
 			Ammo[0].AddAmmo(3);
 		NextAmmoTickTime = level.TimeSeconds + 0.5;
 	}

@@ -40,7 +40,6 @@ event InitGame( string Options, out string Error )
 	super.InitGame(Options, Error);
 
 	AddMutator("BallisticProV55.Mut_BallisticPro");
-	AddMutator("BallisticProV55.Mut_Regeneration");	
 	AddMutator("XGame.MutNoAdrenaline");
 	
 }
@@ -395,7 +394,7 @@ defaultproperties
     DecoTextName="XGame.Deathmatch"
     Acronym="DM"
     MapPrefix="DM"
-    GameName="DeathMatch"
+    GameName="Cache game"
     DefaultEnemyRosterClass="XGame.xDMRoster"
     Description="Free-for-all kill or be killed.  The player with the most frags wins."
 }

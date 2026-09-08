@@ -17,6 +17,7 @@ defaultproperties
 		PreFireTime=0.65
 		FireEndAnimRate=1.5
         PreFireAnim="PrepHealLoop"
+        FireAnim="HealLoopA"
         FireLoopAnim="HealLoopA"
         FireEndAnim="HealLoopEnd"
         FireEffectParams(0)=FireEffectParams'ArenaPrimaryEffectParams'
@@ -34,7 +35,7 @@ defaultproperties
         DamageTypeArm=Class'BWBP_SKC_Pro.DT_ICIS'
         BotRefireRate=0.800000
         WarnTargetPct=0.050000
-        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,bAtten=True)
+        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,batten=false)
     End Object
     
     Begin Object Class=FireParams Name=ArenaSecondaryFireParams

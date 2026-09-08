@@ -10,9 +10,7 @@
 // by Sarge, based on code by DC
 // modified by Az
 //=============================================================================
-class FG50MachineGun extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class FG50MachineGun extends BallisticWeapon;
 
 //layouts
 var(FG50)	bool				bIsArmorPiercing;
@@ -470,7 +468,6 @@ simulated function float ChargeBar()
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -535,7 +532,11 @@ function Notify_Deploy()
 		End = Start + vector(Instigator.Rotation) * Forward;
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 		if (T == None)
 			HitLoc = End;
 		End = HitLoc - vect(0,0,100);
@@ -543,7 +544,11 @@ function Notify_Deploy()
 		if (T != None && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
 			break;
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -571,7 +576,7 @@ function Notify_Deploy()
 	CompressedEq.Pitch = (CompressedEq.Pitch << 8);
 	CompressedEq.Yaw = (CompressedEq.Yaw << 8);
 
-    Turret = Spawn(class'FG50Turret', None,, HitLoc, Instigator.Rotation);
+    Turret = Spawn(class'FG50Turret', None,, HitLoc, CompressedEq);
 
     if (Turret != None)
     {
@@ -583,12 +588,6 @@ function Notify_Deploy()
     }
     else
 		log("Notify_Deploy: Could not spawn turret for FG50 Machinegun.");
-}
-
-
-
-function ServerWeaponSpecial(optional byte i)
-{
 }
 
 // AI Interface =====
@@ -662,14 +661,15 @@ defaultproperties
     PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M50.M50Putaway',Volume=0.222000)
 	MagAmmo=40
 	MeleeFireClass=Class'BWBP_SKC_Pro.FG50MeleeFire'
-	CockAnimPostReload="ReloadEndCock"
+	//CockAnimPostReload="ReloadEndCock"
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.AS50.FG50-Cock',Volume=2.500000,Radius=32.000000)
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.AS50.FG50-DrumOut',Volume=1.500000,Radius=32.000000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.AS50.FG50-DrumIn',Volume=1.500000,Radius=32.000000)
 	ClipInFrame=0.650000
 	bShowChargingBar=True
 	WeaponModes(0)=(ModeName="Controlled",AimParamsIndex=1)
-	WeaponModes(1)=(bUnavailable=True)
+	WeaponModes(1)=(ModeName="Auto",ModeID="WM_FullAuto")
+	WeaponModes(2)=(bUnavailable=True)
 	FullZoomFOV=60.000000
 	bNoCrosshairInScope=True
 	ParamsClasses(0)=Class'FG50WeaponParamsComp'
@@ -691,7 +691,7 @@ defaultproperties
 	InventoryGroup=6
 	GroupOffset=3
 	PickupClass=Class'BWBP_SKC_Pro.FG50Pickup'
-
+	CurrentWeaponMode=1
 	PlayerViewOffset=(X=4.00,Y=4.00,Z=-5.00)
 	SightOffset=(X=3.00,Y=0.00,Z=3.25)
 	SightBobScale=0.45f

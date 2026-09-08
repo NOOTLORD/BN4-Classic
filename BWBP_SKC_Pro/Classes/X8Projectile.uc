@@ -38,7 +38,8 @@ simulated function ProcessTouch (Actor Other, vector HitLocation)
 		DoDamage(Other, HitLocation);
 	bHitPlayer = true;
 	SetLocation(HitLocation);
-	Velocity = Normal(HitLocation-Other.Location)*100;
+	if (Other != None)
+		Velocity = Normal(HitLocation-Other.Location)*100;
 	SetPhysics(PHYS_Falling);
 }
 
@@ -87,17 +88,13 @@ defaultproperties
 	bRandomStartRotation=False
 	bUsePositionalDamage=True
 	bIgnoreTerminalVelocity=True
-
-	DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
 	bWarnEnemy=False
-	Speed=7500.000000
-	MaxSpeed=7500.000000
-	Damage=100.000000
 	MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
+	DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
 	StaticMesh=StaticMesh'BWBP_SKC_Static.X8.X8Proj'
+	DrawScale=0.150000
 	bNetTemporary=False
 	Physics=PHYS_Falling
 	LifeSpan=0.000000
-	DrawScale=0.150000
 	bUnlit=False
 }

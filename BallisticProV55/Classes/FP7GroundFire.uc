@@ -78,8 +78,15 @@ function HitWall (vector HitNormal, actor Wall)
 	bCollideWorld=false;
 	SetCollision(true, false, false);
 	SetCollisionSize( 72, 72 );
-	Fear = Spawn(class'AvoidMarker');
+	Fear = Spawn(class'BallisticAvoidMarker');
 	Fear.SetCollisionSize(120, 120);
+	if (Instigator != None)
+	{
+		BallisticAvoidMarker(Fear).OwnerController = Instigator.Controller;
+		if (TeamGame(Level.Game) != None && TeamGame(Level.Game).FriendlyFireScale <= 0
+			&& Instigator.PlayerReplicationInfo != None && Instigator.PlayerReplicationInfo.Team != None)
+			Fear.TeamNum = Instigator.PlayerReplicationInfo.Team.TeamIndex;
+	}
     Fear.StartleBots();
 }
 
@@ -99,9 +106,13 @@ function Timer()
 		if ( Instigator == None || Instigator.Controller == None )
 			A.SetDelayedDamageInstigatorController( InstigatorController );
 			
-		if (Pawn(A) != None && FireControl != None)
-		FireControl.TryDamage(Pawn(A), BURNINTERVAL, DamageType);
-        
+		if (Pawn(A) != None)
+		{
+			if (FireControl != None)
+				FireControl.TryDamage(Pawn(A), BURNINTERVAL, DamageType);
+			else
+				class'BallisticDamageType'.static.GenericHurt (A, Damage, Instigator, A.Location, vect(0,0,0), DamageType);
+		}
 		else class'BallisticDamageType'.static.GenericHurt (A, Damage, Instigator, A.Location, vect(0,0,0), DamageType);
 	}
 }

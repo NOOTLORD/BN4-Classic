@@ -80,6 +80,7 @@ defaultproperties
      BrassMode=MU_Both
      InstantMode=MU_Both
      FlashMode=MU_Both
+     LightMode=MU_Both
      TracerClass=class'TraceEmitter_MRTsix'
      TracerChance=0.500000
      ReloadAnim="Reload_Pistol"

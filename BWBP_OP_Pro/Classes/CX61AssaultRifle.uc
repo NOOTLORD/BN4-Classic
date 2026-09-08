@@ -91,74 +91,6 @@ simulated function WeaponTick (float DT)
 	}
 }
 
-//Draw special weapon info on the hud
-simulated function NewDrawWeaponInfo(Canvas C, float YPos)
-{
-	local float		ScaleFactor, XL, YL, YL2, SprintFactor;
-	local string	Temp;
-
-	Super(Weapon).NewDrawWeaponInfo (C, YPos);
-	
-	DrawCrosshairs(C);
-	
-	if (bSkipDrawWeaponInfo)
-		return;
-
-	ScaleFactor = C.ClipX / 1600;
-	// Draw the spare ammo amount
-	C.Font = GetFontSizeIndex(C, -2 + int(2 * class'HUD'.default.HudScale));
-	C.DrawColor = class'hud'.default.WhiteColor;
-	if (!bNoMag)
-	{
-		Temp = GetHUDAmmoText(0);
-		if (Temp == "0")
-			C.DrawColor = class'hud'.default.RedColor;
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 20 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 120 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-		C.DrawColor = class'hud'.default.WhiteColor;
-	}
-	if (Ammo[1] != None && Ammo[1] != Ammo[0])
-	{
-		Temp = GetHUDAmmoText(1);
-		if (Temp == "0")
-			C.DrawColor = class'hud'.default.RedColor;
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 160 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 120 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-		C.DrawColor = class'hud'.default.WhiteColor;
-	}
-
-	if (CurrentWeaponMode < WeaponModes.length && !WeaponModes[CurrentWeaponMode].bUnavailable && WeaponModes[CurrentWeaponMode].ModeName != "")
-	{
-		C.DrawColor = ModeColors[CurrentWeaponMode];
-		C.Font = GetFontSizeIndex(C, -3 + int(2 * class'HUD'.default.HudScale));
-		C.TextSize(WeaponModes[CurrentWeaponMode].ModeName, XL, YL2);
-		C.CurX = C.ClipX - 15 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 130 * ScaleFactor * class'HUD'.default.HudScale - YL2 - YL;
-		C.DrawText(WeaponModes[CurrentWeaponMode].ModeName, false);
-		C.DrawColor = class'hud'.default.WhiteColor;
-	}
-
-	// This is pretty damn disgusting, but the weapon seems to be the only way we can draw extra info on the HUD
-	// Would be nice if someone could have a HUD function called along the inventory chain
-	if (SprintControl != None && SprintControl.Stamina < SprintControl.MaxStamina)
-	{
-		SprintFactor = SprintControl.Stamina / SprintControl.MaxStamina;
-		C.CurX = C.OrgX  + 5    * ScaleFactor * class'HUD'.default.HudScale;
-		C.CurY = C.ClipY - 330  * ScaleFactor * class'HUD'.default.HudScale;
-		if (SprintFactor < 0.2)
-			C.SetDrawColor(255, 0, 0);
-		else if (SprintFactor < 0.5)
-			C.SetDrawColor(64, 128, 255);
-		else
-			C.SetDrawColor(0, 0, 255);
-		C.DrawTile(Texture'Engine.MenuWhite', 200 * ScaleFactor * class'HUD'.default.HudScale * SprintFactor, 30 * ScaleFactor * class'HUD'.default.HudScale, 0, 0, 1, 1);
-	}
-}
-
 simulated event Tick (float DT)
 {
 	super.Tick(DT);
@@ -216,7 +148,11 @@ simulated function bool HasAmmo()
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -266,8 +202,9 @@ defaultproperties
 	SpecialInfo(0)=(Info="240.0;25.0;0.8;90.0;0.0;1.0;0.0")
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.210000) 
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.208000)
-	CockAnimPostReload="ReloadEndCock"
+	//CockAnimPostReload="ReloadEndCock"
 	CockSound=(Sound=Sound'BWBP_OP_Sounds.CX61.CX61-Cock')
+	CockSelectSound=(Sound=Sound'BWBP_OP_Sounds.CX61.CX61-Cock')
 	ClipOutSound=(Sound=Sound'BWBP_OP_Sounds.CX61.CX61-MagOut')
 	ClipInSound=(Sound=Sound'BWBP_OP_Sounds.CX61.CX61-MagIn')
 	ClipInFrame=0.650000
@@ -287,20 +224,20 @@ defaultproperties
 	ParamsClasses(2)=Class'CX61WeaponParamsRealistic'
 	ParamsClasses(3)=Class'CX61WeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_OP_Pro.CX61PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_OP_Pro.CX61SecondaryFire'
 	SelectAnimRate=1.400000
 	PutDownAnimRate=1.800000
 	PutDownTime=0.400000
 	BringUpTime=0.400000
-	CockingBringUpTime=1.100000
+	CockingBringUpTime=1.500000
 	SelectForce="SwitchToAssaultRifle"
 	bShowChargingBar=True
 	Description="Cimerion Labs' CX61 Tactical Rifle was engineered as a reliable primary weapon for use by medical personnel. Incorporating a nano-forge capable of producing G28 aerosol for projection by the weapon, it is able to choose between projecting healing spray or igniting the G28 gas in order to emit a blast of flame to disorient foes."
 	Priority=32
 	HudColor=(B=168,G=111,R=83)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=4
+	GroupOffset=9
 	PickupClass=Class'BWBP_OP_Pro.CX61Pickup'
 	AttachmentClass=Class'BWBP_OP_Pro.CX61Attachment'
 	IconMaterial=Texture'BWBP_OP_Tex.CX61.Icon_CX61'

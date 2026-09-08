@@ -47,7 +47,6 @@ simulated function OnWeaponParamsChanged()
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -79,7 +78,11 @@ function Notify_Deploy()
 		End = Start + vector(Instigator.Rotation) * Forward;
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 		if (T == None)
 			HitLoc = End;
 		End = HitLoc - vect(0,0,100);
@@ -87,7 +90,11 @@ function Notify_Deploy()
 		if (T != None && HitLoc.Z <= Start.Z - class'BallisticTurret'.default.MinTurretEyeDepth - 4 && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
 			break;
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -208,11 +215,14 @@ simulated function bool HasAmmo()
 
 function ServerWeaponSpecial(optional byte i)
 {
-		bMeatVision = !bMeatVision;
-		if (bMeatVision)
-    			class'BUtil'.static.PlayFullSound(self, NVOnSound);
-		else
-    			class'BUtil'.static.PlayFullSound(self, NVOffSound);
+	if (bIsIrons)
+		return;
+	
+	bMeatVision = !bMeatVision;
+	if (bMeatVision)
+    		class'BUtil'.static.PlayFullSound(self, NVOnSound);
+	else
+    		class'BUtil'.static.PlayFullSound(self, NVOffSound);
 }
 
 simulated event WeaponTick(float DT)
@@ -360,6 +370,7 @@ defaultproperties
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.MRL.MRL-BigOff',Volume=0.210000)
 	CockAnimPostReload="Cock"
 	CockSound=(Sound=Sound'BWBP_SKC_Sounds.X82.X83-Charge',Volume=2.500000)
+	CockSelectSound=(Sound=Sound'BWBP_SKC_Sounds.X82.X83-Charge',Volume=2.500000)
 	ClipInSound=(Sound=Sound'BWBP_SKC_Sounds.X82.X83-In',Volume=1.500000)
 	ClipOutSound=(Sound=Sound'BWBP_SKC_Sounds.X82.X83-Out',Volume=1.500000)
 	ClipInFrame=0.850000
@@ -383,10 +394,11 @@ defaultproperties
 	ParamsClasses(2)=Class'X82WeaponParamsRealistic'
     ParamsClasses(3)=Class'X82WeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.X82PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.X82SecondaryFire'
 	IdleAnimRate=0.040000
 	SelectAnimRate=0.500000
 	PutDownAnimRate=0.800000
+	CockingBringUpTime=1.800000
 	PutDownTime=1.400000
 	BringUpTime=1.200000
 	SelectForce="SwitchToAssaultRifle"
@@ -397,10 +409,9 @@ defaultproperties
 	Priority=207
 	HudColor=(B=175,G=175,R=175)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=9
+	GroupOffset=5
 	PickupClass=Class'BWBP_SKC_Pro.X82Pickup'
-	CockingBringUpTime=1.800000
 	PlayerViewOffset=(X=4.00,Y=4.50,Z=-5.00)
 	SightOffset=(X=5.00,Y=-0.50,Z=4.25)
 	SightPivot=(Roll=-1024)

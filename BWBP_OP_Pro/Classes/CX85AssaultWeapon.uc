@@ -1,6 +1,4 @@
-class CX85AssaultWeapon extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class CX85AssaultWeapon extends BallisticWeapon;
 
 #exec OBJ LOAD File=BW_Core_WeaponSound.uax
 
@@ -63,12 +61,11 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 	local int i,Count;
 	local float AmmoDimensions;
 
-	local float	ScaleFactor, XL, YL, YL2, SprintFactor;
-	local string	Temp;
+	Super.NewDrawWeaponInfo(C, YPos);
 
-	DrawCrosshairs(C);
+	if (bSkipDrawWeaponInfo)
+		return;
 
-	ScaleFactor = C.ClipX / 1600;
 	AmmoDimensions = C.ClipY * 0.06;
 	
 	C.Style = ERenderStyle.STY_Alpha;
@@ -79,60 +76,6 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
     {
 		C.SetPos(C.ClipX - (0.5*i+1) * AmmoDimensions, C.ClipY * (1 - (0.12 * class'HUD'.default.HUDScale)));
 		C.DrawTile( Texture'BWBP_OP_Tex.CX85.Dart_HUD',AmmoDimensions, AmmoDimensions, 0, 0, 128, 128);
-	}
-	
-	if (bSkipDrawWeaponInfo)
-		return;
-
-	// Draw the spare ammo amount
-	C.Font = GetFontSizeIndex(C, -2 + int(2 * class'HUD'.default.HudScale));
-	C.DrawColor = class'hud'.default.WhiteColor;
-	if (!bNoMag)
-	{
-		Temp = GetHUDAmmoText(0);
-		if (Temp == "0")
-			C.DrawColor = class'hud'.default.RedColor;
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 20 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 120 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-		C.DrawColor = class'hud'.default.WhiteColor;
-	}
-	if (Ammo[1] != None && Ammo[1] != Ammo[0])
-	{
-		Temp = GetHUDAmmoText(1);
-		if (Temp == "0")
-			C.DrawColor = class'hud'.default.RedColor;
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 160 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 120 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-		C.DrawColor = class'hud'.default.WhiteColor;
-	}
-
-	if (CurrentWeaponMode < WeaponModes.length && !WeaponModes[CurrentWeaponMode].bUnavailable && WeaponModes[CurrentWeaponMode].ModeName != "")
-	{
-		C.Font = GetFontSizeIndex(C, -3 + int(2 * class'HUD'.default.HudScale));
-		C.TextSize(WeaponModes[CurrentWeaponMode].ModeName, XL, YL2);
-		C.CurX = C.ClipX - 15 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 130 * ScaleFactor * class'HUD'.default.HudScale - YL2 - YL;
-		C.DrawText(WeaponModes[CurrentWeaponMode].ModeName, false);
-	}
-
-	// This is pretty damn disgusting, but the weapon seems to be the only way we can draw extra info on the HUD
-	// Would be nice if someone could have a HUD function called along the inventory chain
-	if (SprintControl != None && SprintControl.Stamina < SprintControl.MaxStamina)
-	{
-		SprintFactor = SprintControl.Stamina / SprintControl.MaxStamina;
-		C.CurX = C.OrgX  + 5    * ScaleFactor * class'HUD'.default.HudScale;
-		C.CurY = C.ClipY - 330  * ScaleFactor * class'HUD'.default.HudScale;
-		if (SprintFactor < 0.2)
-			C.SetDrawColor(255, 0, 0);
-		else if (SprintFactor < 0.5)
-			C.SetDrawColor(64, 128, 255);
-		else
-			C.SetDrawColor(0, 0, 255);
-		C.DrawTile(Texture'Engine.MenuWhite', 200 * ScaleFactor * class'HUD'.default.HudScale * SprintFactor, 30 * ScaleFactor * class'HUD'.default.HudScale, 0, 0, 1, 1);
 	}
 }
 
@@ -595,9 +538,10 @@ simulated function DrawLaserSight ( Canvas Canvas )
 	
 	if (LaserDot != None && !bLaserTarget)
 		LaserDot.SetLocation(HitLocation);
-	else
+	else if (LaserDot != None)
 		LaserDot.SetLocation(TargetLocation);
-	Canvas.DrawActor(LaserDot, false, false, Instigator.Controller.FovAngle);
+	if (LaserDot != None)
+		Canvas.DrawActor(LaserDot, false, false, Instigator.Controller.FovAngle);
 	
 	if (ReloadState == RS_None && ClientState == WS_ReadyToFire /* && Level.TimeSeconds - FireMode[0].NextFireTime > 0.2*/)
 		Laser.SetRotation(Rotator(HitLocation - Loc));
@@ -678,8 +622,8 @@ function float SuggestDefenseStyle()	{	return 0.6;	}
 
 defaultproperties
 {
-	DrumInSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOn',Volume=0.500000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
-	DrumOutSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOff',Volume=0.500000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,bAtten=True)
+	DrumInSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOn',Volume=0.500000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
+	DrumOutSound=(Sound=Sound'BW_Core_WeaponSound.BX5.BX5-SecOff',Volume=0.500000,Radius=64.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
 	ReloadAltAnim="ReloadAlt"
 	AltAmmo=6
 	BaseTrackDist=3368

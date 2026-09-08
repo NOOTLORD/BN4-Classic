@@ -25,22 +25,16 @@ static function IncrementKills(Controller Killer)
 	}
 }
 
-
 defaultproperties
 {
-     DeathStrings(0)="%k's knife defied all odds to enter %o's eye."
-     DeathStrings(1)="%k launched a knife into %o's face."
-     DeathStrings(2)="%k's ballistic knife gave %o a new piercing."
+     DeathStrings(0)=""
      SimpleKillString="X8 Launched"
      bCanBeBlocked=False
      bHeaddie=True
+     bNeverSevers=True
      WeaponClass=Class'BWBP_SKC_Pro.X8Knife'
      DeathString="%k's knife defied all odds to enter %o's eye."
      FemaleSuicide="%o acupunctured her face."
      MaleSuicide="%o acupunctured his face."
-     bNeverSevers=True
      KDamageImpulse=1000.000000
-	bSpecial=True
-  	bExtraMomentumZ=True
-	PawnDamageSounds(0)=SoundGroup'BW_Core_WeaponSound.BulletImpacts.Headshot'        
 }

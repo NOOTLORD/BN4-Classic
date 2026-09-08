@@ -14,6 +14,7 @@ defaultproperties
      DeathStrings(1)="%o  was shook up by %k's 6 bomb barrage."
      DeathStrings(2)="%k's Longhorn cluster bombs tripped up %o."
      DeathStrings(3)="%k rocked %o's world with Longhorn cluster bombs."
+     SimpleKillString="Longhorn Clusters"
      InvasionDamageScaling=2.000000
      DamageIdent="Ordnance"
      WeaponClass=Class'BWBP_SKC_Pro.LonghornLauncher'

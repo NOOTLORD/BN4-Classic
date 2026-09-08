@@ -165,17 +165,17 @@ simulated function Tick(float DT)
 
 defaultproperties
 {
-    MinDragDistance=50.000000
- 	LowImpactVelocity=500.000000
-    HighImpactVelocity=1000.000000
-    MaxPoolVelocity=50.000000
-	bUseBloodDrags=False
-	bUseBloodImpacts=False
-	bUseBloodPools=False
-    bHidden=True
-    bNetTemporary=True
-    bAlwaysRelevant=True
-    bReplicateMovement=False
-    bSkipActorPropertyReplication=True
-    RemoteRole=ROLE_SimulatedProxy
+     MinDragDistance=50.000000
+     LowImpactVelocity=500.000000
+     HighImpactVelocity=1000.000000
+     MaxPoolVelocity=50.000000
+     bUseBloodDrags=False
+     bUseBloodImpacts=False
+     bUseBloodPools=False
+     bHidden=True
+     bNetTemporary=True
+     bAlwaysRelevant=True
+     bReplicateMovement=False
+     bSkipActorPropertyReplication=True
+     RemoteRole=ROLE_SimulatedProxy
 }

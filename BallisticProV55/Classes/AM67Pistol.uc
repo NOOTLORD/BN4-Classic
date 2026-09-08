@@ -108,14 +108,6 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		AM67Attachment(ThirdPersonActor).bLaserOn = bLaserOn;
 }*/
 
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
-}
-
 /*simulated function float ChargeBar()
 {
 	if (bHasCombatLaser)
@@ -316,6 +308,8 @@ simulated function DrawLaserSight ( Canvas Canvas )
 	}
 
 	// Draw beam from bone on gun to point on wall(This is tricky cause they are drawn with different FOVs)
+	if (Laser == None)
+		return;
 	Laser.SetLocation(Loc);
 	HitLocation = ConvertFOVs(End, Instigator.Controller.FovAngle, DisplayFOV, 400);
 	if (bAimAligned)

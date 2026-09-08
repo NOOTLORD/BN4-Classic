@@ -258,25 +258,25 @@ function float SuggestDefenseStyle()
 
 defaultproperties
 {
-	bCanBlock=True
+	bMeleeWeapon=True
+	bCanBlock=False
 	BlockUpAnim="PrepBlock"
 	BlockDownAnim="EndBlock"
 	BlockIdleAnim="BlockIdle"
+	bAimDisabled=True
 	bNoMag=True
 	bNonCocking=True
 	AIRating=0.700000
 	CurrentRating=0.700000
-	WeaponModes(0)=(bUnavailable=True,ModeID="WM_None")
-	WeaponModes(1)=(bUnavailable=True)
-	WeaponModes(2)=(bUnavailable=True)
 	CurrentWeaponMode=0
 	bUseSights=False
 	FatigueDeclineTime=4.000000
 	FatigueDeclineDelay=0.750000
-	bShowChargingBar=True
-	
+	bShowChargingBar=False
 	NDCrosshairCfg=(USize1=128,VSize1=128,USize2=128,VSize2=128,Color1=(R=255,A=255),Color2=(G=255,R=255,A=255),StartSize1=96,StartSize2=96)
     NDCrosshairInfo=(SpreadRatios=(X1=0.500000,Y1=0.500000,X2=0.500000,Y2=0.750000),SizeFactors=(X1=1.000000,Y1=1.000000,X2=1.000000,Y2=1.000000),MaxScale=4.000000)
     NDCrosshairChaosFactor=0.400000
 	NDCrosshairScaleFactor=1.000000
+	BringUpSound=(Radius=16.000000) 
+    PutDownSound=(Radius=16.000000) 
 }

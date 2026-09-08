@@ -329,6 +329,8 @@ static function bool IsDamage(string TypeString)
 // Call this to do damage to something. This lets the damagetype modify the things if it needs to
 static function Hurt (Actor Victim, float Damage, Pawn Instigator, vector HitLocation, vector Momentum, class<DamageType> DT)
 {
+	if (Victim == None)
+		return;
 	Victim.TakeDamage(Damage, Instigator, HitLocation, Momentum, DT);
 
 	if (default.TagDuration > 0 && class'BallisticReplicationInfo'.static.IsTactical() && Pawn(Victim) != None)
@@ -339,6 +341,8 @@ static function Hurt (Actor Victim, float Damage, Pawn Instigator, vector HitLoc
 // Use like this: class'BallisticDamageType'.static.GenericHurt (..., QuestionableDamagetype);
 static function GenericHurt (Actor Victim, float Damage, Pawn Instigator, vector HitLocation, vector Momentum, class<DamageType> DT)
 {
+	if (Victim == None)
+		return;
 	if (class<BallisticDamageType>(DT) != None)
 		class<BallisticDamageType>(DT).static.Hurt (Victim, Damage, Instigator, HitLocation, Momentum, DT);
 	else
@@ -364,6 +368,11 @@ static function class<BloodManager> GetBloodManager ()
 {
 	if (default.BloodManager == None)
 	{
+		if (default.BloodManagerName == "")
+		{
+			default.bCantLoadBlood = true;
+			return None;
+		}
 		default.BloodManager = class<BloodManager>(DynamicLoadObject(default.BloodManagerName,class'class',true));
 		if (default.BloodManager == None)
 			default.bCantLoadBlood = true;
@@ -458,7 +467,6 @@ static final function bool ScalingDisplace()
 defaultproperties
 {
 	bAimable=True
-	
 	AimedString="Aimed"
 	PenetratedString="Penetrated"
 	His="his"
@@ -469,25 +477,26 @@ defaultproperties
 	MHer="her"
 	He="he"
 	She="she"
-
+	bUseMotionBlur=False
 	FlashThreshold=200
 	bDetonatesBombs=True
 	ArmorHitType=255
 	InvasionDamageScaling=1.000000
 	DamageIdent="Unknown"
-	AimDisplacementDuration=0.000000
 	bSimpleDeathMessages=True
-	MinMotionBlurDamage=10.000000
-	MotionBlurDamageRange=80.000000
-	MotionBlurFactor=4.000000
-	MotionBlurTime=3.000000
+	MinMotionBlurDamage=0.000000
+	MotionBlurDamageRange=0.000000
+	MotionBlurFactor=0.000000
+	MotionBlurTime=0.000000
 	bLessDisruptiveFlash=True
 	bDetonatesGoop=True
 	bKUseTearOffMomentum=True
 	bExtraMomentumZ=False
 	bDirectDamage=False
     DisplacementType=DSP_None
-	BlockFatiguePenalty=0.1
+    AimDisplacementDamageThreshold=0.000000
+    AimDisplacementDuration=0.000000
+	BlockFatiguePenalty=0.000000
 	TransientSoundVolume=1.000000
 	TransientSoundRadius=64.000000
 	TagMultiplier=1

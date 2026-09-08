@@ -35,7 +35,6 @@ defaultproperties
      PickupMessage="You picked up the X4 knife."
      PickupSound=Sound'BW_Core_WeaponSound.Knife.KnifePutaway'
      StaticMesh=StaticMesh'BW_Core_WeaponStatic.X4.X4_PickupHi'
-     Physics=PHYS_None
      DrawScale=0.200000
      CollisionHeight=4.000000
 }

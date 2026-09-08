@@ -30,7 +30,7 @@ defaultproperties
     // SECONDARY FIRE
     //=================================================================	
 	
-	/*Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
+	Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
 		ProjectileClass=Class'BWBP_SKC_Pro.MGLGrenadeRemote'
 		SpawnOffset=(X=15.000000,Y=10.000000,Z=-9.000000)
 		Speed=4500.000000
@@ -47,7 +47,7 @@ defaultproperties
 	Begin Object Class=FireParams Name=ArenaSecondaryFireParams
 		AimedFireAnim="SightFire"	
 		FireEffectParams(0)=ProjectileEffectParams'ArenaSecondaryEffectParams'
-	End Object*/
+	End Object
 
 	//=================================================================
 	// RECOIL
@@ -56,7 +56,6 @@ defaultproperties
 	Begin Object Class=RecoilParams Name=ArenaRecoilParams
 		XCurve=(Points=(,(InVal=0.200000,OutVal=-0.100000),(InVal=0.300000,OutVal=-0.200000),(InVal=1.000000,OutVal=-0.300000)))
 		YCurve=(Points=(,(InVal=0.300000,OutVal=0.500000),(InVal=1.000000,OutVal=1.000000)))
-		ViewBindFactor=1.000000
 		YawFactor=0.000000
 		XRandFactor=0.400000
 		YRandFactor=0.400000
@@ -96,7 +95,7 @@ defaultproperties
 		RecoilParams(0)=RecoilParams'ArenaRecoilParams'
         AimParams(0)=AimParams'ArenaAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'
-		//AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
+		AltFireParams(0)=FireParams'ArenaSecondaryFireParams'
     End Object 
     Layouts(0)=WeaponParams'ArenaParams'
 	
@@ -107,7 +106,7 @@ defaultproperties
 		Weight=30
 	End Object
 	
-	/*Begin Object Class=WeaponCamo Name=MGL_Black
+	Begin Object Class=WeaponCamo Name=MGL_Black
 		Index=1
 		CamoName="Black"
 		WeaponMaterialSwaps(0)=(MaterialName="BW_Core_WeaponTex.Hands.Hands-Shiny",Index=0,AIndex=-1,PIndex=-1)
@@ -153,13 +152,13 @@ defaultproperties
 		WeaponMaterialSwaps(0)=(MaterialName="BW_Core_WeaponTex.Hands.Hands-Shiny",Index=0,AIndex=-1,PIndex=-1)
 		WeaponMaterialSwaps(1)=(MaterialName="BWBP_Camos_Tex.MGLCamos.MGL-MainGoldShine",Index=1,AIndex=0,PIndex=0)
 		Weight=1
-	End Object*/
+	End Object
 	
 	Camos(0)=WeaponCamo'MGL_Desert'
-	//Camos(1)=WeaponCamo'MGL_Black'
-	//Camos(2)=WeaponCamo'MGL_Jungle'
-	//Camos(3)=WeaponCamo'MGL_Arctic'
-	//Camos(4)=WeaponCamo'MGL_Purple'
-	//Camos(5)=WeaponCamo'MGL_Red'
-	//Camos(6)=WeaponCamo'MGL_Gold'
+	Camos(1)=WeaponCamo'MGL_Black'
+	Camos(2)=WeaponCamo'MGL_Jungle'
+	Camos(3)=WeaponCamo'MGL_Arctic'
+	Camos(4)=WeaponCamo'MGL_Purple'
+	Camos(5)=WeaponCamo'MGL_Red'
+	Camos(6)=WeaponCamo'MGL_Gold'
 }

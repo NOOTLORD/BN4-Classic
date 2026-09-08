@@ -9,10 +9,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class BlackOpsWristBlade extends BallisticMeleeWeapon
-	HideDropDown
-	CacheExempt;
-	
+class BlackOpsWristBlade extends BallisticMeleeWeapon;
 var bool bSingle; //is it lonely?
 
 
@@ -26,6 +23,16 @@ simulated function OnWeaponParamsChanged()
 	if (InStr(WeaponParams.LayoutTags, "single") != -1) //indicates A3 new model
 	{
 		bSingle=true;
+	}
+}
+
+simulated function PreDrawFPWeapon()
+{
+	super.PreDrawFPWeapon();
+	if (bSingle)
+	{
+		SetDrawScale(6.000000);
+		SetLocation(Location + ViewAlignedOffset(vect(-40.0, 35.5, 20.5)));
 	}
 }
 

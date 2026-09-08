@@ -13,6 +13,7 @@ defaultproperties
      DeathStrings(0)="%o messed with %k's Longhorn and got fragged."
      DeathStrings(1)="%k's Longhorn reduced %o to chile con carne."
      DeathStrings(2)="%k's Longhorn blasted %o into beef jerky."
+     SimpleKillString="Longhorn Grenade"
      bIgnoredOnLifts=True
      InvasionDamageScaling=2.000000
      DamageIdent="Ordnance"

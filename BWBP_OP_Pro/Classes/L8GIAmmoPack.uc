@@ -2,9 +2,7 @@
 // A51Grenade
 // Skrith Acid Grenade
 //=============================================================================
-class L8GIAmmoPack extends BallisticHandGrenade
-	HideDropDown
-	CacheExempt;
+class L8GIAmmoPack extends BallisticHandGrenade;
 
 var() float HealAmount;
 var() Sound HealSound;
@@ -118,16 +116,41 @@ state GiveAmmoSelf
 
 simulated function Notify_HealOther()
 {
-	//log("In HealOther");
 	PlaySound(HealSound, SLOT_Interact );
 	if (Role == ROLE_Authority)
-		L8GISecondaryFire(BFireMode[1]).NotifiedDoFireEffect();
+	{
+		xPawn(Owner).GiveHealth(HealAmount,xPawn(Owner).SuperHealthMax);
+		GotoState('GiveAmmoSelf');
+	}
 	Ammo[0].UseAmmo (1, True);
 }
 
 simulated function ClientStartReload(optional byte i)
 {
 }
+
+// L8GI alt-fire is BallisticMeleeFire, not BallisticHandGrenadeFire.
+// Override ChargeBar to prevent invalid cast crash from parent class.
+simulated function float ChargeBar()
+{
+	local BallisticHandGrenadeFire GF;
+
+	if (FireMode[1] != None && FireMode[1].bIsFiring)
+	{
+		GF = BallisticHandGrenadeFire(FireMode[1]);
+		if (GF != None)
+			return GF.CalculateThrowPower();
+		return 0;
+	}
+	if (FireMode[0] != None)
+	{
+		GF = BallisticHandGrenadeFire(FireMode[0]);
+		if (GF != None)
+			return GF.CalculateThrowPower();
+	}
+	return 0;
+}
+
 // Reload releases clip
 function ServerStartReload (optional byte i)
 {
@@ -146,7 +169,7 @@ defaultproperties
      HeldRadius=250
      HeldMomentum=55000
      GrenadeSmokeClass=Class'BallisticProV55.NRP57Trail'
-     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.500000,Radius=48.000000,Pitch=1.000000,bAtten=True)
+     ClipReleaseSound=(Sound=Sound'BW_Core_WeaponSound.NRP57.NRP57-ClipOut',Volume=0.500000,Radius=48.000000,Pitch=1.000000,batten=false)
      PinPullSound=(Sound=Sound'BW_Core_WeaponSound.M50.M50CamDie')
      PinBone=
      ClipBone=

@@ -10,16 +10,13 @@ class DTX8KnifeLaunched extends DT_BWBlade;
 
 defaultproperties
 {
-     DeathStrings(0)="%k's X8 Ballistic Knife reached out and touched %o."
-     DeathStrings(1)="%k fired an X8 into %o's chest."
-     DeathStrings(2)="%k launched an X8 Ballistic Knife into unwitting %o."
+     DeathStrings(0)=""
      SimpleKillString="X8 Launched"
      bCanBeBlocked=False
+     bNeverSevers=True
      WeaponClass=Class'BWBP_SKC_Pro.X8Knife'
      DeathString="%k's X8 Ballistic Knife reached out and touched %o."
      FemaleSuicide="%o shot a knife at herself."
      MaleSuicide="%o shot a knife at himself."
-     bNeverSevers=True
      KDamageImpulse=1000.000000
-     VehicleDamageScaling=0.100000
 }

@@ -181,13 +181,12 @@ simulated function DrawWeaponInfo(Canvas Canvas)
 simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 {
 	local int i,Count;
-	local float ScaleFactor2;
+	local float ScaleFactor, ScaleFactor2;
 
-	local float		ScaleFactor, XL, YL, YL2, SprintFactor;
-	local string	Temp;
-	local int	TempNum;
+	Super.NewDrawWeaponInfo (C, YPos);
 
-	DrawCrosshairs(C);
+	if (bSkipDrawWeaponInfo)
+		return;
 	
 	//Draw grenades, they're not accounted for in alternative HUD
 	ScaleFactor = C.ClipX / 1600;
@@ -202,54 +201,6 @@ simulated function NewDrawWeaponInfo(Canvas C, float YPos)
 			C.SetPos(C.ClipX - (0.5*i+1) * ScaleFactor2, C.ClipY - 100 * ScaleFactor * class'HUD'.default.HudScale);
 			C.DrawTile( Texture'BWBP_SKC_Tex.M1014.M1014-SGIcon',ScaleFactor2, ScaleFactor2, 0, 0, 128, 128);
 		}
-	}
-	if (bSkipDrawWeaponInfo)
-		return;
-
-	// Draw the spare ammo amount
-	C.Font = GetFontSizeIndex(C, -2 + int(2 * class'HUD'.default.HudScale));
-	C.DrawColor = class'hud'.default.WhiteColor;
-	if (!bNoMag)
-	{
-		Temp = GetHUDAmmoText(0);
-		C.TextSize(Temp, XL, YL);
-		C.CurX = C.ClipX - 20 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 140 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(Temp, false);
-	}
-	if (Ammo[1] != None && Ammo[1] != Ammo[0])
-	{
-		
-		TempNum = Ammo[1].AmmoAmount;
-		C.TextSize(TempNum, XL, YL);
-		C.CurX = C.ClipX - 160 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 140 * ScaleFactor * class'HUD'.default.HudScale - YL;
-		C.DrawText(TempNum, false);
-	}
-
-	if (CurrentWeaponMode < WeaponModes.length && !WeaponModes[CurrentWeaponMode].bUnavailable && WeaponModes[CurrentWeaponMode].ModeName != "")
-	{
-		C.Font = GetFontSizeIndex(C, -3 + int(2 * class'HUD'.default.HudScale));
-		C.TextSize(WeaponModes[CurrentWeaponMode].ModeName, XL, YL2);
-		C.CurX = C.ClipX - 15 * ScaleFactor * class'HUD'.default.HudScale - XL;
-		C.CurY = C.ClipY - 150 * ScaleFactor * class'HUD'.default.HudScale - YL2 - YL;
-		C.DrawText(WeaponModes[CurrentWeaponMode].ModeName, false);
-	}
-
-	// This is pretty damn disgusting, but the weapon seems to be the only way we can draw extra info on the HUD
-	// Would be nice if someone could have a HUD function called along the inventory chain
-	if (SprintControl != None && SprintControl.Stamina < SprintControl.MaxStamina)
-	{
-		SprintFactor = SprintControl.Stamina / SprintControl.MaxStamina;
-		C.CurX = C.OrgX  + 5    * ScaleFactor * class'HUD'.default.HudScale;
-		C.CurY = C.ClipY - 330  * ScaleFactor * class'HUD'.default.HudScale;
-		if (SprintFactor < 0.2)
-			C.SetDrawColor(255, 0, 0);
-		else if (SprintFactor < 0.5)
-			C.SetDrawColor(64, 128, 255);
-		else
-			C.SetDrawColor(0, 0, 255);
-		C.DrawTile(Texture'Engine.MenuWhite', 200 * ScaleFactor * class'HUD'.default.HudScale * SprintFactor, 30 * ScaleFactor * class'HUD'.default.HudScale, 0, 0, 1, 1);
 	}
 }
 
@@ -413,7 +364,7 @@ simulated function LoadGrenadeLoop()
 		return;
 	if ((ReloadState == RS_None || ReloadState == RS_StartShovel)&& Ammo[1].AmmoAmount >= 1)
 	{
-		PlayAnim(ReloadAltAnim, 1.0, , 0);
+		PlayAnim(ReloadAltAnim, ReloadAnimRate, , 0);
 		ReloadState = RS_StartShovel;
 	}
 }
@@ -802,7 +753,8 @@ simulated function BringUp(optional Weapon PrevWeapon)
 {
 	if (bSilenced)
 	{
-		Mk781Attachment(ThirdPersonActor).bSilenced=True;
+		if (ThirdPersonActor != None)
+			Mk781Attachment(ThirdPersonActor).bSilenced=True;
 		ParamsClasses[GameStyleIndex].static.OverrideFireParams(self,3);
 	}
 
@@ -927,7 +879,32 @@ simulated function float RateSelf()
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+	local Vector Dir;
+	
+	if (!bHasAltShells)
+		return 0;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+
+	if (Dist > 400)
+		return 0;
+	if (Dist < FireMode[1].MaxRange() && FRand() > 0.3)
+		return 1;
+	if (vector(B.Enemy.Rotation) dot Normal(Dir) < 0.0 && (VSize(B.Enemy.Velocity) < 100 || Normal(B.Enemy.Velocity) dot Normal(B.Velocity) < 0.5))
+		return 1;
+
+	return Rand(2);
+}
 
 function float GetAIRating()
 {
@@ -1046,17 +1023,16 @@ defaultproperties
 	ParamsClasses(2)=Class'MK781WeaponParamsRealistic'
     ParamsClasses(3)=Class'MK781WeaponParamsTactical'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.MK781PrimaryFire'
-	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+	FireModeClass(1)=Class'BWBP_SKC_Pro.MK781SecondaryFire'
 	PutDownTime=0.500000
-	CockingBringUpTime=0.600000
+	CockingBringUpTime=1.100000
 	AIRating=0.800000
 	CurrentRating=0.800000
 	Description="The Avenger Mk 781 is the special ops version of the M763. It boasts a modernized firing and recoil suppression system and has been praised for its field effectiveness. A good weapon in a pinch, the M781 has been known to save many soldiers' lives. ||This particular model is the MK781 Mod 0, which uses a new lightweight polymer frame and is designed specifically for tactical wetwork. Tube length and barrel length are shortened to cut weight, leaving the Mark 781 with a shell capacity of 6. As part of its wetwork upgrades, this Mark 781 has gained the ability to affix a special suppressor designed for flechette sabot ammunition and slugs. Operators are advised not to load high-powered rounds or buckshot into the suppressor due to potential suppressor damage and failure."
 	Priority=245
 	HudColor=(B=168,G=111,R=83)
 	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	InventoryGroup=1
-	GroupOffset=1
+	InventoryGroup=7
 	PickupClass=Class'BWBP_SKC_Pro.MK781Pickup'
 
 	PlayerViewOffset=(X=15.00,Y=9.00,Z=-11.50)

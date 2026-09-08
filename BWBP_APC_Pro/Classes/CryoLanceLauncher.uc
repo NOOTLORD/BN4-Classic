@@ -2,6 +2,7 @@
 // MARS-3 (i.e. F2000.)
 //=============================================================================
 class CryoLanceLauncher extends BallisticWeapon
+	transient
 	HideDropDown
 	CacheExempt;
 

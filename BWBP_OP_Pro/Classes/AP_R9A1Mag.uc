@@ -3,12 +3,12 @@ class AP_R9A1Mag extends BallisticAmmoPickup;
 defaultproperties
 {
      AmmoAmount=30
-     InventoryType=Class'BWBP_OP_Pro.Ammo_R9A1'
+     InventoryType=Class'BWBP_OP_Pro.Ammo_R9A1Rifle'
      PickupMessage="You picked up R9A1 ammunition."
      PickupSound=Sound'BW_Core_WeaponSound.Ammo.ClipPickup'
      StaticMesh=StaticMesh'BWBP_OP_Static.R9A1.R9A1Ammo'
      DrawScale=0.400000
-     PrePivot=(Z=45.000000)
-     CollisionRadius=8.000000
+     PrePivot=(Z=31.500000)
+     CollisionRadius=14.000000
      CollisionHeight=14.000000
 }

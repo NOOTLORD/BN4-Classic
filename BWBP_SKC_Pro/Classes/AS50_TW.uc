@@ -15,7 +15,6 @@ var() sound		MountFireSound;
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -209,14 +208,6 @@ simulated function Notify_CockAfterReload()
 //		PlayAnim('ReloadFinishHandle', ReloadAnimRate, 0.2);
 }
 
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2 && HasAnim('Cock'))
-		PlayAnim('Cock', CockAnimRate, 0.2);
-	else
-		PlayAnim('Cock', CockAnimRate, 0.2);
-}
-
 simulated function bool HasAmmo()
 {
 	//First Check the magazine
@@ -250,6 +241,7 @@ defaultproperties
 	Priority=1
 	PlayerViewOffset=(X=-80.000000)
 	ItemName="FG50 Turret"
+	CockAnimPostReload="Cock"
 	Mesh=SkeletalMesh'BWBP_SKC_Anim.FSSG-50Turret_FPm'
 	DrawScale=0.50000
 	CollisionHeight=24.000000

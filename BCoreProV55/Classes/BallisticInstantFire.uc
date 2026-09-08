@@ -507,6 +507,9 @@ function DoTrace (Vector InitialStart, Rotator Dir)
 
 	while (Dist > 0)		// Loop traces in case we need to go through stuff
 	{
+		if (Weapon == None || BW == None) //Check every loop for safety 
+			return;
+
 		BW.UpdatePenetrationStatus(PenCount + WallCount);
 		
 		Other = Trace (HitLocation, HitNormal, End, Start, true, , HitMaterial);
@@ -540,7 +543,10 @@ function DoTrace (Vector InitialStart, Rotator Dir)
 		if (!Other.bWorldGeometry && Other != LastOther)
 		{
 			OnTraceHit(Other, HitLocation, InitialStart, X, PenCount, WallCount, WallPenForce, WaterHitLoc);
-		
+
+			if (Weapon == None || BW == None)
+				return;
+
 			LastOther = Other;
 
 			if (CanPenetrate(Other, HitLocation, X, PenCount))
@@ -629,7 +635,7 @@ function HitVehicleEffect(vector HitLocation, vector HitNormal, Actor Other)
 {
 	local int Surf;
 
-	if (Other == None)
+	if (Other == None || Weapon == None)
 		return;
 	if (Other.SurfaceType > 0)
 		Surf = int(Other.SurfaceType);
@@ -644,6 +650,9 @@ function HitVehicleEffect(vector HitLocation, vector HitNormal, Actor Other)
 function WallPenetrateEffect(Actor Other, vector HitLocation, vector HitNormal, Material HitMat, optional bool bExit)
 {
 	local int Surf;
+
+	if (Weapon == None)
+		return;
 
 	if (HitMat == None) 
         Surf = int(Other.SurfaceType); 

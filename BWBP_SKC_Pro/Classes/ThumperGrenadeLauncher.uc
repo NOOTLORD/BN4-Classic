@@ -8,9 +8,7 @@
 // uses code by Nolan "Dark Carnivour" Richert.
 // Copyright� 2011 RuneStorm. All Rights Reserved.
 //=============================================================================
-class ThumperGrenadeLauncher extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class ThumperGrenadeLauncher extends BallisticWeapon;
 
 exec simulated function CockGun(optional byte Type);
 function ServerCockGun(optional byte Type);

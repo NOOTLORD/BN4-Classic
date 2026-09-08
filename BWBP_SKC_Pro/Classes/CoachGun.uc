@@ -76,8 +76,10 @@ simulated function OnWeaponParamsChanged()
 	{
 		bQuickLoad=true;
 		AmmoClass[0]=class'Ammo_12Gauge'; //quickload happens to be on the 12g sawn off. move out if needed
-		CoachGunPrimaryFire(FireMode[0]).AmmoClass=class'Ammo_12Gauge';
-		CoachGunSecondaryFire(FireMode[1]).AmmoClass=class'Ammo_12Gauge';
+		if (FireMode[0] != None)
+			CoachGunPrimaryFire(FireMode[0]).AmmoClass=class'Ammo_12Gauge';
+		if (FireMode[1] != None)
+			CoachGunSecondaryFire(FireMode[1]).AmmoClass=class'Ammo_12Gauge';
 		Skins[3]=MatRedShell;
 	}
 	
@@ -155,7 +157,7 @@ simulated function PostBeginPlay()
 // Cycle through the various weapon modes
 function ServerSwitchWeaponMode (byte NewMode)
 {
-	if (ReloadState != RS_None || !HasAmmo())
+	if (ReloadState != RS_None || ClientState != WS_ReadyToFire || !HasAmmo())
 		return;
 	Super.ServerSwitchWeaponMode(NewMode);
 	ServerStartReload(2);
@@ -183,6 +185,10 @@ function ServerStartReload (optional byte i)
     AnimBlendParams(1, 0);
 
 	bServerReloading = true;
+
+	if (BallisticAttachment(ThirdPersonActor) != None && BallisticAttachment(ThirdPersonActor).ReloadAnim != '')
+		Instigator.SetAnimAction('ReloadGun');
+
 	CommonStartReload(i);	//Server animation
 	ClientStartReload(i);	//Client animation
 }
@@ -649,7 +655,42 @@ function bool SpaceToDeploy(Vector hit_location, Vector hit_normal, Rotator slop
 }
 
 // AI Interface =====
-function byte BestMode()	{	return 0;	}
+// choose between regular or alt-fire
+function byte BestMode()
+{
+	local Bot B;
+	local float Dist;
+	local Vector Dir;
+
+	B = Bot(Instigator.Controller);
+	if ( (B == None) || (B.Enemy == None) )
+		return 0;
+		
+	if (level.TimeSeconds - lastModeChangeTime < 1.4 - B.Skill*0.1)
+		return 0;
+
+	Dir = Instigator.Location - B.Enemy.Location;
+	Dist = VSize(Dir);
+
+	if (Dist > 1024)
+	{
+		if (CurrentWeaponMode != 1)
+		{
+			CurrentWeaponMode = 1;
+			CoachGunPrimaryFire(FireMode[0]).SwitchWeaponMode(CurrentWeaponMode);
+		}
+	}
+	
+	else if (CurrentWeaponMode != 0)
+	{
+		CurrentWeaponMode = 0;
+		CoachGunPrimaryFire(FireMode[0]).SwitchWeaponMode(CurrentWeaponMode);
+	}
+	
+	lastModeChangeTime = level.TimeSeconds;
+
+	return 0;
+}
 
 function float GetAIRating()
 {
@@ -753,23 +794,22 @@ defaultproperties
 	 ParamsClasses(2)=Class'CoachWeaponParamsRealistic' 
      ParamsClasses(3)=Class'CoachWeaponParamsTactical'
      FireModeClass(0)=Class'BWBP_SKC_Pro.CoachGunPrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_SKC_Pro.CoachGunSecondaryFire'
      SelectAnimRate=2.000000
      PutDownAnimRate=2.000000
-	 SingleReloadAnimRate=1.0
+	 SingleReloadAnimRate=1.000000
      AIRating=0.800000
      CurrentRating=0.800000
      Description="This primitive artifact has managed to survive the passage of time. Behind it trails a brutal story of bloodshed and sacrifice. For every scar, a life taken; every gouge, a life saved."
      Priority=38
      HudColor=(B=35,G=100,R=200)
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=7
      PickupClass=Class'BWBP_SKC_Pro.CoachGunPickup'
 
      PlayerViewOffset=(X=4.00,Y=4.50,Z=-7.00)
 	 SightOffset=(X=-4.250000,Y=0,Z=1.2)
-
+	 CockingBringUpTime=0.500000
      AttachmentClass=Class'BWBP_SKC_Pro.CoachGunAttachment'
      IconMaterial=Texture'BWBP_SKC_Tex.CoachGun.SmallIcon_Coach'
      IconCoords=(X2=127,Y2=40)

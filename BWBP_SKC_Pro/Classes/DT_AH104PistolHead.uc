@@ -17,17 +17,21 @@ static function Hurt (Actor Victim, float Damage, Pawn Instigator, vector HitLoc
 
 	Victim.TakeDamage(Damage, Instigator, HitLocation, Momentum, DT);
 
-	if (Instigator.Controller != None && Pawn(Victim).Controller != Instigator.Controller && Instigator.Controller.SameTeamAs(Pawn(Victim).Controller))
-		return; //Yeah no melting teammate armor. that's mean
+	if (Pawn(Victim) == None || Instigator == None)
+		return;
 
 	// Do additional damage to armor..
-	if(Pawn(Victim) != None && Pawn(Victim).Inventory != None)
+	if(Pawn(Victim).Inventory != None)
 	{
+		if (Instigator.Controller != None && Pawn(Victim).Controller != None && Pawn(Victim).Controller != Instigator.Controller && Instigator.Controller.SameTeamAs(Pawn(Victim).Controller))
+			return; //Yeah no melting teammate armor. that's mean
+		
 		BestArmor = Pawn(Victim).Inventory.PrioritizeArmor(Damage*Default.ArmorDrain,Default.Class,HitLocation);
 		if(BestArmor != None)
 		{
 			Victim.TakeDamage(Damage*Default.ArmorDrain, Instigator, HitLocation, Momentum, DT);
-			BestArmor.ArmorAbsorbDamage(Damage*Default.ArmorDrain,Default.Class,HitLocation);
+			if (BestArmor != None)
+				BestArmor.ArmorAbsorbDamage(Damage*Default.ArmorDrain,Default.Class,HitLocation);
 		}
 	}
 }
@@ -40,7 +44,7 @@ static function IncrementKills(Controller Killer)
 	if ( PlayerController(Killer) == None )
 		return;
 
-	PlayerController(Killer).ReceiveLocalizedMessage( Class'BN4Core.BN4SpecialKillMessage', 0, Killer.PlayerReplicationInfo, None, None );
+	PlayerController(Killer).ReceiveLocalizedMessage( Class'XGame.SpecialKillMessage', 0, Killer.PlayerReplicationInfo, None, None );
 	xPRI = xPlayerReplicationInfo(Killer.PlayerReplicationInfo);
 	if ( xPRI != None )
 	{

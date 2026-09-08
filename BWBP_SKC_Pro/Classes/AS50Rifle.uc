@@ -11,9 +11,7 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AS50Rifle extends BallisticWeapon
-	HideDropDown
-	CacheExempt;
+class AS50Rifle extends BallisticWeapon;
 
 var() name		ScopeBone;			// Bone to use for hiding scope
 var name			BulletBone; //What it says on the tin
@@ -24,7 +22,7 @@ var   Array<Pawn>		PawnList;		// A list of all the potential pawns to view in th
 var() material			WallVisionSkin;	// Texture to assign to players when theyare viewed with Thermal mode
 var   bool				bThermal;		// Is thermal mode active?
 var   bool				bUpdatePawns;	// Should viewable pawn list be updated
-var   Pawn				UpdatedPawns[16];// List of pawns to view in thermal scope
+var   Pawn				UpdatedPawns[128];// List of pawns to view in thermal scope
 var() material			Flaretex;		// Texture to use to obscure vision when viewing enemies directly through the thermal scope
 var() float				ThermalRange;	// Maximum range at which it is possible to see enemies through walls
 var   ColorModifier		ColorMod;
@@ -162,21 +160,7 @@ simulated function Notify_ClipOut()
 // Animation notify for when the clip is stuck in
 simulated function Notify_ClipIn()
 {
-	local int AmmoNeeded;
-
-	if (ReloadState == RS_None)
-		return;
-	ReloadState = RS_PostClipIn;
-	PlayOwnedSound(ClipInSound.Sound,ClipInSound.Slot,ClipInSound.Volume,ClipInSound.bNoOverride,ClipInSound.Radius,ClipInSound.Pitch,ClipInSound.bAtten);
-	if (level.NetMode != NM_Client)
-	{
-		AmmoNeeded = default.MagAmmo-MagAmmo;
-		if (AmmoNeeded > Ammo[0].AmmoAmount)
-			MagAmmo+=Ammo[0].AmmoAmount;
-		else
-			MagAmmo = default.MagAmmo;
-		Ammo[0].UseAmmo (AmmoNeeded, True);
-	}
+	Super.Notify_ClipIn();
 	UpdateScreen();
 }
 
@@ -200,7 +184,11 @@ function Notify_Deploy()
 		End = Start + vector(Instigator.Rotation) * Forward;
 		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
 		if (T != None && VSize(HitLoc - Start) < 30)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("Too close to deploy!");
 			return;
+		}
 		if (T == None)
 			HitLoc = End;
 		End = HitLoc - vect(0,0,100);
@@ -208,7 +196,11 @@ function Notify_Deploy()
 		if (T != None && HitLoc.Z <= Start.Z - class'BallisticTurret'.default.MinTurretEyeDepth - 4 && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
 			break;
 		if (Forward <= 45)
+		{
+			if (PlayerController(Instigator.Controller) != None)
+				PlayerController(Instigator.Controller).ClientMessage("No suitable surface to deploy on!");
 			return;
+		}
 	}
 
 	FireMode[1].bIsFiring = false;
@@ -236,7 +228,7 @@ function Notify_Deploy()
 	CompressedEq.Pitch = (CompressedEq.Pitch << 8);
 	CompressedEq.Yaw = (CompressedEq.Yaw << 8);
 
-    Turret = Spawn(class'AS50Turret', None,, HitLoc, Instigator.Rotation);
+    Turret = Spawn(class'AS50Turret', None,, HitLoc, CompressedEq);
 
     if (Turret != None)
     {
@@ -464,6 +456,8 @@ simulated function UpdatePawnList()
 	PawnList.Length=0;
 	ForEach DynamicActors( class 'Pawn', P)
 	{
+		if (P.PlayerReplicationInfo != None && P.PlayerReplicationInfo.Team != None && P.PlayerReplicationInfo.Team.TeamIndex == Instigator.PlayerReplicationInfo.Team.TeamIndex)
+			continue;
 		PawnList[PawnList.length] = P;
 		Dist = VSize(P.Location - Instigator.Location);
 		if (Dist <= ThermalRange &&

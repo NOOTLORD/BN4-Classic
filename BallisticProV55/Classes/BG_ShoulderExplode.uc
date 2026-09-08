@@ -10,7 +10,6 @@ class BG_ShoulderExplode extends BW_HitGoreEmitter
 defaultproperties
 {
      Begin Object Class=SpriteEmitter Name=SpriteEmitter9
-         Disabled=True
          UseCollision=True
          FadeOut=True
          RespawnDeadParticles=False

@@ -140,7 +140,8 @@ simulated function EjectBrass(byte Mode);
 
 defaultproperties
 {
-	WeaponClass=class'D49Revolver'
+	 WeaponClass=class'D49Revolver'
+	 FlashScale=0.500000
      MuzzleFlashClass=class'D49FlashEmitter'
      AltMuzzleFlashClass=class'D49FlashEmitter'
      ImpactManager=class'IM_BigBullet'
@@ -148,6 +149,7 @@ defaultproperties
      TracerMode=MU_Both
      InstantMode=MU_Both
      FlashMode=MU_Both
+     LightMode=MU_Both
      TracerClass=class'TraceEmitter_Pistol'
      TracerChance=0.600000
 	 ReloadAnimRate=0.500000

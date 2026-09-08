@@ -33,23 +33,8 @@ defaultproperties
      SliceAnims(1)="Slash2"
      SliceAnims(2)="Slash3"
      SliceAnims(3)="Slash4"
-     FatiguePerStrike=0.060000
-     bCanBackstab=False
-     TraceRange=(Min=130.000000,Max=130.000000)
-     DamageType=Class'BallisticProV55.DTX4Knife'
-     DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
-     DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
      KickForce=100
-     BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=32.000000,bAtten=True)
      bAISilent=True
-     FireAnim="Slash1"
-     FireAnimRate=1.500000
-     FireRate=0.350000
      AmmoClass=Class'BallisticProV55.Ammo_X4Knife'
      AmmoPerFire=0
-     ShakeRotMag=(X=64.000000,Y=128.000000)
-     ShakeRotRate=(X=2500.000000,Y=2500.000000,Z=2500.000000)
-     ShakeRotTime=2.500000
-     BotRefireRate=0.9900000
-     WarnTargetPct=0.300000
 }

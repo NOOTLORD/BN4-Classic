@@ -68,6 +68,17 @@ simulated function OnWeaponParamsChanged()
 	}
 }
 
+simulated state PendingSwitchSilencer extends PendingDualAction
+{
+	simulated function BeginState()	{	OtherGun.LowerHandGun();	}
+	simulated function HandgunLowered (BallisticHandgun Other)	{ global.HandgunLowered(Other); if (Other == Othergun) WeaponSpecial();	}
+	simulated event AnimEnd(int Channel)
+	{
+		Othergun.RaiseHandGun();
+		global.AnimEnd(Channel);
+	}
+}
+
 simulated function WeaponTick(float DT)
 {
 	Super.WeaponTick(DT);
@@ -88,14 +99,6 @@ simulated function float ChargeBar()
 		return 0;
 	else
 		return AmpCharge / 10;
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2)
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 //==============================================
@@ -131,6 +134,18 @@ exec simulated function WeaponSpecial(optional byte i)
 	{
 		if (!bHasSuppressor)
 			return;
+		if (Othergun != None)
+		{
+			if (Othergun.Clientstate != WS_ReadyToFire)
+				return;
+			if (IsinState('DualAction'))
+				return;
+			if (!Othergun.IsinState('Lowered'))
+			{
+				GotoState('PendingSwitchSilencer');
+				return;
+			}
+		}
 		bSilenced = !bSilenced;
 		ServerSwitchSilencer(bSilenced);
 		SwitchSilencer(bSilenced);
@@ -140,6 +155,10 @@ exec simulated function WeaponSpecial(optional byte i)
 
 simulated function SwitchSilencer(bool bNewValue)
 {
+	if (Role == ROLE_Authority)
+		bServerReloading = True;
+	ReloadState = RS_GearSwitch;
+
 	if (bNewValue)
 		PlayAnim(SilencerOnAnim);
 	else
@@ -470,12 +489,10 @@ defaultproperties
 	GroupOffset=1
 	SightAnimScale=0.45f
 	PickupClass=Class'BallisticProV55.XK2Pickup'
-
 	PlayerViewOffset=(X=10.00,Y=9.00,Z=-12.00)
 	SightOffset=(X=6.00,Y=0.02,Z=3.75)
 	SightPivot=(Pitch=64)
 	SightBobScale=0.2f
-
 	AttachmentClass=Class'BallisticProV55.Xk2Attachment'
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_XK2'
 	IconCoords=(X2=127,Y2=31)

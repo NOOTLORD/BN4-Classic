@@ -4,6 +4,7 @@
 // Transferred from JunkWars to add some shielding into BW.
 //================================================
 class JWRiotShieldWeapon extends BallisticMeleeWeapon
+	transient
 	HideDropDown
 	CacheExempt;
 
@@ -233,6 +234,9 @@ defaultproperties
      bNoMag=True
 	 GunLength=0.000000
 	 ParamsClasses(0)=Class'BallisticShieldWeaponParamsComp'
+	 ParamsClasses(1)=Class'BallisticShieldWeaponParamsComp'
+	 ParamsClasses(2)=Class'BallisticShieldWeaponParamsComp'
+	 ParamsClasses(3)=Class'BallisticShieldWeaponParamsComp'
      FireModeClass(0)=Class'BWBP_OP_Pro.BallisticShieldPrimaryFire'
      FireModeClass(1)=Class'BWBP_OP_Pro.BallisticShieldSecondaryFire'
      PutDownTime=0.500000

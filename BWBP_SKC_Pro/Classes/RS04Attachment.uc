@@ -13,7 +13,7 @@ var Projector	FlashLightProj;
 var Emitter		FlashLightEmitter;
 var	  BallisticWeapon		myWeap;
 
-/*replication
+replication
 {
 	reliable if ( Role==ROLE_Authority )
 		bLightsOn, bHasKnife, bHasFlash;
@@ -213,7 +213,7 @@ simulated function FlashMuzzleFlash(byte Mode)
 		MuzzleFlash.Trigger(self, Instigator);
 		if (bRandomFlashRoll)	SetBoneRotation(FlashBone, R, 0, 1.f);
 	}
-}*/
+}
 
 defaultproperties
 {

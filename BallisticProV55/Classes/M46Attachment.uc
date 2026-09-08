@@ -15,6 +15,24 @@ simulated event PostBeginPlay()
 	SetBoneScale (0, 0.0, 'Scope');
 }
 
+simulated function Vector GetModeTipLocation(optional byte Mode)
+{
+    local Vector X, Y, Z;
+
+	if (Instigator != None && Instigator.IsFirstPerson())
+	{
+		if (BallisticWeapon(Instigator.Weapon).bScopeView && BallisticWeapon(Instigator.Weapon).ZoomType != ZT_Irons)
+		{
+			Instigator.Weapon.GetViewAxes(X,Y,Z);
+			return Instigator.Location + X*20 + Z*5;
+		}
+		else
+			return Instigator.Weapon.GetEffectStart();
+	}
+	else
+		return GetBoneCoords('tip').Origin;
+}
+
 defaultproperties
 {
 	WeaponClass=class'M46AssaultRifle'
@@ -24,6 +42,7 @@ defaultproperties
 	AltFlashBone="tip2"
 	BrassClass=class'Brass_M46AR'
 	FlashMode=MU_Both
+	LightMode=MU_Both
 	TracerClass=class'TraceEmitter_Default'
 	WaterTracerClass=class'TraceEmitter_WaterBullet'
 	FlyBySound=(Sound=SoundGroup'BW_Core_WeaponSound.FlyBys.Bullet-Whizz',Volume=0.700000)

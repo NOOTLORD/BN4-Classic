@@ -20,7 +20,7 @@ defaultproperties
         MuzzleFlashClass=Class'BallisticProV55.MRT6FlashEmitter'
         FlashScaleFactor=1.200000
 		PushbackForce=1200.000000
-        bPenetrate=False
+		bPenetrate=False
         PenetrationEnergy=0
         Recoil=2048.000000
         Chaos=0.450000
@@ -104,7 +104,7 @@ defaultproperties
 	//=================================================================	
 
 	Begin Object Class=WeaponParams Name=ArenaParams
-        SightPivot=(Pitch=968,Yaw=30)
+        SightPivot=(Pitch=768)
 		DisplaceDurationMult=0.33
 		ReloadAnimRate=1.250000
 		CockAnimRate=1.250000

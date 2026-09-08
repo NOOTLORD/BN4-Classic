@@ -13,7 +13,6 @@ class M925Machinegun_TW extends BallisticMachinegun
 function InitWeaponFromTurret(BallisticTurret Turret)
 {
 	bNeedCock = false;
-	Ammo[0].AmmoAmount = Turret.AmmoAmount[0];
 	if (!Instigator.IsLocallyControlled())
 		ClientInitWeaponFromTurret(Turret);
 }
@@ -207,14 +206,6 @@ simulated function Notify_CockAfterReload()
 		CommonCockGun(2);
 	else
 		PlayAnim('ReloadFinishHandle', ReloadAnimRate, 0.2);
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2 && HasAnim('ReloadEndCock'))
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 simulated function bool HasAmmo()

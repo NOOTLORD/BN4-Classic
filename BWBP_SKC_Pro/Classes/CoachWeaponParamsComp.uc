@@ -351,6 +351,7 @@ defaultproperties
 	//=================================================================
 
 	Begin Object Class=AimParams Name=ArenaAimParams
+		SprintOffset=(Pitch=-2048,Yaw=-2048)
 	End Object
 
 	//=================================================================
@@ -370,6 +371,7 @@ defaultproperties
 		SightMoveSpeedFactor=0.9
 		SightingTime=0.250000
 		//Function
+		bNeedCock=True
 		CockAnimRate=0.700000
 		ReloadAnimRate=1.500000
 		PlayerJumpFactor=1.000000
@@ -402,6 +404,7 @@ defaultproperties
 		SightMoveSpeedFactor=0.9
 		SightingTime=0.250000
 		//Function
+		bNeedCock=True
 		CockAnimRate=0.700000
 		ReloadAnimRate=1.500000
 		PlayerJumpFactor=1.000000
@@ -431,8 +434,9 @@ defaultproperties
 		SightMoveSpeedFactor=0.9
 		SightingTime=0.250000
 		//Function
+		bNeedCock=True
 		CockAnimRate=0.700000
-		ReloadAnimRate=1.500000
+		ReloadAnimRate=1.000000
 		PlayerJumpFactor=1.000000
 		InventorySize=5
 		DisplaceDurationMult=1

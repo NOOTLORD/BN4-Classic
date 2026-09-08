@@ -70,78 +70,6 @@ simulated event Tick(float DT)
 	super.Tick(DT);
 }
 
-/*function Notify_Deploy()
-{
-	local vector HitLoc, HitNorm, Start, End;
-	local actor T;
-	local Rotator CompressedEq;
-    local BallisticTurret Turret;
-    local int Forward;
-
-	if (Instigator.HeadVolume.bWaterVolume)
-		return;
-	// Trace forward and then down. make sure turret is being deployed:
-	//   on world geometry, at least 30 units away, on level ground, not on the other side of an obstacle
-	// BallisticPro specific: Can be deployed upon sandbags providing that sandbag is not hosting
-	// another weapon already. When deployed upon sandbags, the weapon is automatically deployed 
-	// to the centre of the bags.
-	
-	Start = Instigator.Location + Instigator.EyePosition();
-	for (Forward=75;Forward>=45;Forward-=15)
-	{
-		End = Start + vector(Instigator.Rotation) * Forward;
-		T = Trace(HitLoc, HitNorm, End, Start, true, vect(6,6,6));
-		if (T != None && VSize(HitLoc - Start) < 30)
-			return;
-		if (T == None)
-			HitLoc = End;
-		End = HitLoc - vect(0,0,100);
-		T = Trace(HitLoc, HitNorm, End, HitLoc, true, vect(6,6,6));
-		if (T != None && HitLoc.Z <= Start.Z - class'BallisticTurret'.default.MinTurretEyeDepth - 4 && (T.bWorldGeometry && (Sandbag(T) == None || Sandbag(T).AttachedWeapon == None)) && HitNorm.Z >= 0.9 && FastTrace(HitLoc, Start))
-			break;
-		if (Forward <= 45)
-			return;
-	}
-
-	FireMode[1].bIsFiring = false;
-   	FireMode[1].StopFiring();
-
-	if(Sandbag(T) != None)
-	{
-		HitLoc = T.Location;
-		HitLoc.Z += class'M575Turret'.default.CollisionHeight + T.CollisionHeight * 0.75;
-	}
-	
-	else
-	{
-		HitLoc.Z += class'M575Turret'.default.CollisionHeight - 9;
-	}
-	
-	CompressedEq = Instigator.Rotation;
-		
-	//Rotator compression causes disparity between server and client rotations,
-	//which then plays hob with the turret's aim.
-	//Do the compression first then use that to spawn the turret.
-	
-	CompressedEq.Pitch = (CompressedEq.Pitch >> 8) & 255;
-	CompressedEq.Yaw = (CompressedEq.Yaw >> 8) & 255;
-	CompressedEq.Pitch = (CompressedEq.Pitch << 8);
-	CompressedEq.Yaw = (CompressedEq.Yaw << 8);
-
-	Turret = Spawn(class'M575Turret', None,, HitLoc, CompressedEq);
-	
-    if (Turret != None)
-    {
-    	if (Sandbag(T) != None)
-			Sandbag(T).AttachedWeapon = Turret;
-		Turret.InitDeployedTurretFor(self);
-		Turret.TryToDrive(Instigator);
-		Destroy();
-    }
-    else
-		log("Notify_Deploy: Could not spawn turret for M575 Machinegun");
-}*/
-
 simulated function PlayReload()
 {
 	PlayAnim('ReloadHold', ReloadAnimRate, , 0.25);
@@ -170,14 +98,6 @@ simulated function Notify_CockAfterReload()
 		CommonCockGun(2);
 	else
 		PlayAnim('ReloadFinishHold', ReloadAnimRate, 0.2);
-}
-
-simulated function PlayCocking(optional byte Type)
-{
-	if (Type == 2 && HasAnim('ReloadEndCock'))
-		PlayAnim('ReloadEndCock', CockAnimRate, 0.2);
-	else
-		PlayAnim(CockAnim, CockAnimRate, 0.2);
 }
 
 /*simulated function PositionSights ()
@@ -332,7 +252,7 @@ simulated function SetScopeProperties()
 	if (bScopeOn)
 	{
 		ZoomType = ZT_Fixed;
-		SightingTime = 0.6;
+		SightingTime = default.SightingTime * 1.33;
 		ScopeViewTex = ScopeScopeViewTex;
 		MaxZoom=2;
 	}
@@ -573,8 +493,7 @@ simulated function BringUp(optional Weapon PrevWeapon)
 		SetBoneScale (2, 0.0, AmplifierBone);
 }
 
-// AI Interface =====
-function byte BestMode()	{	return 0;	}
+
 
 // tells bot whether to charge or back off while using this weapon
 function float SuggestAttackStyle()	{	return -0.5;	}
@@ -637,7 +556,7 @@ defaultproperties
      ClipInFrame=0.650000
      bCockOnEmpty=True
      WeaponModes(0)=(bUnavailable=True)
-     WeaponModes(1)=(ModeName="Burst of Three")
+     WeaponModes(1)=(ModeName="Burst of Three",ModeID="WM_BigBurst",Value=3.000000)
      WeaponModes(2)=(ModeName="Burst of Five",ModeID="WM_BigBurst",Value=5.000000)
      WeaponModes(3)=(ModeName="Full Auto",ModeID="WM_FullAuto")
 	 WeaponModes(4)=(ModeName="Amp: Ice Full Auto",ModeID="WM_FullAuto",bUnavailable=True)
@@ -646,7 +565,7 @@ defaultproperties
 	 bShowChargingBar=True
      SightOffset=(X=0,Y=0,Z=2.1)
      FireModeClass(0)=Class'BWBP_OP_Pro.M575PrimaryFire'
-     FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
+     FireModeClass(1)=Class'BWBP_OP_Pro.M575SecondaryFire'
      SelectAnimRate=1.350000
      PutDownTime=0.550000
      BringUpTime=0.700000
@@ -659,8 +578,7 @@ defaultproperties
      Priority=43
      HudColor=(R=15,G=175,B=200)
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
-	 InventoryGroup=1
-	 GroupOffset=1
+     InventoryGroup=6
      PickupClass=Class'BWBP_OP_Pro.M575Pickup'
      PlayerViewOffset=(X=6.00,Y=4.50,Z=-4.00)
      AttachmentClass=Class'BWBP_OP_Pro.M575Attachment'

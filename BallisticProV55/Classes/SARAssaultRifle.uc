@@ -206,7 +206,7 @@ simulated function SwitchStock(bool bNewValue)
 	//if (bNewValue == bStockExtended)
 	//	return;
 
-	Log("SAR SwitchStock: Stock open: "$bStockExtended);
+	//Log("SAR SwitchStock: Stock open: "$bStockExtended);
 	
 	if (Role == ROLE_Authority)
 		bServerReloading = True;
@@ -645,7 +645,7 @@ defaultproperties
 	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Pullout',Volume=0.210000) 
 	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.XK2.XK2-Putaway',Volume=0.208000)
 	MeleeFireClass=Class'BallisticProV55.SARMeleeFire'
-	CockAnimPostReload="ReloadEndCock"
+	//CockAnimPostReload="ReloadEndCock"
 	CockSound=(Sound=Sound'BW_Core_WeaponSound.SAR.SAR-Cock')
 	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.SAR.SAR-ClipOut')
 	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.SAR.SAR-ClipIn')
@@ -655,24 +655,19 @@ defaultproperties
 	WeaponModes(2)=(bUnavailable=True)
 	CurrentWeaponMode=0
 	bNoCrosshairInScope=True
-
 	PlayerViewOffset=(X=8.000000,Y=9.000000,Z=-10.000000)
 	SightOffset=(X=11.000000,Y=-0.010000,Z=3.600000)
 	SightPivot=(Pitch=450)
 	SightBobScale=0.3
-
 	GunLength=16.000000
 	ParamsClasses(0)=Class'SARWeaponParamsComp'
 	ParamsClasses(1)=Class'SARWeaponParamsClassic'
 	ParamsClasses(2)=Class'SARWeaponParamsRealistic'
     ParamsClasses(3)=Class'SARWeaponParamsTactical'
-
 	FireModeClass(0)=Class'BallisticProV55.SARPrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
-	
 	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.A73OutA',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.M50InA',USize1=256,VSize1=256,USize2=256,VSize2=256,Color1=(A=128),StartSize1=70,StartSize2=82)
     NDCrosshairInfo=(SpreadRatios=(Y1=0.800000,Y2=1.000000),MaxScale=6.000000)
-     
 	SelectForce="SwitchToAssaultRifle"
 	bShowChargingBar=True
 	Description="With a growing number of operations and battles taking place in urban and industial enviroments, the UTC realized that their ground infantry units were in dire need of a more effective, balanced weapon system for indoor combat. UTC soldiers fighting in the close confines of urban structures and industrial installatons needed a highly compact, reliable and manouverable weapon, but it needed the power to blast through light walls and take down the agile alien forces they were faced with.||The result was the development of the Sub-Assault Rifle, the most well known of which is the S-AR 12. These weapons have the power of an assault rifle, usually using rifle ammunition such as 5.56mm rounds, and the manouverability of a compact sub-machinegun. Accuracy was not an issue due to the extremely short range of most of the encounters in urban combat."
