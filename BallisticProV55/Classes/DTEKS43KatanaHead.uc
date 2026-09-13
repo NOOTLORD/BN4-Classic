@@ -10,13 +10,11 @@ class DTEKS43KatanaHead extends DTEKS43Katana;
 
 defaultproperties
 {
-     DeathStrings(0)="%k lifted off %o's head with %kh katana."
-     DeathStrings(1)="%k ran %kh sword across %o's eyeballs."
-     DeathStrings(2)="%o's melon was removed by %k's sword."
-     DeathStrings(3)="%o got %vh head destroyed by %k's EKS43."
+     DeathStrings(0)=""
      bHeaddie=True
      DeathString="%k lifted off %o's head with %kh katana."
+     FemaleSuicide="%o attempted brain surgery on herself with an katana."
+     MaleSuicide="%o attempted brain surgery on himself with an katana."
      bAlwaysSevers=True
-	 BlockFatiguePenalty=0.2
      bSpecial=True
 }

@@ -11,6 +11,7 @@ defaultproperties
 	ImpactManager=class'IM_Knife'
 	InstantMode=MU_Both
 	TrackAnimMode=MU_Primary
+	FlashMode=MU_Secondary
 	WaterTracerClass=class'TraceEmitter_WaterBullet'
 	bRapidFire=True
 	RelativeLocation=(X=-4.000000,Y=-3.500000,Z=5.000000)

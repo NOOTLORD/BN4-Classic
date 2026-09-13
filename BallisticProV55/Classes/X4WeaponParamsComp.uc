@@ -12,10 +12,12 @@ defaultproperties
         Damage=70
         DamageType=Class'BallisticProV55.DTX4Knife'
         DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
-        DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
+        DamageTypeArm=Class'BallisticProV55.DTX4Knife'
+        HookStopFactor=1.700000
+        HookPullForce=100.000000
         BotRefireRate=0.9900000
         WarnTargetPct=0.300000
-        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,batten=false)
+        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.500000,Radius=12.000000,batten=false)
     End Object
     
     Begin Object Class=FireParams Name=ArenaPrimaryFireParams
@@ -34,17 +36,14 @@ defaultproperties
         TraceRange=(Min=130.000000,Max=130.000000)
         WaterTraceRange=130.000000
         Damage=90
-		Fatigue=0.000000
-		PenetrationEnergy=0.000000
-		bPenetrate=False
         DamageType=Class'BallisticProV55.DTX4Knife'
         DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
-        DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
+        DamageTypeArm=Class'BallisticProV55.DTX4Knife'
         HookStopFactor=1.700000
         HookPullForce=100.000000
         BotRefireRate=0.500000
-        WarnTargetPct=0.50000
-        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.5,Radius=12.000000,batten=false)
+        WarnTargetPct=0.500000
+        FireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Volume=0.500000,Radius=12.000000,batten=false)
     End Object
     
     Begin Object Class=FireParams Name=ArenaSecondaryFireParams
@@ -81,8 +80,11 @@ defaultproperties
 	//=================================================================	
 
     Begin Object Class=WeaponParams Name=UniversalParams       
-        MagAmmo=1
+        PlayerSpeedFactor=1.000000
+        PlayerJumpFactor=1.000000
         InventorySize=1
+        ViewOffset=(X=4.000000,Y=8.000000,Z=-10.000000)
+        MagAmmo=1
         RecoilParams(0)=RecoilParams'UniversalRecoilParams'
         AimParams(0)=AimParams'UniversalAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'

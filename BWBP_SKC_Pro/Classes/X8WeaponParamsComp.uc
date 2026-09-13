@@ -13,7 +13,6 @@ defaultproperties
 			DamageType=Class'BWBP_SKC_Pro.DTX8Knife'
 			DamageTypeHead=Class'BWBP_SKC_Pro.DTX8Knife'
 			DamageTypeArm=Class'BWBP_SKC_Pro.DTX8Knife'
-			ChargeDamageBonusFactor=1.000000
 			HookStopFactor=1.300000
 			HookPullForce=100.000000
 			BotRefireRate=0.800000
@@ -34,7 +33,7 @@ defaultproperties
     //=================================================================	
 	
 		Begin Object Class=ProjectileEffectParams Name=ArenaSecondaryEffectParams
-			ProjectileClass=Class'BWBP_SKC_Pro.X8ProjectileHeld'
+			ProjectileClass=Class'BWBP_SKC_Pro.X8Projectile'
 			SpawnOffset=(X=15.000000,Y=10.000000,Z=-9.000000)
 			Speed=7500.000000
 			MaxSpeed=7500.000000
@@ -42,12 +41,12 @@ defaultproperties
 			MuzzleFlashClass=Class'BWBP_SKC_Pro.VSKSilencedFlash'
 			BotRefireRate=1.000000
 			WarnTargetPct=0.500000	
-			FireSound=(Sound=Sound'BWBP_SKC_Sounds.AK47.AK47-KnifeFire',Volume=0.5,Radius=16.000000,batten=false)
+			FireSound=(Sound=Sound'BWBP_SKC_Sounds.AK47.AK47-KnifeFire',Volume=0.500000,Radius=16.000000,batten=false)
 		End Object
 
 		Begin Object Class=FireParams Name=ArenaSecondaryFireParams
 			FireInterval=1.700000
-			BurstFireRateFactor=1.00
+			AmmoPerFire=1
 			PreFireAnim="PrepShoot"
 			FireAnim="Shoot"	
 		FireEffectParams(0)=ProjectileEffectParams'ArenaSecondaryEffectParams'
@@ -79,8 +78,11 @@ defaultproperties
 	//=================================================================	
 
     Begin Object Class=WeaponParams Name=UniversalParams    
+	    PlayerSpeedFactor=1.000000
+        PlayerJumpFactor=1.000000
+	    InventorySize=1
+		ViewOffset=(X=20.000000,Z=-10.000000)
         MagAmmo=1
-        InventorySize=1
         RecoilParams(0)=RecoilParams'UniversalRecoilParams'
         AimParams(0)=AimParams'UniversalAimParams'
 		FireParams(0)=FireParams'ArenaPrimaryFireParams'

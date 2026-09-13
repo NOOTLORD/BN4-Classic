@@ -99,20 +99,18 @@ final function FireEffectParams.FireModeStats GetStats()
 
 defaultproperties
 {
-    FireInterval=0.5
+    FireInterval=0.500000
     AmmoPerFire=1
-
+    PreFireTime=0.000000
+    BurstFireRateFactor=0.650000
+    bCockAfterFire=False
     PreFireAnim=PreFire
     FireAnim=Fire
     FireLoopAnim=FireLoop
     FireEndAnim=FireEnd
-
-    PreFireAnimRate=1.0
-    FireAnimRate=1.0
-    FireLoopAnimRate=1.0
-    FireEndAnimRate=1.0
-
-    PreFireTime=0.0
-
-    BurstFireRateFactor=0.65
+    PreFireAnimRate=1.000000
+    FireAnimRate=1.000000
+    FireLoopAnimRate=1.000000
+    FireEndAnimRate=1.000000
+    AimedFireAnim=1.000000
 }

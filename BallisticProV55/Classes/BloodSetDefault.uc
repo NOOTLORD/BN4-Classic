@@ -19,6 +19,7 @@ defaultproperties
      BulletHitHeadSound=SoundGroup'BW_Core_WeaponSound.BulletImpacts.Headshot'
 
      HeadExplode=Class'BallisticProV55.BG_HeadExplode'
+     /* 
      TorsoExplode=Class'BallisticProV55.BG_TorsoExplode'
      ShoulderExplode=Class'BallisticProV55.BG_ShoulderExplode'
      ArmExplode=Class'BallisticProV55.BG_ArmExplode'
@@ -28,7 +29,7 @@ defaultproperties
      PelvisExplode=Class'BallisticProV55.BG_PelvisExplode'
      ShoulderExplodeLeft=Class'BallisticProV55.BG_ShoulderExplodeLeft'
      ArmExplodeLeft=Class'BallisticProV55.BG_ArmExplodeLeft'
- /*    
+
      MyBloodName="default-red"
      MyBloodColor=(R=255)
      BloodPool=Class'BallisticProV55.AD_BloodPool'

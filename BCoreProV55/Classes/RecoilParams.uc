@@ -91,13 +91,14 @@ defaultproperties
     XRandFactor=0.000000
     YRandFactor=0.000000
     MaxRecoil=4096.000000
-    DeclineTime=2.000000
-    DeclineDelay=0.300000
-    ViewBindFactor=1
-    ADSViewBindFactor=1
-    HipMultiplier=1
-	MaxMoveMultiplier=1
-	CrouchMultiplier=1
-	EscapeMultiplier=1
+    DeclineTime=0.000000
+    DeclineDelay=0.000000
+ 	EscapeMultiplier=1.000000   
+    ViewBindFactor=1.000000
+    ADSViewBindFactor=1.000000
+    HipMultiplier=1.000000
+	MaxMoveMultiplier=1.000000
+	CrouchMultiplier=1.000000
     bViewDecline=False
+    bUseAltSightCurve=False
 }

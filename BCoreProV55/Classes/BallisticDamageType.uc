@@ -489,6 +489,7 @@ defaultproperties
 	MotionBlurFactor=0.000000
 	MotionBlurTime=0.000000
 	bLessDisruptiveFlash=True
+	bNeverSevers=True
 	bDetonatesGoop=True
 	bKUseTearOffMomentum=True
 	bExtraMomentumZ=False

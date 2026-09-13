@@ -42,7 +42,6 @@ defaultproperties
 	AltFlashBone="tip2"
 	BrassClass=class'Brass_M46AR'
 	FlashMode=MU_Both
-	LightMode=MU_Both
 	TracerClass=class'TraceEmitter_Default'
 	WaterTracerClass=class'TraceEmitter_WaterBullet'
 	FlyBySound=(Sound=SoundGroup'BW_Core_WeaponSound.FlyBys.Bullet-Whizz',Volume=0.700000)

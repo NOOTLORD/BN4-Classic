@@ -32,6 +32,7 @@ defaultproperties
      bCanBeBlocked=False
      bHeaddie=True
      bNeverSevers=True
+	 DamageIdent=""
      WeaponClass=Class'BWBP_SKC_Pro.X8Knife'
      DeathString="%k's knife defied all odds to enter %o's eye."
      FemaleSuicide="%o acupunctured her face."

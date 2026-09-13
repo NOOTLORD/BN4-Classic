@@ -77,6 +77,5 @@ defaultproperties
      AttachmentClass=Class'BallisticProV55.X4Attachment'
      Mesh=SkeletalMesh'BW_Core_WeaponAnim.X4_FPm'
      DrawScale=0.300000
-     PlayerViewOffset=(X=4.000000,Y=8.000000,Z=-10.000000)
      SpecialInfo(0)=(Info="180.0;6.0;-999.0;-1.0;-999.0;-999.0;-999.0")
 }

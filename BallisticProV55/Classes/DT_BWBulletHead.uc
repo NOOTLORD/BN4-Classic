@@ -21,6 +21,7 @@ defaultproperties
 {
 	bHeaddie=True
 	bAlwaysSevers=True
+	bNeverSevers=False
 	bSpecial=True
 	bExtraMomentumZ=True
 	PawnDamageSounds(0)=SoundGroup'BW_Core_WeaponSound.BulletImpacts.Headshot'

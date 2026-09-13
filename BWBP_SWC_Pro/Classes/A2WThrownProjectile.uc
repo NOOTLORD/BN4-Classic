@@ -86,12 +86,12 @@ defaultproperties
      bRandomStartRotation=False
      bUsePositionalDamage=True
 	 bIgnoreTerminalVelocity=True
-     DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
+     //DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
      bWarnEnemy=False
      Speed=7500.000000
      MaxSpeed=7500.000000
      Damage=100.000000
-     MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
+     //MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
      //StaticMesh=StaticMesh'BWBP_SWC_Static.SkrithLance.Staff_SM_Proj'
      bNetTemporary=False
      Physics=PHYS_Falling

@@ -5077,7 +5077,7 @@ function OwnerEvent(name EventName)
 
 simulated function PlayerSprint(bool bSprinting)
 {
-	if (!class'BallisticReplicationInfo'.default.bWeaponJumpOffsetting)
+	if (!class'BallisticReplicationInfo'.default.bWeaponJumpOffsetting || (Instigator != None && Bot(Instigator.Controller) != None))
 	{
 		AimComponent.OnPlayerSprint(false);
 		return;

@@ -40,7 +40,7 @@ defaultproperties
      
      DamageType=Class'BallisticProV55.DTX4Knife'
      DamageTypeHead=Class'BallisticProV55.DTX4KnifeHead'
-     DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
+     //DamageTypeArm=Class'BallisticProV55.DTX4KnifeLimb'
      KickForce=100
      BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.X4.X4_Melee',Radius=12.000000,batten=false)
      bAISilent=True

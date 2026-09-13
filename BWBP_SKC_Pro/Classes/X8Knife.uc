@@ -275,6 +275,5 @@ defaultproperties
 	AttachmentClass=Class'BWBP_SKC_Pro.X8Attachment'
 	Mesh=SkeletalMesh'BWBP_SKC_Anim.X8Knife_FPm'
 	DrawScale=0.300000
-	PlayerViewOffset=(X=20.000000,Z=-10.000000)
 	SpecialInfo(0)=(Info="0.0;-999.0;-999.0;-1.0;-999.0;-999.0;-999.0")
 }

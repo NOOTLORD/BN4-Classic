@@ -16,13 +16,11 @@ defaultproperties
 	MeleeStrikeAnim="TwoHand_Slam"
 	MeleeAltStrikeAnim="TwoHand_Smash"
 	ImpactManager=class'IM_Katana'
-	BrassMode=MU_None
 	InstantMode=MU_Both
-	FlashMode=MU_None
-	LightMode=MU_None
 	TrackAnimMode=MU_Both
 	bHeavy=True
+	WaterTracerClass=class'TraceEmitter_WaterBullet'
+	RelativeLocation=(Y=-2.000000,Z=-10.000000)
 	Mesh=SkeletalMesh'BW_Core_WeaponAnim.EKS43_TPm'
 	DrawScale=0.100000
-	RelativeLocation=(Y=-2.000000,Z=-10.000000)
 }

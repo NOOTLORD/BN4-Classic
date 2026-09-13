@@ -23,6 +23,7 @@ defaultproperties
      DamageIdent="Melee"
      DamageDescription=",Slash,Stab,"
      bInstantHit=True
+     bNeverSevers=True
      PawnDamageSounds(0)=SoundGroup'BW_Core_WeaponSound.Knife.KnifeFlesh'
 	InvasionDamageScaling=3.000000
      VehicleDamageScaling=0.250000

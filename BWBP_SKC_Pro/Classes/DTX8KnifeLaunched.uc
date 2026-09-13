@@ -14,6 +14,7 @@ defaultproperties
      SimpleKillString="X8 Launched"
      bCanBeBlocked=False
      bNeverSevers=True
+     DamageIdent=""
      WeaponClass=Class'BWBP_SKC_Pro.X8Knife'
      DeathString="%k's X8 Ballistic Knife reached out and touched %o."
      FemaleSuicide="%o shot a knife at herself."

@@ -38,5 +38,4 @@ defaultproperties
      KickForce=100
      bAISilent=True
      AmmoClass=Class'BWBP_SKC_Pro.Ammo_X8Knife'
-     AmmoPerFire=0
 }

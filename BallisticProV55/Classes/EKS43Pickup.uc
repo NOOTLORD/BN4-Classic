@@ -31,7 +31,6 @@ defaultproperties
      PickupMessage="You picked up the EKS-43 katana."
      PickupSound=Sound'BW_Core_WeaponSound.EKS43.EKS-Putaway'
      StaticMesh=StaticMesh'BW_Core_WeaponStatic.EKS43.KatanaPickupHi'
-     Physics=PHYS_None
      DrawScale=0.150000
      CollisionHeight=4.000000
 }

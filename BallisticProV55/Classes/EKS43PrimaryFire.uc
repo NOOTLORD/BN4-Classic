@@ -34,29 +34,8 @@ defaultproperties
      SliceAnims(1)="Slash2"
      SliceAnims(2)="Slash3"
      SliceAnims(3)="Slash4"
-     FatiguePerStrike=0.060000
-     bCanBackstab=False
-     TraceRange=(Min=165.000000,Max=165.000000)   
-     DamageType=Class'BallisticProV55.DTEKS43Katana'
-     DamageTypeHead=Class'BallisticProV55.DTEKS43KatanaHead'
-     DamageTypeArm=Class'BallisticProV55.DTEKS43KatanaLimb'
      KickForce=100
-     BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.EKS43.EKS-Slash',Volume=0.5,Radius=24.000000,batten=false)
      bAISilent=True
-     FireAnim="Slash1"
-     FireRate=0.750000
      AmmoClass=Class'BallisticProV55.Ammo_Knife'
      AmmoPerFire=0
-     ShakeRotMag=(X=64.000000,Y=512.000000)
-     ShakeRotRate=(X=3000.000000,Y=3000.000000,Z=3000.000000)
-     ShakeRotTime=2.500000
-	 
-	 // AI
-	bInstantHit=True
-	bLeadTarget=False
-	bTossed=False
-	bSplashDamage=False
-	bRecommendSplashDamage=False
-	BotRefireRate=0.99
-     WarnTargetPct=0.3
 }

@@ -41,18 +41,21 @@ var() int					ChaosTurnThreshold; // Speed(Rotator units per second) of view rot
 defaultproperties
 {
     AimSpread=(Min=16,Max=128)
-    AimAdjustTime=0.50
-    OffsetAdjustTime=0.30
-	VelocityAimAdjustMult=0.67f
-    CrouchMultiplier=0.80
-    ADSMultiplier=1.00
-    ViewBindFactor=0.00
-	ADSViewBindFactor=1.00
+    AimAdjustTime=0.500000
+    OffsetAdjustTime=0.300000
+	VelocityAimAdjustMult=0.670000
+    CrouchMultiplier=0.800000
+    ADSMultiplier=1.000000
 	SprintOffSet=(Pitch=0,Yaw=0)
-    SprintChaos=0.100000
-    AimDamageThreshold=100
-    ChaosDeclineTime=0.64
-    ChaosDeclineDelay=0.00
-    ChaosSpeedThreshold=500.00
-    ChaosTurnThreshold=131072.00
+    JumpOffset=(Pitch=0,Yaw=0)
+    ViewBindFactor=0.000000
+	ADSViewBindFactor=1.000000   
+    JumpChaos=0.000000
+    FallingChaos=0.000000
+    SprintChaos=0.000000
+    AimDamageThreshold=1000
+    ChaosDeclineTime=0.640000
+    ChaosDeclineDelay=0.000000
+    ChaosSpeedThreshold=500.000000
+    ChaosTurnThreshold=131072.000000
 }

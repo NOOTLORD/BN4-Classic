@@ -37,33 +37,8 @@ defaultproperties
      SwipePoints(2)=(offset=(Yaw=1536))
      WallHitPoint=1
      NumSwipePoints=3
-     FatiguePerStrike=0.250000
-     TraceRange=(Min=165.000000,Max=165.000000)
-     DamageType=Class'BallisticProV55.DTEKS43Katana'
-     DamageTypeHead=Class'BallisticProV55.DTEKS43KatanaHead'
-     DamageTypeArm=Class'BallisticProV55.DTEKS43KatanaLimb'
      KickForce=100
-     HookStopFactor=1.700000
-     HookPullForce=100.000000
-     bReleaseFireOnDie=False
-     BallisticFireSound=(Sound=SoundGroup'BW_Core_WeaponSound.EKS43.EKS-Slash',Volume=0.5,Radius=24.000000,batten=false)
      bAISilent=True
-     bFireOnRelease=True
-     PreFireAnim="PrepHack1"
-     FireAnim="Hack1"
-     FireRate=1.200000
      AmmoClass=Class'BallisticProV55.Ammo_Knife'
      AmmoPerFire=0
-     ShakeRotMag=(X=64.000000,Y=512.000000)
-     ShakeRotRate=(X=3000.000000,Y=3000.000000,Z=3000.000000)
-     ShakeRotTime=2.500000
-	 
-	 // AI
-	 bInstantHit=True
-	 bLeadTarget=False
-	 bTossed=False
-	 bSplashDamage=False
-	 bRecommendSplashDamage=False
-	 BotRefireRate=0.99
-     WarnTargetPct=0.5
 }

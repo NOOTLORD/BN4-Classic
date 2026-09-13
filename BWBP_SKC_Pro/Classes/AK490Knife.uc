@@ -74,12 +74,12 @@ defaultproperties
      TrailClass=Class'BallisticProV55.MRLTrailEmitter'
 	 TrailOffset=(X=-2.000000)
      
-     DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
+     //DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
      bWarnEnemy=False
      Speed=8500.000000
      MaxSpeed=8500.000000
      Damage=90.000000
-     MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
+     //MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
      StaticMesh=StaticMesh'BWBP_SKC_Static.X8.X8Proj'
      Physics=PHYS_Falling
      LifeSpan=0.000000

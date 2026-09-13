@@ -179,7 +179,7 @@ simulated event AnimEnd (int Channel)
 }
 
 //Draws simple crosshairs to accurately describe hipfire at any FOV and resolution.
-simulated function DrawSimpleCrosshairs(Canvas C)
+/*simulated function DrawSimpleCrosshairs(Canvas C)
 {
 	local float Offset;
 
@@ -187,7 +187,7 @@ simulated function DrawSimpleCrosshairs(Canvas C)
 	Offset *= tan (MeleeSpreadAngle) / tan((Instigator.Controller.FovAngle/2) * 0.01745329252);
 	
 	DrawSimpleCrosshairBars(C, Offset, Offset / 3);
-}
+}*/
 
 simulated event Tick (Float DT)
 {

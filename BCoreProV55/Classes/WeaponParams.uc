@@ -188,12 +188,23 @@ defaultproperties
     PlayerJumpFactor=1.000000
     InventorySize=6
     WeaponPrice=100
-	ScopeScale=1
-    SightMoveSpeedFactor=0.900000
-    SightingTime=0.350000
-    ZoomType=ZT_Irons
-    DisplaceDurationMult=1.000000
-    MagAmmo=30
 	CockAnimRate=1.000000
     ReloadAnimRate=1.000000
+    SightMoveSpeedFactor=0.900000
+    SightingTime=0.350000
+	SightDisplayFOV=30.000000
+	SightOffset=(X=0,Y=0,Z=0)
+	SightPivot=(Pitch=0,Roll=0)
+	ZoomType=ZT_Irons
+	ScopeScale=1.000000
+    MinZoom=4.000000
+    MaxZoom=16.000000
+    ZoomStages=2
+	ViewOffset=(X=0,Y=0,Z=0)
+ 	ViewPivot=(Pitch=0,Roll=0)
+	WeaponName=""
+    DisplaceDurationMult=0.000000
+    MagAmmo=30
+	bDualBlocked=True
+	bNoaltfire=False
 }

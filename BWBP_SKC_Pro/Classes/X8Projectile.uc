@@ -89,8 +89,8 @@ defaultproperties
 	bUsePositionalDamage=True
 	bIgnoreTerminalVelocity=True
 	bWarnEnemy=False
-	MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunched'
-	DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeRifleLaunchedHead'
+    DamageTypeHead=Class'BWBP_SKC_Pro.DTX8KnifeLaunchedHead'
+    MyDamageType=Class'BWBP_SKC_Pro.DTX8KnifeLaunched'
 	StaticMesh=StaticMesh'BWBP_SKC_Static.X8.X8Proj'
 	DrawScale=0.150000
 	bNetTemporary=False

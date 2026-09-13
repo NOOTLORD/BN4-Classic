@@ -16,8 +16,8 @@ defaultproperties
      ImpactManager=class'IM_Knife'
      InstantMode=MU_Both
      TrackAnimMode=MU_Both
-     WaterTracerClass=class'TraceEmitter_WaterBullet'
      MeleeStrikeAnim="Blade_Stab"
+     WaterTracerClass=class'TraceEmitter_WaterBullet'
      bRapidFire=True
      RelativeLocation=(Y=-2.000000,Z=8.000000)
      RelativeRotation=(Pitch=-35000)	 

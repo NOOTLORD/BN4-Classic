@@ -2066,7 +2066,7 @@ simulated function DoHit (name Bone, class<DamageType> DamageType, vector HitRay
 		BDT.static.LocalHitEffects(self, Bone, HitLocation, HitRay, Damage);
 
 	// Hes dead, we can try dismemberment!
-	if (Health <= 0)
+	if (Health <= 0 && (!bPlayedDeath || class'BloodManager'.default.bGibbableCorpses))
 	{
         if (!DamageType.default.bNeverSevers && !class'GameInfo'.static.UseLowGore())
 		{
@@ -3759,8 +3759,9 @@ function BotAutoManageSprint()
 		|| (B.Enemy != None && VSize(B.Enemy.Location - Location) <= BotSprintEnemyRange)
 		|| Controller.bFire > 0 || Controller.bAltFire > 0)
 	{
-		if (Sprinter.bSprintActive)
-			Sprinter.StopSprint();
+		Sprinter.StopSprint();
+		if (BallisticWeapon(Weapon) != None)
+			BallisticWeapon(Weapon).PlayerSprint(false); //Hopefully clears that up
 	}
 	else
 	{

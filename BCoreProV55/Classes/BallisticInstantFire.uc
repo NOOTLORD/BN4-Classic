@@ -810,16 +810,13 @@ simulated function SwitchWeaponMode (byte NewMode)
 defaultproperties
 {
 	TraceRange=(Min=5000.000000,Max=5000.000000)
-	MaxWaterTraceRange=128 // ~ 3 feet
+	MaxWaterTraceRange=128
 	RangeAtten=1.000000
 	WaterRangeAtten=0.000000
 	PDamageFactor=0.700000
-	WallPDamageFactor=0.95
-
-	// backup values in case of failure to assign
-	HeadMult=2.0f
-	LimbMult=0.75f
-
+	WallPDamageFactor=0.950000
+	HeadMult=2.000000
+	LimbMult=0.750000
 	HeadOffset=12
 	HeadRadius=12
 }
