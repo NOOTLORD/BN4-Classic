@@ -12,9 +12,9 @@ defaultproperties
 {
      MaxAmmo=192
      InitialAmount=96
-     IconFlashMaterial=Shader'BW_Core_WeaponTex.NovaStaff.AmmoIcon_NovaCrystalFlash'
+     //IconFlashMaterial=Shader'BW_Core_WeaponTex.NovaStaff.AmmoIcon_NovaCrystalFlash'
      PickupClass=Class'BallisticProV55.AP_NovaCrystal'
-     IconMaterial=Texture'BW_Core_WeaponTex.NovaStaff.AmmoIcon_NovaCrystal'
+     //IconMaterial=Texture'BW_Core_WeaponTex.NovaStaff.AmmoIcon_NovaCrystal'
      IconCoords=(X2=63,Y2=63)
      ItemName="Nova Crystal"
 }

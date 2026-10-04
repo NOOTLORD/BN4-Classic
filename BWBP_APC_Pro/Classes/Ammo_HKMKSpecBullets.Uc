@@ -11,7 +11,7 @@ defaultproperties
 {
      MaxAmmo=64
      InitialAmount=32
-     //IconFlashMaterial=Shader'BWBP_JCF_Tex.HKMK.AmmoIcon_HKMKFlash'
+     ////IconFlashMaterial=Shader'BWBP_JCF_Tex.HKMK.AmmoIcon_HKMKFlash'
      PickupClass=Class'BWBP_APC_Pro.AP_HKMKSpecBullets'
      //IconMaterial=Texture'BWBP_JCF_Tex.HKMK.AmmoIcon_HKMK'
      IconCoords=(X2=63,Y2=63)

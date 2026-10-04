@@ -57,9 +57,9 @@ defaultproperties
 {
      MaxAmmo=3
      InitialAmount=2
-     IconFlashMaterial=Shader'BW_Core_WeaponTex.OA-AR.AmmoIcon_OAARFlash'
+     //IconFlashMaterial=Shader'BW_Core_WeaponTex.OA-AR.AmmoIcon_OAARFlash'
      PickupClass=Class'BWBP_SKC_Pro.AP_STANAGShockwave'
-     IconMaterial=Texture'BW_Core_WeaponTex.OA-AR.AmmoIcon_OAAR'
+     //IconMaterial=Texture'BW_Core_WeaponTex.OA-AR.AmmoIcon_OAAR'
      IconCoords=(X2=64,Y2=64)
      ItemName="MARS-3 Shockwave Grenades"
 

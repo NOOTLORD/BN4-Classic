@@ -57,9 +57,9 @@ defaultproperties
 {
      MaxAmmo=4
      InitialAmount=2
-     IconFlashMaterial=Shader'BWBP_SKC_Tex.LK05.AmmoIcon_LK05Flash'
+     //IconFlashMaterial=Shader'BWBP_SKC_Tex.LK05.AmmoIcon_LK05Flash'
      PickupClass=Class'BWBP_SKC_Pro.AP_AR23Clip'
-     IconMaterial=Texture'BWBP_SKC_Tex.LK05.AmmoIcon_LK05'
+     //IconMaterial=Texture'BWBP_SKC_Tex.LK05.AmmoIcon_LK05'
      IconCoords=(X2=64,Y2=64)
      ItemName="AR23 Shotgun Grenades"
 

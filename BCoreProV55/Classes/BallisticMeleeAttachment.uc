@@ -112,4 +112,5 @@ defaultproperties
 	MeleeBlockAnim="Blade_Block"
 	BrassMode=MU_None
 	FlashMode=MU_None
+	WaterTracerMode=MU_None
 }

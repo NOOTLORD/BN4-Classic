@@ -51,9 +51,9 @@ defaultproperties
 {
      MaxAmmo=48
      InitialAmount=24
-     IconFlashMaterial=Shader'BWBP_OP_Tex.CX85.CX85-AmmoIconFlash'
+     //IconFlashMaterial=Shader'BWBP_OP_Tex.CX85.CX85-AmmoIconFlash'
      PickupClass=Class'BWBP_OP_Pro.AP_CX85Mag'
-     IconMaterial=Texture'BWBP_OP_Tex.CX85.CX85-AmmoIcon'
+     //IconMaterial=Texture'BWBP_OP_Tex.CX85.CX85-AmmoIcon'
      IconCoords=(X2=64,Y2=64)
      ItemName="CX85 Tracking Darts"
 }

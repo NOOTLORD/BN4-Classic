@@ -12,9 +12,9 @@ defaultproperties
 {
 	MaxAmmo=2
 	InitialAmount=2
-	IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
+	//IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
 	PickupClass=Class'BallisticProV55.BX5Pickup'
-	IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
+	//IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
 	IconCoords=(X1=319,Y1=64,X2=383,Y2=127)
 	ItemName="BX5 Ammo"
 

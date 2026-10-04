@@ -12,9 +12,9 @@ defaultproperties
 {
      MaxAmmo=12
      InitialAmount=6
-     IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
+     //IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
      PickupClass=Class'BWBP_OP_Pro.AP_RCS715Grenades'
-     IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
+     //IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
      IconCoords=(X1=128,X2=191,Y2=63)
      ItemName="RCS Grenades"
 

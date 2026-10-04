@@ -68,8 +68,6 @@ defaultproperties
      CurrentRating=0.700000
      Description=""
      Priority=13
-     CenteredOffsetY=7.000000
-     CenteredRoll=0
      CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
 	InventoryGroup=3
 	GroupOffset=3

@@ -107,10 +107,9 @@ defaultproperties
     PreFireAnim=PreFire
     FireAnim=Fire
     FireLoopAnim=FireLoop
-    FireEndAnim=FireEnd
+    FireEndAnim=
     PreFireAnimRate=1.000000
     FireAnimRate=1.000000
     FireLoopAnimRate=1.000000
     FireEndAnimRate=1.000000
-    AimedFireAnim=1.000000
 }

@@ -206,5 +206,5 @@ defaultproperties
     DisplaceDurationMult=0.000000
     MagAmmo=30
 	bDualBlocked=True
-	bNoaltfire=False
+	bNoaltfire=True
 }

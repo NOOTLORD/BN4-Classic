@@ -12,9 +12,9 @@ defaultproperties
 {
 	MaxAmmo=2
 	InitialAmount=1
-	IconFlashMaterial=Shader'BWBP_SKC_Tex.LAW.AmmoIcon_LAWFlash'
+	//IconFlashMaterial=Shader'BWBP_SKC_Tex.LAW.AmmoIcon_LAWFlash'
 	PickupClass=Class'BWBP_SKC_Pro.AP_LAWTube'
-	IconMaterial=Texture'BWBP_SKC_Tex.LAW.AmmoIcon_LAW'
+	//IconMaterial=Texture'BWBP_SKC_Tex.LAW.AmmoIcon_LAW'
 	IconCoords=(X1=128,Y1=64,X2=191,Y2=127)
 
 	Begin Object Class=AmmoParams Name=ArenaParams

@@ -42,9 +42,9 @@ defaultproperties
 {
      MaxAmmo=10
      InitialAmount=3
-     IconFlashMaterial=Shader'BWBP_OP_Tex.Bloodhound.AmmoIcon_BloodhoundFlash'
+     //IconFlashMaterial=Shader'BWBP_OP_Tex.Bloodhound.AmmoIcon_BloodhoundFlash'
      PickupClass=Class'BWBP_OP_Pro.AP_BloodhoundDrum'
-     IconMaterial=Texture'BWBP_OP_Tex.Bloodhound.AmmoIcon_Bloodhound'
+     //IconMaterial=Texture'BWBP_OP_Tex.Bloodhound.AmmoIcon_Bloodhound'
      IconCoords=(X2=64,Y2=64)
      ItemName="Bloodhound Tazers"
 }

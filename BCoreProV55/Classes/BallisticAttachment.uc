@@ -967,19 +967,19 @@ defaultproperties
      bDoWaterSplash=True
      WeaponLightTime=0.150000
 	 LightMode=MU_None
-     FlashBone="tip"
+	 FlashMode=MU_Both
+     FlashBone="tip" 
      AltFlashBone="tip"
      FlashScale=1.000000
      BrassBone="ejector"
      TrackAnimMode=MU_None
+	 TracerMode=MU_Both
      TracerChance=1.000000
+	 WaterTracerMode=MU_Both
      FlyBySound=(Volume=0.500000,Radius=64.000000,Pitch=1.000000)
      FlyByMode=MU_Both
      FlybyRange=384.000000
      FlyByBulletSpeed=8000.000000
-     ReloadAnimRate=1.000000
-     CockAnimRate=1.000000
-	 StaggerRate=1.000000
      IdleHeavyAnim="RifleHip_Idle"
      IdleRifleAnim="RifleAimed_Idle"
      MeleeStrikeAnim="Melee_Stab"
@@ -989,8 +989,11 @@ defaultproperties
      RapidFireAnim="RifleHip_Burst"
      RapidAimedFireAnim="RifleAimed_Burst"
 	 ReloadAnim="Reload_AR"
+	 ReloadAnimRate=1.000000
 	 CockingAnim="Cock_RearPull"
+	 CockAnimRate=1.000000
 	 StaggerAnim="Stagger"
+	 StaggerRate=1.000000
      SlashTracks(0)=(Bone="Bip01 R Forearm",Points=(,(offset=(Yaw=-4096),Time=0.300000),(offset=(Yaw=10000),Time=0.400000),(offset=(Yaw=12000),Time=0.600000),(Time=1.000000)))
      SlashTracks(1)=(Bone="Bip01 R UpperArm",Points=(,(offset=(Pitch=-4096,Yaw=-2048,Roll=-8192),Time=0.300000),(offset=(Pitch=8192,Yaw=4096,Roll=-8192),Time=0.600000),(Time=1.000000)))
      SlashTracks(2)=(Bone="Bip01 Spine1",Points=(,(offset=(Yaw=-4096,Roll=-8192),Time=0.300000),(offset=(Yaw=2048,Roll=-8192),Time=0.700000),(Time=1.000000)))

@@ -147,6 +147,7 @@ defaultproperties
 {
      SlaveOffset=(X=17.000000,Y=-7.000000,Z=-7.000000)
      SlavePivot=(Yaw=32768)
+	 TracerChance=1.000000
      IdleHeavyAnim="PistolHip_Idle"
      IdleRifleAnim="PistolAimed_Idle"
      SingleFireAnim="PistolHip_Fire"

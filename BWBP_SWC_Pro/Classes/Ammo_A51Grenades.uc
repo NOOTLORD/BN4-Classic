@@ -12,7 +12,7 @@ defaultproperties
 {
      MaxAmmo=4
      InitialAmount=2
-     //IconFlashMaterial=Shader'BWBP_SWC_Tex.Main.AmmoIcon_SkrithGrenadeFlash'
+     ////IconFlashMaterial=Shader'BWBP_SWC_Tex.Main.AmmoIcon_SkrithGrenadeFlash'
      PickupClass=Class'BWBP_SWC_Pro.A51Pickup'
      //IconMaterial=Texture'BWBP_SWC_Tex.Main.AmmoIcon_SkrithGrenade'
      IconCoords=(X2=64,Y2=64)

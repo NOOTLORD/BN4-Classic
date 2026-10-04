@@ -10,9 +10,9 @@ defaultproperties
 {
 	MaxAmmo=100
 	InitialAmount=50
-	IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIcon_FlameTankFlash'
+	//IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIcon_FlameTankFlash'
 	PickupClass=Class'BallisticProV55.AP_FlamerGas'
-	IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIcon_FlameTank'
+	//IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIcon_FlameTank'
 	IconCoords=(X2=63,Y2=63)
 	ItemName="AH104 flamer fuel"
 

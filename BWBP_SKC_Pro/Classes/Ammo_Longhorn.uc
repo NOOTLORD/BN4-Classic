@@ -4,9 +4,9 @@ defaultproperties
 {
 	MaxAmmo=32
 	InitialAmount=16
-	IconFlashMaterial=Shader'BWBP_SKC_Tex.Longhorn.AmmoIcon_LonghornFlash'
+	//IconFlashMaterial=Shader'BWBP_SKC_Tex.Longhorn.AmmoIcon_LonghornFlash'
 	PickupClass=Class'BWBP_SKC_Pro.AP_SMRTGrenade'
-	IconMaterial=Texture'BWBP_SKC_Tex.Longhorn.AmmoIcon_Longhorn'
+	//IconMaterial=Texture'BWBP_SKC_Tex.Longhorn.AmmoIcon_Longhorn'
 	ItemName="X2 SMRT Grenade"
 
 	Begin Object Class=AmmoParams Name=ArenaParams

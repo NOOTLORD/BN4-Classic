@@ -12,9 +12,9 @@ defaultproperties
 {
 	MaxAmmo=3
 	InitialAmount=2
-	IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
+	//IconFlashMaterial=Shader'BW_Core_WeaponTex.Icons.AmmoIconsFlashing'
 	PickupClass=Class'BallisticProV55.AP_M900Grenades'
-	IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
+	//IconMaterial=Texture'BW_Core_WeaponTex.Icons.AmmoIconPage'
 	IconCoords=(X1=128,X2=191,Y2=63)
 	ItemName="Z250 Gas Grenades"
 

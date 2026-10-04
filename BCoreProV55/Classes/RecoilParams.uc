@@ -91,6 +91,7 @@ defaultproperties
     XRandFactor=0.000000
     YRandFactor=0.000000
     MaxRecoil=4096.000000
+    ClimbTime=0.100000
     DeclineTime=0.000000
     DeclineDelay=0.000000
  	EscapeMultiplier=1.000000   

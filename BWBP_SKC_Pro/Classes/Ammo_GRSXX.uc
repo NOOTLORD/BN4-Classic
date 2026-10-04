@@ -11,9 +11,9 @@ class Ammo_GRSXX extends BallisticAmmo;
 defaultproperties
 {
      InitialAmount=90
-     IconFlashMaterial=Shader'BW_Core_WeaponTex.Glock.AmmoIcon_GlockClipsFlash'
+     //IconFlashMaterial=Shader'BW_Core_WeaponTex.Glock.AmmoIcon_GlockClipsFlash'
      PickupClass=Class'BWBP_SKC_Pro.AP_GRSXXClip'
-     IconMaterial=Texture'BW_Core_WeaponTex.Glock.AmmoIcon_GlockClips'
+     //IconMaterial=Texture'BW_Core_WeaponTex.Glock.AmmoIcon_GlockClips'
      IconCoords=(X2=64,Y2=64)
      ItemName="9mm JHP Bullets"
 

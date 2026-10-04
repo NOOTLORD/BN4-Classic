@@ -5921,6 +5921,7 @@ defaultproperties
      ClipInSound=(Volume=0.500000,Radius=24.000000,Slot=SLOT_Interact,Pitch=1.000000,batten=false)
      ClipInFrame=0.900000
      ShovelIncrement=1
+	 bWT_Bullet=True
      bPlayThirdPersonReload=True
      FireAnimCutThreshold=0.600000
 	 WeaponModes(0)=(bUnavailable=True,ModeID="WM_None")
@@ -5937,6 +5938,7 @@ defaultproperties
 	 NDCrosshairScaleFactor=1.000000
 	 CrosshairMode=CHM_Simple
      bUseSights=True
+	 bNoCrosshairInScope=True
 	 ScopeScale=1
      ScopeXScale=1.000000
      FullZoomFOV=80.000000

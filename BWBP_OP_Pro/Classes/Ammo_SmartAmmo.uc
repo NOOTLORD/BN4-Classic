@@ -12,9 +12,9 @@ defaultproperties
 {
      MaxAmmo=200
      InitialAmount=100
-     IconFlashMaterial=Shader'BWBP_SKC_Tex.CYLO.AmmoIcon_CYLOFlash'
+     //IconFlashMaterial=Shader'BWBP_SKC_Tex.CYLO.AmmoIcon_CYLOFlash'
      PickupClass=Class'BWBP_OP_Pro.AP_SmartAmmo'
-     IconMaterial=Texture'BWBP_SKC_Tex.CYLO.AmmoIcon_CYLO'
+     //IconMaterial=Texture'BWBP_SKC_Tex.CYLO.AmmoIcon_CYLO'
      IconCoords=(X2=64,Y2=64)
      ItemName="5.7mm Smart Ammo"
 }
