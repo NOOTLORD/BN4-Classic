@@ -7,7 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class RGPXBazooka extends BallisticWeapon;
+class RGPXBazooka extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var   bool			bLaserOn;
 var   LaserActor	Laser;

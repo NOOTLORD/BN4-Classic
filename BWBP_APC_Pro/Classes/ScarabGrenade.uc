@@ -10,7 +10,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class ScarabGrenade extends BallisticHandGrenade;
+class ScarabGrenade extends BallisticHandGrenade
+	HideDropDown
+	CacheExempt;
 
 var() BUtil.FullSound	PinPushSound;		//Sound to play for pin push
 

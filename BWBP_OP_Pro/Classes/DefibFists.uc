@@ -7,7 +7,9 @@
 //
 // by Casey "Xavious" Johnson
 //==============================================================================
-class DefibFists extends BallisticMeleeWeapon;
+class DefibFists extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 var() int				ElectroCharge;
 var() int				ChargePerSecond;

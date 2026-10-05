@@ -1,4 +1,6 @@
-class XOXOStaff extends BallisticWeapon;
+class XOXOStaff extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var Actor 						HeartGlow, ProngGlow1, ProngGlow2;
 var XOXOStreamEffect		StreamEffect;

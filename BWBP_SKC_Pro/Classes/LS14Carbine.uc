@@ -14,7 +14,9 @@
 // Scope code by Kaboodles
 // Reloading code and handling change by Azarael, yaaaay!
 //=============================================================================
-class LS14Carbine extends BallisticWeapon;
+class LS14Carbine extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 //Scripted Ammo Screen Texture
 var() ScriptedTexture WeaponScreen; //Scripted texture to write on

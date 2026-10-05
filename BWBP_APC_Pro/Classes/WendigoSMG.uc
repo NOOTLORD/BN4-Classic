@@ -16,7 +16,9 @@
 // by Casey 'Xavious' Johnson, Marc 'Sergeant Kelly' and Azarael
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class WendigoSMG extends BallisticWeapon;
+class WendigoSMG extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() sound			MeleeFireSound;
 

@@ -7,7 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AH104Pistol extends BallisticWeapon;
+class AH104Pistol extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var Name 			ReloadAltAnim;
 var() int			AltMagAmmo;

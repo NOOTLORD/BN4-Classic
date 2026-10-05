@@ -10,7 +10,9 @@
 // by Sarge, based on code by DC
 // modified by Az
 //=============================================================================
-class FG50MachineGun extends BallisticWeapon;
+class FG50MachineGun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 //layouts
 var(FG50)	bool				bIsArmorPiercing;

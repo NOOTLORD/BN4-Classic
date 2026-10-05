@@ -1,7 +1,9 @@
 //=============================================================================
 // MARS-3 (i.e. BRINK.)
 //=============================================================================
-class BRINKAssaultRifle extends BallisticWeapon;
+class BRINKAssaultRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 #EXEC OBJ LOAD FILE=..\Textures\InterfaceContent.utx
 #EXEC OBJ LOAD FILE=..\Textures\UT2003Fonts.utx

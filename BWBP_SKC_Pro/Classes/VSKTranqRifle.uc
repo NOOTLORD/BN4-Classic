@@ -7,8 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class VSKTranqRifle extends BallisticWeapon;
-
+class VSKTranqRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 // Secondary fire doesn't count for this weapon
 simulated function bool HasAmmo()

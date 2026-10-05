@@ -54,7 +54,6 @@ defaultproperties
      IconMaterial=Texture'BW_Core_WeaponTex.X4.SmallIcon_X4'
      IconCoords=(X2=128,Y2=32)
      ManualLines(0)=""
-     GunLength=0.000000
      ParamsClasses(0)=Class'X4WeaponParamsComp'
      FireModeClass(0)=Class'BallisticProV55.X4PrimaryFire'
      FireModeClass(1)=Class'BallisticProV55.X4SecondaryFire'

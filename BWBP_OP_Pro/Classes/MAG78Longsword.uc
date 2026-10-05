@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class MAG78LongSword extends BallisticMeleeWeapon;
+class MAG78LongSword extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 var float		BladeAlpha;
 var float		DesiredBladeAlpha;

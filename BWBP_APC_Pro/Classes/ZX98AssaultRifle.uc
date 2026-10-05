@@ -18,7 +18,9 @@
 //
 // notes for spinny firerate changes are: weapon line 61, weapon line 282, secondary fire line 173
 //=============================================================================
-class ZX98AssaultRifle extends BallisticWeapon;
+class ZX98AssaultRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var   float DesiredSpeed, BarrelSpeed;
 var   int	BarrelTurn;

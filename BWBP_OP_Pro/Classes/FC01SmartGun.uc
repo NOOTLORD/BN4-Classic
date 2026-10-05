@@ -6,7 +6,9 @@
 //
 // by SK
 //=============================================================================
-class FC01SmartGun extends BallisticWeapon;
+class FC01SmartGun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 #exec OBJ LOAD File=BWBP_OP_Tex.utx
 

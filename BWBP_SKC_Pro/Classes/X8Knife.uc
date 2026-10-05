@@ -252,7 +252,6 @@ defaultproperties
 	IconMaterial=Texture'BWBP_SKC_Tex.SmallIcon_X8'
 	IconCoords=(X2=128,Y2=32)
   	ManualLines(0)=""	
-	GunLength=0.000000
 	ParamsClasses(0)=Class'X8WeaponParamsComp'
 	FireModeClass(0)=Class'BWBP_SKC_Pro.X8PrimaryFire'
 	FireModeClass(1)=Class'BWBP_SKC_Pro.X8SecondaryFire'

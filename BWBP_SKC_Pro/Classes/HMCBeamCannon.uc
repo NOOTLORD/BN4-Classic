@@ -7,7 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
-class HMCBeamCannon extends BallisticWeapon;
+class HMCBeamCannon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() 	bool 			bGravitron; 	//firemodes affect player speed, knockback
 var()   bool			bRedTeam;		//Owned by red team?

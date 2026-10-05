@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class R9000ERifle extends BallisticWeapon;
+class R9000ERifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 //===========================================================================
 // Roll switch

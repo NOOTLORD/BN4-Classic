@@ -8,7 +8,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class ChaffGrenade extends BallisticHandGrenadeProjectile;
+class ChaffGrenade extends BallisticHandGrenadeProjectile
+	HideDropDown
+	CacheExempt;
 
 //FIXME: Generic control class required.
 var array<Actor> PokedControls;

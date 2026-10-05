@@ -11,7 +11,9 @@
 // Originally written by Sergeant_Kelly based on code by DarkCarnivour.
 // Partially rewritten for online compatibility by Azarael.
 //==========================================================
-class BulldogAssaultCannon extends BallisticWeapon;
+class BulldogAssaultCannon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() Sound		GrenOpenSound;		//Sounds for rocket reloading
 var() Sound		GrenLoadSound;		//

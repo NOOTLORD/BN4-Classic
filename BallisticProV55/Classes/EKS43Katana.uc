@@ -44,7 +44,6 @@ defaultproperties
      IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_EKS43'
      IconCoords=(X2=127,Y2=31)  
      ManualLines(0)=""
-     GunLength=0.000000
      ParamsClasses(0)=Class'EKS43WeaponParamsComp'
      FireModeClass(0)=Class'BallisticProV55.EKS43PrimaryFire'
      FireModeClass(1)=Class'BallisticProV55.EKS43SecondaryFire' 

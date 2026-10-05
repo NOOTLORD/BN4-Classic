@@ -5958,7 +5958,7 @@ defaultproperties
 	 MagEmptyColor=(B=255,G=225,R=255,A=150)
 	 CockingColor=(B=255,G=225,R=255,A=150)
 	 CrosshairColor=(B=255,G=225,R=255,A=150)
-     GunLength=64.000000
+     GunLength=0.000000
      LongGunPivot=(Pitch=-4000,Yaw=-12000)
      LongGunOffset=(X=5.000000,Y=10.000000,Z=-11.000000)
 	 ScopeHandling=SH_Hold

@@ -8,7 +8,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class HydraBazooka extends BallisticWeapon;
+class HydraBazooka extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() BUtil.FullSound	HatchSound;
 var() BUtil.IntRange	LaserAimSpread;

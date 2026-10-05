@@ -1,4 +1,6 @@
-class CX85AssaultWeapon extends BallisticWeapon;
+class CX85AssaultWeapon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 #exec OBJ LOAD File=BW_Core_WeaponSound.uax
 

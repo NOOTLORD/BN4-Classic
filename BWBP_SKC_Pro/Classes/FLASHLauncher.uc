@@ -8,7 +8,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class FLASHLauncher extends BallisticWeapon;
+class FLASHLauncher extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 #EXEC OBJ LOAD FILE=BWBP_SKC_Tex.utx
 

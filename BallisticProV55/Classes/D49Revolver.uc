@@ -429,6 +429,8 @@ function float SuggestDefenseStyle()	{	return -0.5;	}
 
 defaultproperties
 {
+	ItemName="D49"
+	SightFXClass=Class'BallisticProV55.D49SightLEDs'
 	RevReloadSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-Click',Volume=0.400000,Radius=24.000000,Pitch=1.000000)
 	RevOpenSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-Open',Volume=0.500000,Radius=24.000000,Pitch=1.000000)
 	RevCloseSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-Close',Volume=0.500000,Radius=24.000000,Pitch=1.000000)
@@ -440,66 +442,40 @@ defaultproperties
 	Shells(3)=(BulletName="Bullet5",ShellName="Shell5",NextShell=5)
 	Shells(4)=(BulletName="Bullet3",ShellName="Shell3",NextShell=1)
 	Shells(5)=(BulletName="Bullet6",ShellName="Shell6")
-	HandgunGroup=1
-	TeamSkins(0)=(RedTex=Shader'BW_Core_WeaponTex.Hands.RedHand-Shiny',BlueTex=Shader'BW_Core_WeaponTex.Hands.BlueHand-Shiny')
 	AIReloadTime=1.500000
 	BigIconMaterial=Texture'BW_Core_WeaponTex.Icons.BigIcon_D49'
-	SightFXClass=Class'BallisticProV55.D49SightLEDs'
-	bWT_Bullet=True
-	bWT_Sidearm=True
-	ManualLines(0)="Fires from a single barrel. Powerful, but short-ranged and has high recoil."
-	ManualLines(1)="Fires both barrels at once. Twice as much recoil as the single fire with lower sustained damage output."
-	ManualLines(2)="The D49 is very effective at close range. However, it suffers from a cripplingly long reload time. When dual wielded, both pistols will fire simultaneously, allowing the altfire to be used for an extremely powerful attack."
-	SpecialInfo(0)=(Info="120.0;10.0;0.6;50.0;1.0;0.0;-999.0")
-	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Pullout',Volume=0.155000)
-	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Putaway',Volume=0.155000)
-	CockSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-Cock')
-	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-ShellOut')
-	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-ShellIn')
-	ClipInFrame=0.650000
-	WeaponModes(0)=(ModeName="",ModeID="WM_SemiAuto",Value=1.000000)
-	CurrentWeaponMode=0
-	bNoCrosshairInScope=True
-	bAdjustHands=true
-	RootAdjust=(Yaw=-375,Pitch=2000)
-	WristAdjust=(Yaw=-2500,Pitch=-0000)
+	BigIconCoords=(Y1=48,X2=511,Y2=212)
+	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_D49'
+	IconCoords=(X2=127,Y2=31)
+	ManualLines(0)=""
 	ParamsClasses(0)=Class'D49WeaponParamsComp'
 	FireModeClass(0)=Class'BallisticProV55.D49PrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'
-	NDCrosshairCfg=(Pic1=Texture'BW_Core_WeaponTex.Crosshairs.Misc6',Pic2=Texture'BW_Core_WeaponTex.Crosshairs.Dot1',USize1=256,VSize1=256,Color1=(A=142),StartSize1=144,StartSize2=15)
-    NDCrosshairInfo=(SpreadRatios=(X1=0.750000,Y1=0.750000,X2=0.300000,Y2=0.300000))
+	BringUpSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Pullout',Volume=0.155000)
+    SelectAnimRate=1.000000
+	BringUpTime=0.300000
+	PutDownSound=(Sound=Sound'BW_Core_WeaponSound.M806.M806Putaway',Volume=0.155000)
 	PutDownAnimRate=1.250000
 	PutDownTime=0.500000
-	SelectForce="SwitchToAssaultRifle"
+	ClipInFrame=0.650000
+	ClipInSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-ShellIn',Volume=0.155000)
+	ClipOutSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-ShellOut',Volume=0.155000)
+	CockSound=(Sound=Sound'BW_Core_WeaponSound.D49.D49-Cock',Volume=0.155000)	
+	bAdjustHands=false
+	RootAdjust=(Yaw=-375,Pitch=2000)
+	WristAdjust=(Yaw=-2500,Pitch=-0000)
 	AIRating=0.600000
 	CurrentRating=0.600000
-	Description="Another fine weapon designed by the acclaimed 'Black & Wood' company, the D49 revolver is a true hand cannon. Based on weapons of old, the D49 was intended for non-military use, but rather for self defense and civilian purposes. The dual-barrel design has made it a favourite among it's users, capable of causing massive damage if used correctly, able to easily kill an armored Terran."
+	Description=""
+	SightAnimScale=0.500000
+	SightBobScale=1.000000
 	Priority=22
-	HudColor=(B=255,G=200,R=200)
-	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
 	InventoryGroup=2
 	GroupOffset=2
+	CustomCrossHairTextureName="Crosshairs.HUD.Crosshair_Cross1"
 	PickupClass=Class'BallisticProV55.D49Pickup'
-	PlayerViewOffset=(X=10.00,Y=7.00,Z=-16.5)
-	SightOffset=(X=-11,Y=-4.6,Z=25.5)
-	SightPivot=(Pitch=350,Yaw=-48,Roll=-500)
-	SightBobScale=1.000000
 	AttachmentClass=Class'BallisticProV55.D49Attachment'
-	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_D49'
-	IconCoords=(X2=127,Y2=31)
-	ItemName="D49"
-	LightType=LT_Pulse
-	LightEffect=LE_NonIncidence
-	LightHue=30
-	LightSaturation=150
-	LightBrightness=150.000000
-	LightRadius=4.000000
 	Mesh=SkeletalMesh'BW_Core_WeaponAnim.D49_FPm'
-	DrawScale=0.3
-	Skins(0)=Shader'BW_Core_WeaponTex.Hands.Hands-Shiny'
-	Skins(1)=Shader'BW_Core_WeaponTex.D49.D49-Shiney'
-	Skins(2)=Shader'BW_Core_WeaponTex.D49.D49Shells-Shiney'
-	SightAnimScale=0.5
-	bShouldDualInLoadout=False
-	bUseDualReload=False
+	DrawScale=0.300000
+	SpecialInfo(0)=(Info="120.0;10.0;0.6;50.0;1.0;0.0;-999.0")
 }

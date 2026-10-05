@@ -10,7 +10,9 @@
 //
 // By Jiffy, based on code by DarkCarnivour, Sergeant_Kelly and Azarael.
 //==========================================================
-class RCS715Shotgun extends BallisticProShotgun;
+class RCS715Shotgun extends BallisticProShotgun
+	HideDropDown
+	CacheExempt;
 
 var Name					BulletBone;
 var() bool					bLoaded;

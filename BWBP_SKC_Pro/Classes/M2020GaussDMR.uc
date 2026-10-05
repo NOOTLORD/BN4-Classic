@@ -11,7 +11,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class M2020GaussDMR extends BallisticWeapon;
+class M2020GaussDMR extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var(M2020)   Emitter		LaserDot;
 var(M2020)   bool			bLaserOn;

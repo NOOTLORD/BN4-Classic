@@ -60,7 +60,6 @@ defaultproperties
 	IconMaterial=Texture'BW_Core_WeaponTex.Icons.SmallIcon_AM67'
 	IconCoords=(X2=127,Y2=31)
 	ManualLines(0)=""
-	GunLength=0.000000
 	ParamsClasses(0)=Class'AM67WeaponParamsComp'
 	FireModeClass(0)=Class'BallisticProV55.AM67PrimaryFire'
 	FireModeClass(1)=Class'BCoreProV55.BallisticScopeFire'	

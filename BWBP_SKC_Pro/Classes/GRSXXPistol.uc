@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2007 RuneStorm. All Rights Reserved.
 //=============================================================================
-class GRSXXPistol extends BallisticHandgun;
+class GRSXXPistol extends BallisticHandgun
+	HideDropDown
+	CacheExempt;
 
 // Laser Vars
 var(GRSXX)	bool		bHasCombatLaser;

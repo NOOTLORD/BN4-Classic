@@ -1,4 +1,6 @@
-class WrenchWarpDevice extends BallisticMeleeWeapon;
+class WrenchWarpDevice extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 const DEPLOYABLE_COUNT = 7;
 

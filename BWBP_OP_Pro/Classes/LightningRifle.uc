@@ -1,4 +1,6 @@
-class LightningRifle extends BallisticWeapon;
+class LightningRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var float		            ChargePower;	//Charge power of secondary fire - affects damage, ammo usage and conductivity. Max is 1
 

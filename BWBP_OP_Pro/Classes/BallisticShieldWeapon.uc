@@ -3,7 +3,9 @@
 // 
 // Transferred from JunkWars to add some shielding into BW.
 //================================================
-class BallisticShieldWeapon extends BallisticMeleeWeapon;
+class BallisticShieldWeapon extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 

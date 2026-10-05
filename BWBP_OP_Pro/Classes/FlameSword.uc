@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class FlameSword extends BallisticMeleeWeapon;
+class FlameSword extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 struct DeployableInfo
 {

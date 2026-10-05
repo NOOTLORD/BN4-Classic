@@ -5,7 +5,9 @@
 //
 // Adapted from Dark Carnivour's XMV-850 code by Azarael
 //=============================================================================
-class Z250Minigun extends BallisticWeapon;
+class Z250Minigun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 #exec OBJ LOAD FILE=BW_Core_WeaponTex.utx
 

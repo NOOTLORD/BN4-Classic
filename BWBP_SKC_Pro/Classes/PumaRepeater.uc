@@ -21,7 +21,10 @@
 // based on code by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class PUMARepeater extends BallisticWeapon;
+class PUMARepeater extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
+	
 var bool		bFirstDraw;
 var bool		bPierce;
 var bool		bBroken; //Ooops, your broke the shield emitter.

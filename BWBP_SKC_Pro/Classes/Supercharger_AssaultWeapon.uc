@@ -7,7 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class Supercharger_AssaultWeapon extends BallisticWeapon;
+class Supercharger_AssaultWeapon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var   Supercharger_ChargeControl	ChargeControl;
 

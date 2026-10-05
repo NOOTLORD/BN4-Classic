@@ -7,7 +7,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class ProtonStreamer extends BallisticWeapon;
+class ProtonStreamer extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var	ProtonStreamEffect				StreamEffect;
 var	ProtonStreamEffectNew			StreamEffectGravity;

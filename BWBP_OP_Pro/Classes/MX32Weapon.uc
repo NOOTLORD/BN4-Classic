@@ -1,4 +1,6 @@
-class MX32Weapon extends BallisticWeapon;
+class MX32Weapon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() name			RocketsLoadAnim;	//Anim for rocket reload
 

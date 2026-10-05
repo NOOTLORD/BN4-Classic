@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AK91ChargeRifle extends BallisticWeapon;
+class AK91ChargeRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 //Gun Heat
 var float		HeatLevel, MaxHeatLevel; // Current Heat level, duh...

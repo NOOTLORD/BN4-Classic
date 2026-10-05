@@ -18,7 +18,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class M75Railgun extends BallisticWeapon;
+class M75Railgun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() BUtil.FullSound	ThermalOnSound;	// Sound when activating thermal mode
 var() BUtil.FullSound	ThermalOffSound;// Sound when deactivating thermal mode

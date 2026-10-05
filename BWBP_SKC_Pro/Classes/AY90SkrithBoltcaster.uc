@@ -7,7 +7,9 @@
 // by Sarge based on code by RS
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AY90SkrithBoltcaster extends BallisticWeapon;
+class AY90SkrithBoltcaster extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var Actor GlowFX; //Ambient blue glow + side flames
 var Actor GlowFX2; //Side Flames

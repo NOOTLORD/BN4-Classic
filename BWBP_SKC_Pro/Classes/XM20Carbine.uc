@@ -12,7 +12,9 @@
 // Modified by Marc 'Sergeant Kelly'
 // Scope code by Kaboodles
 //=============================================================================
-class XM20Carbine extends BallisticWeapon;
+class XM20Carbine extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() bool		bIsPrototype;
 var() Sound		DoubleVentSound;	//Sound for double fire's vent

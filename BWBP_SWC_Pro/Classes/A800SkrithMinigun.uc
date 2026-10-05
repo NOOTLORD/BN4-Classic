@@ -26,7 +26,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2006 RuneStorm. All Rights Reserved.
 //=============================================================================
-class A800SkrithMinigun extends BallisticWeapon;
+class A800SkrithMinigun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() bool bNoReload;
 

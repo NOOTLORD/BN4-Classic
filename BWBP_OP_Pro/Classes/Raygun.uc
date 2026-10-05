@@ -1,4 +1,6 @@
-class Raygun extends BallisticWeapon;
+class Raygun extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var Actor GlowFX;
 var bool	bShieldOn;

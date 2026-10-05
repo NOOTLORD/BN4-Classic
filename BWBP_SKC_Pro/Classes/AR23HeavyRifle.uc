@@ -9,7 +9,9 @@
 // uses code by Nolan "Dark Carnivour" Richert.
 // Copyright� 2011 RuneStorm. All Rights Reserved.
 //=============================================================================
-class AR23HeavyRifle extends BallisticWeapon;
+class AR23HeavyRifle extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() bool		bFirstDraw;
 var() name		GrenadeLoadAnim;	//Anim for grenade reload

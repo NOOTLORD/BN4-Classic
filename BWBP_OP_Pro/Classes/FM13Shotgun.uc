@@ -6,7 +6,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class FM13Shotgun extends BallisticProShotgun;
+class FM13Shotgun extends BallisticProShotgun
+	HideDropDown
+	CacheExempt;
 
 var bool bAltLoaded;
 var bool bLoadsShot;

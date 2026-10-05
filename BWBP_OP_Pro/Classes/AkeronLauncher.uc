@@ -3,7 +3,9 @@
 // 
 // Fires medium rockets with guidance and homing capability.
 //=============================================================================
-class AkeronLauncher extends BallisticWeapon;
+class AkeronLauncher extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var float PanicThreshold;
 var AkeronWarhead ActiveWarhead;

@@ -1,7 +1,9 @@
 //=============================================================================
 // EVPC
 //=============================================================================
-class HVPCMk66PlasmaCannon extends BallisticWeapon;
+class HVPCMk66PlasmaCannon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var float		HeatLevel;			// Current Heat level, duh...
 var bool		bIsVenting;			// Busy venting

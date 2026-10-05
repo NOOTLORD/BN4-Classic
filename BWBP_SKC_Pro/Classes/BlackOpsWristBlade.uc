@@ -9,9 +9,11 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class BlackOpsWristBlade extends BallisticMeleeWeapon;
-var bool bSingle; //is it lonely?
+class BlackOpsWristBlade extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
+var bool bSingle; //is it lonely?
 
 simulated function OnWeaponParamsChanged()
 {

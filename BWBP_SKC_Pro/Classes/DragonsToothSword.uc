@@ -9,7 +9,9 @@
 // by Nolan "Dark Carnivour" Richert.
 // Copyright(c) 2005 RuneStorm. All Rights Reserved.
 //=============================================================================
-class DragonsToothSword extends BallisticMeleeWeapon;
+class DragonsToothSword extends BallisticMeleeWeapon
+	HideDropDown
+	CacheExempt;
 
 var Actor	BladeGlow;				// Nano replicators
 var Sound	LoopAmbientSound;

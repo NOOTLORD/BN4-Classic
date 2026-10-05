@@ -8,7 +8,9 @@
 // Originally written by Sergeant_Kelly based on code by DarkCarnivour.
 // Partially rewritten for online compatibility by Azarael.
 //==========================================================
-class PugAssaultCannon extends BallisticWeapon;
+class PugAssaultCannon extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 var() Sound		GrenOpenSound;		//Sounds for rocket reloading
 var() Sound		GrenLoadSound;		//

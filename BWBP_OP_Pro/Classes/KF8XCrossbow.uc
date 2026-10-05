@@ -9,7 +9,9 @@
 // Passively cloaks the user based on their movement speed. Low settings abusers have an additional
 // penalty on this check.
 //===========================================================================
-class KF8XCrossbow extends BallisticWeapon;
+class KF8XCrossbow extends BallisticWeapon
+	HideDropDown
+	CacheExempt;
 
 //IR/NV
 var() BUtil.FullSound	ThermalOnSound;	// Sound when activating thermal mode
